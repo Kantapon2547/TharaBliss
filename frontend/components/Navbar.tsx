@@ -5,15 +5,24 @@ import { usePathname } from "next/navigation";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
+  { label: "Our Story", href: "/about" },
+  { label: "Journal", href: "/journal" },
   { label: "Products", href: "/products" },
-  { label: "Blogs", href: "/blogs" },
   { label: "Contact", href: "/contact" },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
+
+  const isActive = (href) => {
+    if (!pathname) return false;
+
+    // normalize trailing slashes
+    const cleanPath = pathname.replace(/\/$/, "");
+    const cleanHref = href.replace(/\/$/, "");
+
+    return cleanPath === cleanHref;
+  };
 
   return (
     <nav
@@ -36,12 +45,8 @@ export default function Navbar() {
           alignItems: "center",
         }}
       >
-        <Link
-          href="/"
-          style={{
-            textDecoration: "none",
-          }}
-        >
+        {/* LOGO */}
+        <Link href="/" style={{ textDecoration: "none" }}>
           <div>
             <h2
               style={{
@@ -66,33 +71,29 @@ export default function Navbar() {
           </div>
         </Link>
 
-        <div
-          style={{
-            display: "flex",
-            gap: "2rem",
-          }}
-        >
-          {NAV_LINKS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              style={{
-                textDecoration: "none",
-                color:
-                  pathname === item.href
-                    ? "#0F6E56"
-                    : "#555",
-                fontWeight:
-                  pathname === item.href
-                    ? 600
-                    : 400,
-              }}
-            >
-              {item.label}
-            </Link>
-          ))}
+        {/* NAV LINKS */}
+        <div style={{ display: "flex", gap: "2rem" }}>
+          {NAV_LINKS.map((item) => {
+            const active = isActive(item.href);
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                style={{
+                  textDecoration: "none",
+                  color: active ? "#0F6E56" : "#555",
+                  fontWeight: active ? 600 : 400,
+                  transition: "all 0.2s ease",
+                }}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </div>
 
+        {/* CTA BUTTON */}
         <Link
           href="/contact"
           style={{
