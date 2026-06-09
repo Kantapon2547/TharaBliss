@@ -88,9 +88,15 @@ export default async function ProductsPage() {
               lineHeight: 1.8,
             }}
           >
-            Discover premium fragrances, room sprays, custom
-            gifts, and wellness products crafted with care and
-            elegance.
+            Aromatic Balm สูตรพรีเมียม
+            ✔ Alcohol Free
+            ✔ Paraben Free
+            ✔ SLES Free
+            ✔ ผ่านการรับรองจาก อย.
+            บาล์มอโรมาสัญชาติไทย ที่ออกแบบกลิ่นให้ หอมละมุน ใช้ได้ทุกวัน
+            ช่วยผ่อนคลาย สดชื่น และดูแลอารมณ์อย่างอ่อนโยน
+            เนื้อบาล์มให้ความเย็นแบบสบายผิว ไม่แสบร้อน เหมือนยาหม่องทั่วไป
+            สามารถใช้ได้ทั้งเป็น Aroma Balm และแทนน้ำหอม
           </p>
         </section>
 
