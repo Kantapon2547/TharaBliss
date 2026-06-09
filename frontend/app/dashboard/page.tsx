@@ -10,29 +10,6 @@ const HERO = {
     "พกพาความสงบไปได้ทุกที่ เพียงแต้มเบา ๆ แล้วสูดหายใจลึก ๆ ให้กลิ่นหอมช่วยเติมความสดชื่น ผ่อนคลายความตึงเครียด และคืนสมดุลให้กับวันของคุณ",
 };
 
-const STATS = [
-  {
-    label: "Products",
-    value: "128",
-    delta: "↑ 6 this month",
-  },
-  {
-    label: "Categories",
-    value: "12",
-    delta: "Stable",
-  },
-  {
-    label: "Inquiries",
-    value: "42",
-    delta: "↑ 8 new today",
-  },
-  {
-    label: "Testimonials",
-    value: "18",
-    delta: "↑ 2 this week",
-  },
-];
-
 const SERVICES = [
   {
     img: "/images/services/rd-customize.jpg",
@@ -68,7 +45,7 @@ export default function DashboardPage() {
         <section
           style={{
             position: "relative",
-            height: "700px",
+            minHeight: "650px",
             overflow: "hidden",
           }}
         >
@@ -77,9 +54,7 @@ export default function DashboardPage() {
             alt={HERO.title}
             fill
             priority
-            style={{
-              objectFit: "cover",
-            }}
+            style={{ objectFit: "cover" }}
           />
 
           <div
@@ -97,7 +72,7 @@ export default function DashboardPage() {
               zIndex: 2,
               maxWidth: "1280px",
               margin: "0 auto",
-              padding: "8rem 2rem",
+              padding: "7rem 2rem",
             }}
           >
             <p
@@ -171,71 +146,49 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        {/* STATS */}
+        {/* BRAND STATEMENT */}
         <section
           style={{
-            maxWidth: "1280px",
+            maxWidth: "900px",
             margin: "0 auto",
-            padding: "4rem 2rem",
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))",
-            gap: "1.5rem",
+            padding: "8rem 2rem 6rem",
+            textAlign: "center",
           }}
         >
-          {STATS.map((stat) => (
-            <div
-              key={stat.label}
-              style={{
-                background: "#fff",
-                borderRadius: "20px",
-                padding: "2rem",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.04)",
-              }}
-            >
-              <p
-                style={{
-                  color: "#888",
-                  fontSize: "13px",
-                }}
-              >
-                {stat.label}
-              </p>
-
-              <h2
-                style={{
-                  fontSize: "42px",
-                  margin: "12px 0",
-                }}
-              >
-                {stat.value}
-              </h2>
-
-              <p
-                style={{
-                  color: "#0F6E56",
-                  fontSize: "13px",
-                }}
-              >
-                {stat.delta}
-              </p>
-            </div>
-          ))}
-        </section>
-
-        {/* SERVICES */}
-        <section
-          style={{
-            maxWidth: "1280px",
-            margin: "0 auto",
-            padding: "0 2rem 6rem",
-          }}
-        >
-          <div
+          <h2
             style={{
-              textAlign: "center",
-              marginBottom: "3rem",
+              fontSize: "3rem",
+              fontWeight: 300,
+              letterSpacing: "0.05em",
+              marginBottom: "1.5rem",
             }}
           >
+            THARA BLISS
+          </h2>
+
+          <p
+            style={{
+              fontSize: "1.2rem",
+              lineHeight: 2,
+              color: "#555",
+              maxWidth: "700px",
+              margin: "0 auto",
+            }}
+          >
+            สัมผัสประสบการณ์กลิ่นหอมที่ได้รับแรงบันดาลใจจากความสงบ ความหรูหรา
+            และช่วงเวลาที่น่าจดจำ
+          </p>
+        </section>
+
+        {/* SERVICES (SMALL CARD STYLE) */}
+        <section
+          style={{
+            maxWidth: "1100px",
+            margin: "0 auto",
+            padding: "3rem 2rem 6rem",
+          }}
+        >
+          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
             <p
               style={{
                 color: "#6E7C72",
@@ -249,7 +202,7 @@ export default function DashboardPage() {
 
             <h2
               style={{
-                fontSize: "3rem",
+                fontSize: "2.5rem",
                 fontWeight: 300,
                 marginTop: "1rem",
               }}
@@ -261,8 +214,9 @@ export default function DashboardPage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))",
-              gap: "2rem",
+              gridTemplateColumns:
+                "repeat(auto-fit, minmax(260px, 1fr))",
+              gap: "1.5rem",
             }}
           >
             {SERVICES.map((service) => (
@@ -270,35 +224,31 @@ export default function DashboardPage() {
                 key={service.title}
                 style={{
                   background: "#fff",
-                  borderRadius: "24px",
+                  borderRadius: "18px",
                   overflow: "hidden",
-                  boxShadow: "0 4px 20px rgba(0,0,0,0.04)",
+                  boxShadow: "0 6px 18px rgba(0,0,0,0.05)",
                 }}
               >
                 <div
                   style={{
                     position: "relative",
-                    height: "260px",
+                    height: "180px",
                   }}
                 >
                   <Image
                     src={service.img}
                     alt={service.title}
                     fill
-                    style={{
-                      objectFit: "cover",
-                    }}
+                    style={{ objectFit: "cover" }}
                   />
                 </div>
 
-                <div
-                  style={{
-                    padding: "1.75rem",
-                  }}
-                >
+                <div style={{ padding: "1.25rem" }}>
                   <h3
                     style={{
-                      marginBottom: "1rem",
+                      fontSize: "1.05rem",
+                      fontWeight: 500,
+                      marginBottom: "0.5rem",
                     }}
                   >
                     {service.title}
@@ -306,8 +256,9 @@ export default function DashboardPage() {
 
                   <p
                     style={{
+                      fontSize: "0.9rem",
                       color: "#666",
-                      lineHeight: 1.8,
+                      lineHeight: 1.6,
                     }}
                   >
                     {service.desc}
@@ -327,19 +278,11 @@ export default function DashboardPage() {
             borderTop: "1px solid #ECE8DF",
           }}
         >
-          <h3
-            style={{
-              marginBottom: "0.5rem",
-            }}
-          >
+          <h3 style={{ marginBottom: "0.5rem" }}>
             TharaBliss
           </h3>
 
-          <p
-            style={{
-              color: "#666",
-            }}
-          >
+          <p style={{ color: "#666" }}>
             Luxury OEM & ODM Manufacturing
           </p>
 
