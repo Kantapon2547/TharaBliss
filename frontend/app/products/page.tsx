@@ -1,6 +1,5 @@
-import Image from "next/image";
-import Link from "next/link";
 import Navbar from "../../components/Navbar";
+import ProductCard from "../../components/ProductCard";
 
 interface Product {
   id: number;
@@ -50,62 +49,66 @@ export default async function ProductsPage() {
             "'Helvetica Neue', Helvetica, Arial, sans-serif",
         }}
       >
-        {/* Hero */}
+        {/* HERO */}
         <section
           style={{
             background: "#FBF5DD",
-            padding: "5rem 2rem",
+            padding: "6rem 2rem",
             textAlign: "center",
           }}
         >
-          <p
+          <div
             style={{
-              color: "#6E7C72",
-              letterSpacing: "0.15em",
-              textTransform: "uppercase",
-              fontSize: "12px",
+              maxWidth: "900px",
+              margin: "0 auto",
             }}
           >
-            Product Collection
-          </p>
+            <p
+              style={{
+                color: "#6E7C72",
+                fontSize: "12px",
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                marginBottom: "1rem",
+              }}
+            >
+              Product Collection
+            </p>
 
-          <h1
-            style={{
-              fontSize: "3.5rem",
-              fontWeight: 300,
-              color: "#2F3A33",
-              marginTop: "1rem",
-            }}
-          >
-            Explore Our Products
-          </h1>
+            <h1
+              style={{
+                fontSize: "3.5rem",
+                fontWeight: 300,
+                color: "#2F3A33",
+                marginBottom: "1.5rem",
+              }}
+            >
+              Explore Our Products
+            </h1>
 
-          <p
-            style={{
-              maxWidth: "650px",
-              margin: "1.5rem auto 0",
-              color: "#666",
-              lineHeight: 1.8,
-            }}
-          >
-            Aromatic Balm สูตรพรีเมียม
-            ✔ Alcohol Free
-            ✔ Paraben Free
-            ✔ SLES Free
-            ✔ ผ่านการรับรองจาก อย.
-            บาล์มอโรมาสัญชาติไทย ที่ออกแบบกลิ่นให้ หอมละมุน ใช้ได้ทุกวัน
-            ช่วยผ่อนคลาย สดชื่น และดูแลอารมณ์อย่างอ่อนโยน
-            เนื้อบาล์มให้ความเย็นแบบสบายผิว ไม่แสบร้อน เหมือนยาหม่องทั่วไป
-            สามารถใช้ได้ทั้งเป็น Aroma Balm และแทนน้ำหอม
-          </p>
+            <p
+              style={{
+                color: "#666",
+                lineHeight: 1.9,
+                fontSize: "1rem",
+              }}
+            >
+              Aromatic Balm สูตรพรีเมียม ✔ Alcohol Free ✔ Paraben Free
+              ✔ SLES Free ✔ ผ่านการรับรองจาก อย.
+              บาล์มอโรมาสัญชาติไทยที่ออกแบบกลิ่นให้หอมละมุน ใช้ได้ทุกวัน
+              ช่วยผ่อนคลาย สดชื่น และดูแลอารมณ์อย่างอ่อนโยน
+              เนื้อบาล์มให้ความเย็นแบบสบายผิว ไม่แสบร้อนเหมือนยาหม่องทั่วไป
+              สามารถใช้ได้ทั้งเป็น Aroma Balm และแทนน้ำหอม
+            </p>
+          </div>
         </section>
 
-        {/* Products */}
+        {/* PRODUCTS */}
         <section
           style={{
-            maxWidth: "1280px",
+            maxWidth: "1400px",
             margin: "0 auto",
-            padding: "3rem 2rem",
+            padding: "4rem 2rem 6rem",
           }}
         >
           {products.length === 0 ? (
@@ -119,133 +122,132 @@ export default async function ProductsPage() {
               No products found.
             </div>
           ) : (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns:
-                  "repeat(auto-fit,minmax(280px,1fr))",
-                gap: "2rem",
-              }}
-            >
-              {products.map((product) => (
-                <div
-                  key={product.id}
+            <>
+              <div
+                style={{
+                  marginBottom: "2.5rem",
+                }}
+              >
+                <h2
                   style={{
-                    background: "#fff",
-                    borderRadius: "20px",
-                    overflow: "hidden",
-                    border: "1px solid #F1EFE9",
+                    fontSize: "2rem",
+                    fontWeight: 300,
+                    color: "#2F3A33",
+                    textAlign: "center",
                   }}
                 >
-                  <div
-                    style={{
-                      position: "relative",
-                      height: "320px",
-                      background: "#f5f5f5",
-                    }}
-                  >
-                    {product.image ? (
-                      <Image
-                        src={product.image}
-                        alt={product.name}
-                        fill
-                        style={{
-                        objectFit: "cover",
-                        }}
-                      />
-                    ) : (
-                      <div
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          color: "#888",
-                        }}
-                      >
-                        No Image
-                      </div>
-                    )}
-                  </div>
+                  Featured Collection
+                </h2>
+              </div>
 
-                  <div
-                    style={{
-                      padding: "1.5rem",
-                    }}
-                  >
-                    <p
-                      style={{
-                        color: "#0F6E56",
-                        fontSize: "12px",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.1em",
-                      }}
-                    >
-                      {product.category?.name || "Aroma Product"}
-                    </p>
-
-                    <h3
-                      style={{
-                        color: "#2F3A33",
-                        marginTop: "0.5rem",
-                        marginBottom: "0.75rem",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {product.name}
-                    </h3>
-
-                    <p
-                      style={{
-                        color: "#666",
-                        lineHeight: 1.7,
-                        fontSize: "14px",
-                        minHeight: "72px",
-                      }}
-                    >
-                      {product.description}
-                    </p>
-
-                    <div
-                      style={{
-                        marginTop: "1rem",
-                        color: "#2F3A33",
-                        fontWeight: 600,
-                      }}
-                    >
-                      ฿{product.price}
-                    </div>
-
-                    <Link
-                      href={`/products/${product.id}`}
-                      style={{
-                        display: "block",
-                        textDecoration: "none",
-                      }}
-                    >
-                      <button
-                        style={{
-                          marginTop: "1.25rem",
-                          width: "100%",
-                          padding: "12px",
-                          background: "#0F6E56",
-                          color: "#fff",
-                          border: "none",
-                          borderRadius: "10px",
-                          cursor: "pointer",
-                          fontWeight: 500,
-                        }}
-                      >
-                        View Product
-                      </button>
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns:
+                    "repeat(auto-fit, minmax(300px, 1fr))",
+                  gap: "2rem",
+                }}
+              >
+                {products.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                  />
+                ))}
+              </div>
+            </>
           )}
         </section>
+
+        {/* CTA SECTION */}
+        <section
+          style={{
+            background: "#F8F5EE",
+            padding: "5rem 2rem",
+            textAlign: "center",
+          }}
+        >
+          <div
+            style={{
+              maxWidth: "700px",
+              margin: "0 auto",
+            }}
+          >
+            <h2
+              style={{
+                fontSize: "2.5rem",
+                fontWeight: 300,
+                color: "#2F3A33",
+                marginBottom: "1rem",
+              }}
+            >
+              Discover Your Signature Scent
+            </h2>
+
+            <p
+              style={{
+                color: "#666",
+                lineHeight: 1.8,
+                marginBottom: "2rem",
+              }}
+            >
+              เลือกสรรผลิตภัณฑ์กลิ่นหอมที่สะท้อนตัวตนของคุณ
+              พร้อมเติมเต็มช่วงเวลาแห่งความผ่อนคลาย
+              และสร้างประสบการณ์ที่น่าจดจำในทุกวัน
+            </p>
+
+            <button
+              style={{
+                background: "#0F6E56",
+                color: "#fff",
+                border: "none",
+                padding: "14px 32px",
+                borderRadius: "999px",
+                cursor: "pointer",
+                fontSize: "15px",
+                fontWeight: 500,
+              }}
+            >
+              Explore More
+            </button>
+          </div>
+        </section>
+
+        {/* FOOTER */}
+        <footer
+          style={{
+            background: "#FBF5DD",
+            padding: "3rem 2rem",
+            textAlign: "center",
+          }}
+        >
+          <h3
+            style={{
+              color: "#2F3A33",
+              marginBottom: ".5rem",
+            }}
+          >
+            Thara Bliss
+          </h3>
+
+          <p
+            style={{
+              color: "#666",
+            }}
+          >
+            Luxury Aromatic Products & Wellness Collection
+          </p>
+
+          <p
+            style={{
+              color: "#999",
+              fontSize: "12px",
+              marginTop: "1rem",
+            }}
+          >
+            © 2026 Thara Bliss. All rights reserved.
+          </p>
+        </footer>
       </main>
     </>
   );

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Navbar from "../../components/Navbar";
+import { motion } from "framer-motion";
 
 const HERO = {
   img: "/images/banner/tharabliss_banner.png",
@@ -18,12 +19,12 @@ const SERVICES = [
     desc: "Custom fragrance and cosmetics formulation tailored specifically for your brand.",
   },
   {
-    img: "/images/services/design.jpg",
+    img: "/images/services/package.jpg",
     title: "Packaging Design",
     desc: "Premium label, bottle and packaging design with luxury branding support.",
   },
   {
-    img: "/images/services/shop.jpg",
+    img: "/images/services/online.jpg",
     title: "Retail Ready",
     desc: "Launch-ready products prepared for retail stores, online channels and marketplaces.",
   },
@@ -308,54 +309,171 @@ export default function DashboardPage() {
 </section>
 
         {/* SERVICES */}
-        <section
+<section
+  style={{
+    maxWidth: "1200px",
+    margin: "0 auto",
+    padding: "5rem 2rem 7rem",
+  }}
+>
+  <div
+    style={{
+      textAlign: "center",
+      marginBottom: "3rem",
+    }}
+  >
+    <p
+      style={{
+        color: "#6E7C72",
+        fontSize: "12px",
+        letterSpacing: "0.15em",
+        textTransform: "uppercase",
+      }}
+    >
+      Our Services
+    </p>
+
+    <h2
+      style={{
+        fontSize: "2.8rem",
+        fontWeight: 300,
+        color: "#2F3A33",
+      }}
+    >
+      End-to-End Manufacturing Solutions
+    </h2>
+  </div>
+
+  <div
+    style={{
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit,minmax(320px,1fr))",
+      gap: "2rem",
+    }}
+  >
+    {SERVICES.map((service) => (
+      <motion.div
+        key={service.title}
+        initial={{
+          opacity: 0,
+          y: 40,
+        }}
+        whileInView={{
+          opacity: 1,
+          y: 0,
+        }}
+        viewport={{
+          once: true,
+        }}
+        whileHover={{
+          y: -10,
+        }}
+        transition={{
+          duration: 0.35,
+        }}
+        style={{
+          background: "#fff",
+          borderRadius: "24px",
+          overflow: "hidden",
+          border: "1px solid #ECECEC",
+          boxShadow: "0 10px 30px rgba(0,0,0,.06)",
+        }}
+      >
+        {/* IMAGE */}
+        <div
           style={{
-            maxWidth: "1100px",
-            margin: "0 auto",
-            padding: "3rem 2rem 6rem",
+            position: "relative",
+            height: "240px",
+            overflow: "hidden",
           }}
         >
-          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
-            <p style={{ color: "#6E7C72", fontSize: "12px" }}>Our Services</p>
-            <h2 style={{ fontSize: "2.5rem", fontWeight: 300 }}>
-              End-to-End Manufacturing Solutions
-            </h2>
-          </div>
-
-          <div
+          <motion.div
+            whileHover={{
+              scale: 1.08,
+            }}
+            transition={{
+              duration: 0.4,
+            }}
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-              gap: "1.5rem",
+              width: "100%",
+              height: "100%",
             }}
           >
-            {SERVICES.map((service) => (
-              <div
-                key={service.title}
-                style={{
-                  background: "#fff",
-                  borderRadius: "18px",
-                  overflow: "hidden",
-                  boxShadow: "0 6px 18px rgba(0,0,0,0.05)",
-                }}
-              >
-                <div style={{ position: "relative", height: "180px" }}>
-                  <Image
-                    src={service.img}
-                    alt={service.title}
-                    fill
-                    style={{ objectFit: "cover" }}
-                  />
-                </div>
+            <Image
+              src={service.img}
+              alt={service.title}
+              fill
+              style={{
+                objectFit: "cover",
+              }}
+            />
+          </motion.div>
+        </div>
 
-                <div style={{ padding: "1.25rem" }}>
-                  <h3>{service.title}</h3>
-                  <p style={{ color: "#666" }}>{service.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+        {/* CONTENT */}
+        <div
+          style={{
+            padding: "1.75rem",
+          }}
+        >
+          <div
+            style={{
+              width: "42px",
+              height: "2px",
+              background: "#72C39B",
+              marginBottom: "14px",
+            }}
+          />
+
+          <h3
+            style={{
+              fontSize: "1.35rem",
+              fontWeight: 600,
+              color: "#2F3A33",
+              marginBottom: "12px",
+            }}
+          >
+            {service.title}
+          </h3>
+
+          <p
+            style={{
+              color: "#777",
+              lineHeight: 1.8,
+              marginBottom: "1.5rem",
+            }}
+          >
+            {service.desc}
+          </p>
+
+          <motion.button
+            whileHover={{
+              backgroundColor: "#0F6E56",
+              color: "#ffffff",
+              borderColor: "#0F6E56",
+            }}
+            transition={{
+              duration: 0.25,
+            }}
+            style={{
+              width: "100%",
+              height: "46px",
+              borderRadius: "999px",
+              border: "1px solid #DADADA",
+              background: "#ffffff",
+              color: "#333",
+              cursor: "pointer",
+              fontWeight: 500,
+              fontSize: "14px",
+            }}
+          >
+            Learn More
+          </motion.button>
+        </div>
+      </motion.div>
+    ))}
+  </div>
+</section>
 
         {/* FOOTER */}
         <footer
