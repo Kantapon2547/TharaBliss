@@ -24,17 +24,21 @@ async function getProducts(): Promise<Product[]> {
     );
 
     if (!res.ok) {
-      throw new Error("Failed to fetch products");
+      console.error(
+        "Failed to fetch products:",
+        res.status
+      );
+      return [];
     }
 
     return res.json();
   } catch (error) {
-    console.error(error);
+    console.error("API Error:", error);
     return [];
   }
 }
 
-export default async function ProductsPage() {
+export default async function DashboardPage() {
   const products = await getProducts();
 
   return (
@@ -93,12 +97,11 @@ export default async function ProductsPage() {
                 fontSize: "1rem",
               }}
             >
-              Aromatic Balm สูตรพรีเมียม ✔ Alcohol Free ✔ Paraben Free
-              ✔ SLES Free ✔ ผ่านการรับรองจาก อย.
-              บาล์มอโรมาสัญชาติไทยที่ออกแบบกลิ่นให้หอมละมุน ใช้ได้ทุกวัน
-              ช่วยผ่อนคลาย สดชื่น และดูแลอารมณ์อย่างอ่อนโยน
-              เนื้อบาล์มให้ความเย็นแบบสบายผิว ไม่แสบร้อนเหมือนยาหม่องทั่วไป
-              สามารถใช้ได้ทั้งเป็น Aroma Balm และแทนน้ำหอม
+              Aromatic Balm สูตรพรีเมียม ✔ Alcohol Free ✔
+              Paraben Free ✔ SLES Free ✔ ผ่านการรับรองจาก อย.
+              บาล์มอโรมาสัญชาติไทยที่ออกแบบกลิ่นให้หอมละมุน
+              ใช้ได้ทุกวัน ช่วยผ่อนคลาย สดชื่น
+              และดูแลอารมณ์อย่างอ่อนโยน
             </p>
           </div>
         </section>
@@ -159,7 +162,7 @@ export default async function ProductsPage() {
           )}
         </section>
 
-        {/* CTA SECTION */}
+        {/* CTA */}
         <section
           style={{
             background: "#F8F5EE",
@@ -193,23 +196,7 @@ export default async function ProductsPage() {
             >
               เลือกสรรผลิตภัณฑ์กลิ่นหอมที่สะท้อนตัวตนของคุณ
               พร้อมเติมเต็มช่วงเวลาแห่งความผ่อนคลาย
-              และสร้างประสบการณ์ที่น่าจดจำในทุกวัน
             </p>
-
-            <button
-              style={{
-                background: "#0F6E56",
-                color: "#fff",
-                border: "none",
-                padding: "14px 32px",
-                borderRadius: "999px",
-                cursor: "pointer",
-                fontSize: "15px",
-                fontWeight: 500,
-              }}
-            >
-              Explore More
-            </button>
           </div>
         </section>
 
@@ -230,11 +217,7 @@ export default async function ProductsPage() {
             Thara Bliss
           </h3>
 
-          <p
-            style={{
-              color: "#666",
-            }}
-          >
+          <p style={{ color: "#666" }}>
             Luxury Aromatic Products & Wellness Collection
           </p>
 

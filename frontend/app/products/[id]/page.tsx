@@ -2,19 +2,59 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "../../../components/Navbar";
 
-async function getProduct(id: string) {
-  const res = await fetch(
-    `http://127.0.0.1:8000/api/products/${id}/`,
-    {
-      cache: "no-store",
-    }
-  );
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: string;
+  scent: string;
+  image: string | null;
+  category?: {
+    id: number;
+    name: string;
+    slug?: string;
+  };
+}
 
-  if (!res.ok) {
-    throw new Error(`Failed to fetch product`);
+interface SiteSettings {
+  shopee_regular_url: string | null;
+  shopee_set_url: string | null;
+  tiktok_url: string | null;
+}
+
+async function getProduct(id: string): Promise<Product | null> {
+  try {
+    const res = await fetch(
+      `http://127.0.0.1:8000/api/products/${id}/`,
+      { cache: "no-store" }
+    );
+
+    if (!res.ok) return null;
+
+    return await res.json();
+  } catch (err) {
+    console.error("getProduct error:", err);
+    return null;
   }
+}
 
-  return res.json();
+async function getSettings(): Promise<SiteSettings | null> {
+  try {
+    const res = await fetch(
+      "http://127.0.0.1:8000/api/site-settings/",
+      { cache: "no-store" }
+    );
+
+    if (!res.ok) {
+      console.error("getSettings failed:", res.status);
+      return null;
+    }
+
+    return await res.json();
+  } catch (err) {
+    console.error("getSettings error:", err);
+    return null;
+  }
 }
 
 export default async function ProductDetail({
@@ -23,7 +63,46 @@ export default async function ProductDetail({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const product = await getProduct(id);
+
+  const [product, settings] = await Promise.all([
+    getProduct(id),
+    getSettings(),
+  ]);
+
+  if (!product) {
+    return (
+      <>
+        <Navbar />
+        <main
+          style={{
+            minHeight: "100vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <h1>Product not found</h1>
+        </main>
+      </>
+    );
+  }
+
+  const categoryName = product.category?.name?.toLowerCase() || "";
+const categorySlug = product.category?.slug?.toLowerCase() || "";
+
+const isSet =
+  categoryName.includes("set") ||
+  categorySlug.includes("set") ||
+  categoryName.includes("duo") ||
+  categoryName.includes("trio") ||
+  categoryName.includes("bundle");
+
+  const shopeeUrl =
+  isSet && settings?.shopee_set_url
+    ? settings.shopee_set_url
+    : settings?.shopee_regular_url;
+
+  const tiktokUrl = settings?.tiktok_url;
 
   return (
     <>
@@ -46,7 +125,7 @@ export default async function ProductDetail({
             alignItems: "center",
           }}
         >
-          {/* Product Image */}
+          {/* IMAGE */}
           <div
             style={{
               background: "#fff",
@@ -55,7 +134,7 @@ export default async function ProductDetail({
               border: "1px solid #eee",
             }}
           >
-            {product.image && (
+            {product.image ? (
               <div
                 style={{
                   position: "relative",
@@ -67,27 +146,34 @@ export default async function ProductDetail({
                   src={product.image}
                   alt={product.name}
                   fill
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                  }}
+                  style={{ objectFit: "cover" }}
                 />
+              </div>
+            ) : (
+              <div
+                style={{
+                  height: "600px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#999",
+                }}
+              >
+                No Image
               </div>
             )}
           </div>
 
-          {/* Product Info */}
+          {/* INFO */}
           <div>
             <p
               style={{
                 color: "#0F6E56",
-                letterSpacing: "0.1em",
                 textTransform: "uppercase",
                 fontSize: "12px",
               }}
             >
-              {product.category?.name}
+              {product.category?.name || "Uncategorized"}
             </p>
 
             <h1
@@ -101,18 +187,13 @@ export default async function ProductDetail({
               {product.name}
             </h1>
 
-            <p
-              style={{
-                marginTop: "1rem",
-                color: "#666",
-              }}
-            >
+            <p style={{ marginTop: "1rem", color: "#666" }}>
               Scent: {product.scent}
             </p>
 
             <div
               style={{
-                marginTop: "1.5rem",
+                marginTop: "1rem",
                 fontSize: "2rem",
                 fontWeight: 600,
                 color: "#0F6E56",
@@ -131,28 +212,55 @@ export default async function ProductDetail({
               {product.description}
             </p>
 
+            {/* BUTTONS */}
             <div
               style={{
                 marginTop: "2rem",
                 display: "flex",
                 gap: "1rem",
+                flexWrap: "wrap",
               }}
             >
-              <button
-                style={{
-                  padding: "14px 24px",
-                  border: "none",
-                  borderRadius: "12px",
-                  background: "#0F6E56",
-                  color: "#fff",
-                  cursor: "pointer",
-                  fontWeight: 600,
-                }}
-              >
-                Add to Cart
-              </button>
+              {/* SHOPEE */}
+              {shopeeUrl && (
+                <Link href={shopeeUrl} target="_blank">
+                  <button
+                    style={{
+                      padding: "14px 24px",
+                      border: "none",
+                      borderRadius: "12px",
+                      background: "#EE4D2D",
+                      color: "#fff",
+                      cursor: "pointer",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Buy on Shopee
+                  </button>
+                </Link>
+              )}
 
-              <Link href="/contact">
+              {/* TIKTOK */}
+              {tiktokUrl && (
+                <Link href={tiktokUrl} target="_blank">
+                  <button
+                    style={{
+                      padding: "14px 24px",
+                      border: "none",
+                      borderRadius: "12px",
+                      background: "#000",
+                      color: "#fff",
+                      cursor: "pointer",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Buy on TikTok
+                  </button>
+                </Link>
+              )}
+
+              {/* BACK */}
+              <Link href="/products">
                 <button
                   style={{
                     padding: "14px 24px",
@@ -162,29 +270,11 @@ export default async function ProductDetail({
                     cursor: "pointer",
                   }}
                 >
-                  Contact Us
+                  Back
                 </button>
               </Link>
             </div>
           </div>
-        </div>
-
-        {/* Back Button */}
-        <div
-          style={{
-            maxWidth: "1200px",
-            margin: "3rem auto 0",
-          }}
-        >
-          <Link
-            href="/products"
-            style={{
-              color: "#0F6E56",
-              textDecoration: "none",
-            }}
-          >
-            ← Back to Products
-          </Link>
         </div>
       </main>
     </>

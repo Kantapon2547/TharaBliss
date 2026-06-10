@@ -1,4 +1,3 @@
-# python
 from django.db import models
 
 
@@ -30,11 +29,25 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     scent = models.CharField(max_length=100, choices=SCENT_CHOICES)
 
-    image = models.ImageField(upload_to='aroma_balm/', null=True, blank=True)
+    image = models.ImageField(
+        upload_to='aroma_balm/',
+        null=True,
+        blank=True
+    )
 
     is_active = models.BooleanField(default=True)
-
+    is_set_product = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
+
+
+class SiteSettings(models.Model):
+    shopee_regular_url = models.URLField(blank=True, null=True)
+    shopee_set_url = models.URLField(blank=True, null=True)
+
+    tiktok_url = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return "Site Settings"
