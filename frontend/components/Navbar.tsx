@@ -8,7 +8,7 @@ const NAV_LINKS = [
   { label: "Our Story", href: "/about" },
   { label: "Journal", href: "/journal" },
   { label: "Products", href: "/products" },
-  { label: "Contact", href: "/contact" },
+  { label: "Help Center", href: "/help-center" },
 ];
 
 export default function Navbar() {
@@ -95,7 +95,7 @@ export default function Navbar() {
 
         {/* CTA BUTTON */}
         <Link
-          href="/contact"
+          href="/help-center"
           style={{
             background: "#0F6E56",
             color: "#fff",
