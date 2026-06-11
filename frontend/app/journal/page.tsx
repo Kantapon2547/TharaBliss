@@ -114,9 +114,8 @@ export default function JournalPage() {
               paddingBottom: "0.5rem",
             }}
           >
-            เรื่องราว แรงบันดาลใจ และศาสตร์แห่งกลิ่นหอม
+            คอลเลกชันกลิ่นของ Thara Bliss กลิ่นของhara Bliss ถูกพัฒนาขึ้นอย่างตั้งใจใน 3 แนวกลิ่นหลักซึ่งสะท้อนอารมณ์และการใช้งานที่แตกต่างกัน เพื่อให้สามารถเลือกใช้ได้อย่างเหมาะสมกับแต่ละช่วงเวลาและพื้นที่
             <br />
-            สำหรับการใช้ชีวิตอย่างมีความสุข
           </p>
         </section>
 
@@ -347,14 +346,14 @@ export default function JournalPage() {
                 Thara Bliss
               </h3>
               <p style={{ color: "rgba(251,245,221,0.5)", lineHeight: 1.8, fontSize: "0.9rem", maxWidth: 280 }}>
-                Luxury Aromatic Products & Wellness Collection — crafted in Thailand for daily calm.
+                ไม่ใช่แค่ความหอม แต่คือการดูแลอารมณ์และจิตใจในทุกวัน — เลือกกลิ่นที่สะท้อนตัวตนและอยู่กับคุณในทุกช่วงเวลา
               </p>
             </div>
             <div>
               <p style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", opacity: 0.4, marginBottom: "1.2rem" }}>
                 Explore
               </p>
-              {["Shop", "About", "Journal", "Help"].map((link) => (
+              {["Products", "About", "Journal", "Help-Center"].map((link) => (
                 <a key={link} href={`/${link.toLowerCase()}`} style={{ display: "block", color: "rgba(251,245,221,0.7)", textDecoration: "none", fontSize: "0.9rem", marginBottom: "0.6rem" }}>
                   {link}
                 </a>

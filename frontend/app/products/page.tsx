@@ -440,7 +440,7 @@ export default async function DashboardPage() {
                   maxWidth: 280,
                 }}
               >
-                Luxury Aromatic Products &amp; Wellness Collection — crafted in Thailand for daily calm.
+                ไม่ใช่แค่ความหอม แต่คือการดูแลอารมณ์และจิตใจในทุกวัน — เลือกกลิ่นที่สะท้อนตัวตนและอยู่กับคุณในทุกช่วงเวลา
               </p>
             </div>
 

@@ -6,7 +6,7 @@ import Navbar from "../../components/Navbar";
 import { motion } from "framer-motion";
 
 const HERO = {
-  img: "/images/banner/tharabliss_banner.png",
+  img: "/images/banner/home_banner.jpg",
   title: "Create Your Own",
   subtitle:
     "พกพาความสงบไปได้ทุกที่ เพียงแต้มเบา ๆ แล้วสูดหายใจลึก ๆ ให้กลิ่นหอมช่วยเติมความสดชื่น ผ่อนคลายความตึงเครียด และคืนสมดุลให้กับวันของคุณ",
@@ -14,21 +14,21 @@ const HERO = {
 
 const SERVICES = [
   {
-    img: "/images/services/rd-customize.jpg",
-    title: "R&D Customize",
-    desc: "Custom fragrance and cosmetics formulation tailored specifically for your brand.",
+    img: "/images/services/free.jpg",
+    title: "Our Promise",
+    desc: "เราเชื่อว่าความหอมควรเป็นส่วนหนึ่งของความสบายใจในทุกวัน เราจึงคัดสรรทุกส่วนผสมด้วยความอ่อนโยนและความใส่ใจปราศจากแอลกอฮอล์ ปราศจากพาราเบน และลดสิ่งที่ไม่จำเป็นออกไป เพื่อมอบประสบการณ์แห่งความหอมที่นุ่มนวลปลอดภัยยิ่งขึ้น",
     number: "01",
   },
   {
     img: "/images/services/package.jpg",
-    title: "Packaging Design",
-    desc: "Premium label, bottle and packaging design with luxury branding support.",
+    title: "Designed to Be Picked Up",
+    desc: "แพ็กเกจที่อยากหยิบ ใช้ง่าย และอยู่ใกล้ตัวเราเชื่อว่าแพ็กเกจที่ดีไม่ควรถูกเก็บไว้ในลิ้นชัก แต่ควรอยู่บนโต๊ะทำงาน ข้างเตียงหรือในกระเป๋าที่คุณพกไปทุกที่ Thara Bliss จึงออกแบบรูปทรง สี และสัมผัสให้ดูเรียบ สงบ และน่าใช้ในแบบที่เข้ากับทุกพื้นที่ของชีวิต",
     number: "02",
   },
   {
     img: "/images/services/online.jpg",
-    title: "Retail Ready",
-    desc: "Launch-ready products prepared for retail stores, online channels and marketplaces.",
+    title: "Created for Everyday Moments",
+    desc: "ออกแบบมาเพื่อช่วงเวลาของทุกวันเร่าเชื่อว่าความหอมไม่ควรจำกัดอยู่แค่โอกาสพิเศษ แต่ควรเป็นส่วนหนึ่งของชีวิตประจำวันทุกกลิ่นถูกออกแบบให้ใช้ง่ายกลมกลืนกับช่วงเวลาต่าง ๆ ตั้งแต่เช้าที่เริ่มต้นวันระหว่างวันทำงานและความหอมที่ดีควรทำให้วันเหล่านั้นรู้สึกเบาขึ้น สบายขึ้นเสมอ",
     number: "03",
   },
 ];
@@ -729,7 +729,7 @@ export default function HomePage() {
                   maxWidth: 280,
                 }}
               >
-                Luxury OEM & ODM Manufacturing — crafting beautiful scent experiences for brands across Thailand.
+                ไม่ใช่แค่ความหอม แต่คือการดูแลอารมณ์และจิตใจในทุกวัน — เลือกกลิ่นที่สะท้อนตัวตนและอยู่กับคุณในทุกช่วงเวลา
               </p>
             </div>
             <div>
@@ -744,7 +744,7 @@ export default function HomePage() {
               >
                 Navigate
               </p>
-              {["Shop", "About", "Journal", "Services"].map((link) => (
+              {["Products", "About", "Journal", "Help-Center"].map((link) => (
                 <a
                   key={link}
                   href={`/${link.toLowerCase()}`}

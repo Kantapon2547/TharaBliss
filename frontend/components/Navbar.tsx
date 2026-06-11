@@ -79,7 +79,7 @@ export default function Navbar() {
                   color: "#aaa",
                   letterSpacing: "0.22em",
                   textTransform: "uppercase",
-                  lineHeight: 1,
+                  lineHeight: 2,
                 }}
               >
                 Refresh Your Senses. Relax Your Mind.

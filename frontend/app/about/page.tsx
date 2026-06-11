@@ -461,14 +461,14 @@ export default function AboutPage() {
                 Thara Bliss
               </h3>
               <p style={{ color: "rgba(251,245,221,0.5)", lineHeight: 1.8, fontSize: "0.9rem", maxWidth: 280 }}>
-                Luxury Aromatic Products & Wellness Collection — crafted in Thailand for daily calm.
+                ไม่ใช่แค่ความหอม แต่คือการดูแลอารมณ์และจิตใจในทุกวัน — เลือกกลิ่นที่สะท้อนตัวตนและอยู่กับคุณในทุกช่วงเวลา
               </p>
             </div>
             <div>
               <p style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", opacity: 0.4, marginBottom: "1.2rem" }}>
                 Explore
               </p>
-              {["Shop", "About", "Journal", "Help"].map((link) => (
+              {["Products", "About", "Journal", "Help-Center"].map((link) => (
                 <a key={link} href={`/${link.toLowerCase()}`} style={{ display: "block", color: "rgba(251,245,221,0.7)", textDecoration: "none", fontSize: "0.9rem", marginBottom: "0.6rem" }}>
                   {link}
                 </a>
