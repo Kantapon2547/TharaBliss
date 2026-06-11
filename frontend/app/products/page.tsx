@@ -51,7 +51,7 @@ export default async function DashboardPage() {
         {/* ── HERO ── */}
         <section style={{ position: "relative", height: "88vh", minHeight: 540 }}>
           <img
-            src="/images/products/product_banner.jpg"
+            src="/images/banner/home_banner.jpg"
             alt="Thara Bliss aroma balm collection"
             style={{
               position: "absolute",

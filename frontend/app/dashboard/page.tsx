@@ -6,7 +6,7 @@ import Navbar from "../../components/Navbar";
 import { motion } from "framer-motion";
 
 const HERO = {
-  img: "/images/banner/home_banner.jpg",
+  img: "/images/banner/product_banner.jpg",
   title: "Create Your Own",
   subtitle:
     "พกพาความสงบไปได้ทุกที่ เพียงแต้มเบา ๆ แล้วสูดหายใจลึก ๆ ให้กลิ่นหอมช่วยเติมความสดชื่น ผ่อนคลายความตึงเครียด และคืนสมดุลให้กับวันของคุณ",
