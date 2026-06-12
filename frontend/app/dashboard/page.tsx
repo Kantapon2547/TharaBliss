@@ -26,7 +26,7 @@ const SERVICES = [
     number: "02",
   },
   {
-    img: "/images/services/online.jpg",
+    img: "/images/services/logo_brand.jpg",
     title: "Created for Everyday Moments",
     desc: "ออกแบบมาเพื่อช่วงเวลาของทุกวันเร่าเชื่อว่าความหอมไม่ควรจำกัดอยู่แค่โอกาสพิเศษ แต่ควรเป็นส่วนหนึ่งของชีวิตประจำวันทุกกลิ่นถูกออกแบบให้ใช้ง่ายกลมกลืนกับช่วงเวลาต่าง ๆ ตั้งแต่เช้าที่เริ่มต้นวันระหว่างวันทำงานและความหอมที่ดีควรทำให้วันเหล่านั้นรู้สึกเบาขึ้น สบายขึ้นเสมอ",
     number: "03",
@@ -674,12 +674,12 @@ export default function HomePage() {
                 margin: "0 0 1.5rem",
               }}
             >
-              Build Your Brand
+              Looking Ahead
               <br />
               <em style={{ fontStyle: "italic" }}>with Thara Bliss</em>
             </h2>
             <p style={{ opacity: 0.75, lineHeight: 1.8, marginBottom: "2.5rem" }}>
-              OEM & ODM manufacturing — from custom formulations to packaging and launch.
+              Thara Bliss เริ่มต้นจาก Aroma Balm ที่ออกแบบมาเพื่อการพกพาและใช้งานได้ทุกวันในอนาคต เราจะขยายประสบการณ์แห่งความผ่อนคลายนี้ไปสู่ผลิตภัณฑ์สำหรับบ้านและพื้นที่อยู่อาศัย เพื่อให้ทุกพื้นที่สามารถกลายเป็นพื้นที่แห่งความสุขได้เช่นกัน
             </p>
             <a
               href="mailto:hello@tharabliss.com"
@@ -772,17 +772,40 @@ export default function HomePage() {
               >
                 Connect
               </p>
-              {["Instagram", "LINE Official", "TikTok Shop", "Shopee"].map((ch) => (
-                <p
-                  key={ch}
+              {[
+                {
+                 name: "Instagram",
+                 href: "https://shorturl.at/AfAPc",
+                },
+                {
+                name: "Facebook",
+                href: "https://shorturl.at/BJPYF",
+                },
+                {
+                name: "TikTok",
+                href: "https://www.tiktok.com/@tharabliss?_r=1&_t=ZS-975GjfaqjAe",
+                },
+                {
+                name: "Shopee",
+                href: "https://shorturl.at/2Eg4w",
+                },
+              ].map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   style={{
+                    display: "block",
                     color: "rgba(251,245,221,0.7)",
+                    textDecoration: "none",
                     fontSize: "0.9rem",
                     marginBottom: "0.6rem",
+                    transition: "0.2s",
                   }}
                 >
-                  {ch}
-                </p>
+                  {item.name}
+                </a>
               ))}
             </div>
           </div>

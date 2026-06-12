@@ -6,7 +6,7 @@ const IMAGES = {
   hero: "/images/about/banner_our.jpg",
   story: "/images/about/banner_our.jpg",
   scent: "/images/about/scent.jpg",
-  craft: "https://images.unsplash.com/photo-1612852098516-55d01c75769a?w=900&q=80&fit=crop",
+  craft: "/images/about/decorate.jpg",
   ahead: "https://images.unsplash.com/photo-1595514535215-9b5aed62c0e4?w=900&q=80&fit=crop",
 };
 
@@ -478,8 +478,40 @@ export default function AboutPage() {
               <p style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", opacity: 0.4, marginBottom: "1.2rem" }}>
                 Connect
               </p>
-              {["Instagram", "LINE Official", "TikTok Shop", "Shopee"].map((ch) => (
-                <p key={ch} style={{ color: "rgba(251,245,221,0.7)", fontSize: "0.9rem", marginBottom: "0.6rem" }}>{ch}</p>
+              {[
+                {
+                 name: "Instagram",
+                 href: "https://shorturl.at/AfAPc",
+                },
+                {
+                name: "Facebook",
+                href: "https://shorturl.at/BJPYF",
+                },
+                {
+                name: "TikTok",
+                href: "https://www.tiktok.com/@tharabliss?_r=1&_t=ZS-975GjfaqjAe",
+                },
+                {
+                name: "Shopee",
+                href: "https://shorturl.at/2Eg4w",
+                },
+              ].map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "block",
+                    color: "rgba(251,245,221,0.7)",
+                    textDecoration: "none",
+                    fontSize: "0.9rem",
+                    marginBottom: "0.6rem",
+                    transition: "0.2s",
+                  }}
+                >
+                  {item.name}
+                </a>
               ))}
             </div>
           </div>

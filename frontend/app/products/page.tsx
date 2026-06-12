@@ -312,7 +312,7 @@ export default async function DashboardPage() {
           </div>
           <div style={{ overflow: "hidden", borderRadius: 16, height: 320 }}>
             <img
-              src="https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=900&q=80&fit=crop"
+              src="images/products/aroma-balm.jpg"
               alt="Thara Bliss product lifestyle"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
@@ -487,17 +487,40 @@ export default async function DashboardPage() {
               >
                 Connect
               </p>
-              {["Instagram", "LINE Official", "TikTok"].map((ch) => (
-                <p
-                  key={ch}
+              {[
+                {
+                 name: "Instagram",
+                 href: "https://shorturl.at/AfAPc",
+                },
+                {
+                name: "Facebook",
+                href: "https://shorturl.at/BJPYF",
+                },
+                {
+                name: "TikTok",
+                href: "https://www.tiktok.com/@tharabliss?_r=1&_t=ZS-975GjfaqjAe",
+                },
+                {
+                name: "Shopee",
+                href: "https://shorturl.at/2Eg4w",
+                },
+              ].map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   style={{
-                    color: "rgba(251,245,221,0.75)",
+                    display: "block",
+                    color: "rgba(251,245,221,0.7)",
+                    textDecoration: "none",
                     fontSize: "0.9rem",
                     marginBottom: "0.6rem",
+                    transition: "0.2s",
                   }}
                 >
-                  {ch}
-                </p>
+                  {item.name}
+                </a>
               ))}
             </div>
           </div>

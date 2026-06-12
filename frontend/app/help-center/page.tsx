@@ -572,7 +572,7 @@ export default function HelpCenterPage() {
               <em style={{ fontStyle: "italic" }}>ช่วยเหลือเพิ่มเติม?</em>
             </h2>
             <p style={{ opacity: 0.75, lineHeight: 1.8, maxWidth: 360 }}>
-              ทีมงานของเราพร้อมให้คำแนะนำเกี่ยวกับผลิตภัณฑ์ การสั่งซื้อ บริการ OEM และความร่วมมือทางธุรกิจ
+              "Because every day deserves a moment of bliss." เพราะทุกวันควรมีช่วงเวลาแห่งความสุขเล็ก ๆ ซ่อนอยู่เสมอ
             </p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "1rem", maxWidth: 340 }}>
@@ -652,8 +652,40 @@ export default function HelpCenterPage() {
               <p style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", opacity: 0.4, marginBottom: "1.2rem" }}>
                 Connect
               </p>
-              {["Instagram", "LINE Official", "TikTok Shop", "Shopee"].map((ch) => (
-                <p key={ch} style={{ color: "rgba(251,245,221,0.7)", fontSize: "0.9rem", marginBottom: "0.6rem" }}>{ch}</p>
+              {[
+                {
+                 name: "Instagram",
+                 href: "https://shorturl.at/AfAPc",
+                },
+                {
+                name: "Facebook",
+                href: "https://shorturl.at/BJPYF",
+                },
+                {
+                name: "TikTok",
+                href: "https://www.tiktok.com/@tharabliss?_r=1&_t=ZS-975GjfaqjAe",
+                },
+                {
+                name: "Shopee",
+                href: "https://shorturl.at/2Eg4w",
+                },
+              ].map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "block",
+                    color: "rgba(251,245,221,0.7)",
+                    textDecoration: "none",
+                    fontSize: "0.9rem",
+                    marginBottom: "0.6rem",
+                    transition: "0.2s",
+                  }}
+                >
+                  {item.name}
+                </a>
               ))}
             </div>
           </div>

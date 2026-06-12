@@ -136,7 +136,9 @@ export default function Navbar() {
           {/* ── RIGHT SIDE ── */}
           <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexShrink: 0 }}>
             <Link
-              href="/help-center"
+              href="https://www.facebook.com/share/1Bm1TTxF7p/"
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
                 background: "#0F6E56",
                 color: "#FBF5DD",
@@ -215,7 +217,9 @@ export default function Navbar() {
             })}
             <div style={{ height: 1, background: "#EFEAE1", margin: "0.75rem 0" }} />
             <Link
-              href="/help-center"
+              href="https://www.facebook.com/share/1Bm1TTxF7p/"
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
                 background: "#0F6E56",
                 color: "#FBF5DD",

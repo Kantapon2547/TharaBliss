@@ -22,7 +22,7 @@ const articles = [
     subtitle: "เปลี่ยนบ้านให้เป็นพื้นที่แห่งความผ่อนคลาย",
     text: "เริ่มต้นจากแสงธรรมชาติที่นุ่มนวล เสียงเพลงเบา ๆ มุมพักผ่อนที่เป็นระเบียบ และกลิ่นหอมที่ช่วยสร้างบรรยากาศให้บ้านรู้สึกอบอุ่นและน่าอยู่มากยิ่งขึ้น",
     tag: "Home & Space",
-    image: "/images/services/alejandro_journal.jpg",
+    image: "https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&q=80&fit=crop",
   },
   {
     title: "Morning Rituals for a Better Day",
@@ -46,7 +46,7 @@ const TAG_STYLE = {
   color: "#0F6E56",
   fontSize: "10px",
   letterSpacing: "0.15em",
-  textTransform: "uppercase",
+  textTransform: "uppercase" as const,
   padding: "4px 10px",
   borderRadius: "20px",
   marginBottom: "1rem",
@@ -54,7 +54,6 @@ const TAG_STYLE = {
 
 export default function JournalPage() {
   const [featured, ...rest] = articles;
-  // split rest: first one wide, last two in grid
   const wide = rest[0];
   const grid = rest.slice(1);
 
@@ -70,53 +69,95 @@ export default function JournalPage() {
           overflowX: "hidden",
         }}
       >
-        {/* ── HERO ── */}
+
+        {/* ── HERO ── full-width bg image + gradient overlay */}
         <section
           style={{
-            background: "#FBF5DD",
-            padding: "5rem 6vw 4rem",
+            position: "relative",
+            minHeight: "72vh",
             display: "flex",
             alignItems: "flex-end",
-            gap: "3rem",
+            overflow: "hidden",
           }}
         >
-          <div style={{ flex: 1 }}>
-            <p
-              style={{
-                color: "#0F6E56",
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                fontSize: "11px",
-                marginBottom: "1.2rem",
-              }}
-            >
-              Thara Bliss Journal
-            </p>
-            <h1
-              style={{
-                fontSize: "clamp(2.8rem, 6vw, 5rem)",
-                fontWeight: 300,
-                lineHeight: 1.05,
-                margin: 0,
-              }}
-            >
-              Stories,&nbsp;
-              <em style={{ fontStyle: "italic" }}>Scents</em>
-              <br />& Moments.
-            </h1>
-          </div>
-          <p
+          {/* Background image */}
+          <img
+            src="images/services/stories.jpg"
+            alt="Thara Bliss Journal — fragrance atelier"
             style={{
-              flex: "0 0 340px",
-              color: "#666",
-              lineHeight: 1.8,
-              fontSize: "0.95rem",
-              paddingBottom: "0.5rem",
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              objectPosition: "center",
+            }}
+          />
+
+          {/* Gradient overlay: dark bottom for legibility, near-transparent top */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "linear-gradient(to top, rgba(10,22,14,0.85) 0%, rgba(10,22,14,0.35) 52%, rgba(10,22,14,0.08) 100%)",
+            }}
+          />
+
+          {/* Text content pinned to bottom */}
+          <div
+            style={{
+              position: "relative",
+              zIndex: 1,
+              width: "100%",
+              padding: "5rem 6vw 4.5rem",
+              display: "flex",
+              alignItems: "flex-end",
+              gap: "3rem",
+              flexWrap: "wrap",
             }}
           >
-            คอลเลกชันกลิ่นของ Thara Bliss กลิ่นของhara Bliss ถูกพัฒนาขึ้นอย่างตั้งใจใน 3 แนวกลิ่นหลักซึ่งสะท้อนอารมณ์และการใช้งานที่แตกต่างกัน เพื่อให้สามารถเลือกใช้ได้อย่างเหมาะสมกับแต่ละช่วงเวลาและพื้นที่
-            <br />
-          </p>
+            <div style={{ flex: 1, minWidth: 280 }}>
+              <p
+                style={{
+                  color: "#9FCBAD",
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  fontSize: "11px",
+                  marginBottom: "1.2rem",
+                }}
+              >
+                Thara Bliss Journal
+              </p>
+              <h1
+                style={{
+                  fontSize: "clamp(2.8rem, 6vw, 5rem)",
+                  fontWeight: 300,
+                  lineHeight: 1.05,
+                  margin: 0,
+                  color: "#FBF5DD",
+                }}
+              >
+                Stories,&nbsp;
+                <em style={{ fontStyle: "italic", color: "#FBF5DD" }}>Scents</em>
+                <br />& Moments.
+              </h1>
+            </div>
+
+            <p
+              style={{
+                flex: "0 0 340px",
+                color: "rgba(251,245,221,0.72)",
+                lineHeight: 1.85,
+                fontSize: "0.92rem",
+                paddingBottom: "0.25rem",
+              }}
+            >
+              คอลเลกชันกลิ่นของ Thara Bliss ถูกพัฒนาขึ้นอย่างตั้งใจใน 3
+              แนวกลิ่นหลัก ซึ่งสะท้อนอารมณ์และการใช้งานที่แตกต่างกัน
+              เพื่อให้สามารถเลือกใช้ได้อย่างเหมาะสมกับแต่ละช่วงเวลาและพื้นที่
+            </p>
+          </div>
         </section>
 
         {/* thin sage divider */}
@@ -124,7 +165,7 @@ export default function JournalPage() {
 
         <div style={{ maxWidth: 1280, margin: "0 auto", padding: "4rem 6vw 6rem" }}>
 
-          {/* ── FEATURED ARTICLE ── full-width card with image bg */}
+          {/* ── FEATURED ARTICLE ── */}
           <article
             style={{
               position: "relative",
@@ -194,7 +235,7 @@ export default function JournalPage() {
             </div>
           </article>
 
-          {/* ── WIDE ARTICLE ── image left + text right */}
+          {/* ── WIDE ARTICLE ── */}
           <article
             style={{
               display: "grid",
@@ -324,6 +365,7 @@ export default function JournalPage() {
             More than fragrance — a daily ritual of well-being.
           </p>
         </section>
+
         {/* ── FOOTER ── */}
         <footer
           style={{
@@ -363,8 +405,27 @@ export default function JournalPage() {
               <p style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", opacity: 0.4, marginBottom: "1.2rem" }}>
                 Connect
               </p>
-              {["Instagram", "LINE Official", "TikTok Shop", "Shopee"].map((ch) => (
-                <p key={ch} style={{ color: "rgba(251,245,221,0.7)", fontSize: "0.9rem", marginBottom: "0.6rem" }}>{ch}</p>
+              {[
+                { name: "Instagram", href: "https://shorturl.at/AfAPc" },
+                { name: "Facebook",  href: "https://shorturl.at/BJPYF" },
+                { name: "TikTok",    href: "https://www.tiktok.com/@tharabliss" },
+                { name: "Shopee",    href: "https://shorturl.at/2Eg4w" },
+              ].map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "block",
+                    color: "rgba(251,245,221,0.7)",
+                    textDecoration: "none",
+                    fontSize: "0.9rem",
+                    marginBottom: "0.6rem",
+                  }}
+                >
+                  {item.name}
+                </a>
               ))}
             </div>
           </div>
@@ -373,6 +434,7 @@ export default function JournalPage() {
             <p style={{ color: "rgba(251,245,221,0.3)", fontSize: "12px" }}>Calm. Balance. Bliss.</p>
           </div>
         </footer>
+
       </main>
     </>
   );
