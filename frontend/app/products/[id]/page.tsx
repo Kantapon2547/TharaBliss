@@ -1,6 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "../../../components/Navbar";
+import {
+  ProductImagePanel,
+  ProductSizeAndPrice,
+  ProductAccordions,
+} from "../../../components/ProductInteractive";
+
+interface FragranceNote {
+  label: string;
+  notes: string;
+}
 
 interface Product {
   id: number;
@@ -9,11 +19,16 @@ interface Product {
   price: string;
   scent: string;
   image: string | null;
+  images?: string[];
   category?: {
     id: number;
     name: string;
     slug?: string;
   };
+  ingredients?: string;
+  how_to_use?: string;
+  fragrance_notes?: FragranceNote[];
+  sizes?: { label: string; price: string }[];
 }
 
 interface SiteSettings {
@@ -47,13 +62,6 @@ async function getSettings(): Promise<SiteSettings | null> {
     return null;
   }
 }
-
-const PERKS = [
-  { icon: "✦", label: "Alcohol Free" },
-  { icon: "✦", label: "Paraben Free" },
-  { icon: "✦", label: "SLES Free" },
-  { icon: "✦", label: "Certified อย." },
-];
 
 export default async function ProductDetail({
   params,
@@ -116,6 +124,11 @@ export default async function ProductDetail({
       : settings?.shopee_regular_url;
   const tiktokUrl = settings?.tiktok_url;
 
+  const allImages = [
+    ...(product.image ? [product.image] : []),
+    ...(product.images ?? []),
+  ];
+
   return (
     <>
       <Navbar />
@@ -131,14 +144,14 @@ export default async function ProductDetail({
         {/* ── BREADCRUMB ── */}
         <div
           style={{
-            padding: "1.25rem 6vw",
-            borderBottom: "1px solid #EFEAE1",
+            padding: "1rem 6vw",
+            borderBottom: "0.5px solid #EFEAE1",
             background: "#FFFFFF",
             display: "flex",
-            gap: "0.5rem",
+            gap: "0.4rem",
             alignItems: "center",
-            fontSize: "12px",
-            color: "#999",
+            fontSize: "11px",
+            color: "#aaa",
             letterSpacing: "0.05em",
           }}
         >
@@ -148,7 +161,7 @@ export default async function ProductDetail({
           <span>›</span>
           <span>{product.category?.name || "Product"}</span>
           <span>›</span>
-          <span style={{ color: "#2F3A33" }}>{product.name}</span>
+          <span style={{ color: "#555" }}>{product.name}</span>
         </div>
 
         {/* ── MAIN GRID ── */}
@@ -160,196 +173,78 @@ export default async function ProductDetail({
             gridTemplateColumns: "1fr 1fr",
             gap: "5vw",
             alignItems: "start",
-            padding: "4rem 6vw 6rem",
+            padding: "3.5rem 6vw 6rem",
           }}
         >
-          {/* ── IMAGE PANEL ── */}
-          <div style={{ position: "sticky", top: "6rem" }}>
-            <div
-              style={{
-                background: "#FFFFFF",
-                borderRadius: 24,
-                overflow: "hidden",
-                border: "1px solid #EFEAE1",
-                aspectRatio: "1 / 1",
-                position: "relative",
-              }}
-            >
-              {product.image ? (
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  fill
-                  style={{ objectFit: "cover" }}
-                />
-              ) : (
-                <div
-                  style={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "#ccc",
-                    gap: "0.5rem",
-                  }}
-                >
-                  <span style={{ fontSize: "3rem" }}>🌿</span>
-                  <span style={{ fontSize: "0.85rem" }}>No image available</span>
-                </div>
-              )}
-            </div>
-
-            {/* perk pills below image */}
-            <div
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "0.5rem",
-                marginTop: "1.25rem",
-                justifyContent: "center",
-              }}
-            >
-              {PERKS.map((p) => (
-                <span
-                  key={p.label}
-                  style={{
-                    background: "#EAF3EC",
-                    color: "#0F6E56",
-                    fontSize: "10px",
-                    letterSpacing: "0.14em",
-                    textTransform: "uppercase",
-                    padding: "5px 12px",
-                    borderRadius: 20,
-                  }}
-                >
-                  {p.label}
-                </span>
-              ))}
-            </div>
-          </div>
+          {/* ── IMAGE PANEL (client: gallery + perks + notes) ── */}
+          <ProductImagePanel
+            productName={product.name}
+            images={allImages}
+            fragranceNotes={product.fragrance_notes}
+          />
 
           {/* ── INFO PANEL ── */}
-          <div style={{ paddingTop: "0.5rem" }}>
-            {/* category + back */}
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: "1.25rem",
-              }}
-            >
-              <span
-                style={{
-                  color: "#0F6E56",
-                  textTransform: "uppercase",
-                  fontSize: "11px",
-                  letterSpacing: "0.18em",
-                }}
-              >
+          <div style={{ paddingTop: "0.25rem", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+            {/* Category + back */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span style={{ color: "#0F6E56", textTransform: "uppercase", fontSize: "10px", letterSpacing: "0.18em" }}>
                 {product.category?.name || "Aroma Balm"}
               </span>
-              <Link
-                href="/products"
-                style={{
-                  color: "#999",
-                  fontSize: "12px",
-                  textDecoration: "none",
-                  letterSpacing: "0.05em",
-                }}
-              >
+              <Link href="/products" style={{ color: "#aaa", fontSize: "12px", textDecoration: "none" }}>
                 ← All products
               </Link>
             </div>
 
-            {/* name */}
-            <h1
-              style={{
-                fontSize: "clamp(2rem, 4vw, 3.2rem)",
-                fontWeight: 300,
-                lineHeight: 1.1,
-                marginBottom: "0.5rem",
-                color: "#2F3A33",
-              }}
-            >
+            {/* Name */}
+            <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 300, lineHeight: 1.1, color: "#2F3A33", margin: 0 }}>
               {product.name}
             </h1>
 
-            {/* scent tag */}
+            {/* Scent tag */}
             <div
               style={{
                 display: "inline-flex",
                 alignItems: "center",
                 gap: "0.4rem",
                 background: "#FBF5DD",
-                border: "1px solid #EFEAE1",
-                borderRadius: 20,
-                padding: "5px 14px",
-                marginBottom: "2rem",
+                border: "0.5px solid #e8e0c8",
+                borderRadius: 4,
+                padding: "4px 12px",
+                alignSelf: "flex-start",
               }}
             >
-              <span style={{ fontSize: "0.75rem", color: "#888" }}>Scent</span>
-              <span
-                style={{
-                  fontSize: "0.8rem",
-                  color: "#2F3A33",
-                  fontStyle: "italic",
-                }}
-              >
-                {product.scent}
-              </span>
+              <span style={{ fontSize: "10px", color: "#aaa", textTransform: "uppercase", letterSpacing: "0.08em" }}>Scent</span>
+              <span style={{ fontSize: "12px", color: "#2F3A33", fontStyle: "italic" }}>{product.scent}</span>
             </div>
 
-            {/* divider */}
-            <div style={{ height: 1, background: "#EFEAE1", marginBottom: "2rem" }} />
+            {/* Divider */}
+            <div style={{ height: "0.5px", background: "#EFEAE1" }} />
 
-            {/* description */}
-            <p
-              style={{
-                lineHeight: 2,
-                color: "#555",
-                fontSize: "0.97rem",
-                marginBottom: "2.5rem",
-              }}
-            >
-              {product.description}
-            </p>
+            {/* Description */}
+            <p style={{ lineHeight: 1.9, color: "#666", fontSize: "0.95rem" }}>{product.description}</p>
 
-            {/* price */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "baseline",
-                gap: "0.5rem",
-                marginBottom: "2rem",
-              }}
-            >
-              <span style={{ fontSize: "2.4rem", fontWeight: 300, color: "#0F6E56" }}>
-                ฿{product.price}
-              </span>
-              <span style={{ fontSize: "0.85rem", color: "#aaa" }}>THB</span>
-            </div>
+            {/* ── SIZE SELECTOR + PRICE + STOCK (client) ── */}
+            <ProductSizeAndPrice sizes={product.sizes} basePrice={product.price} />
 
-            {/* divider */}
-            <div style={{ height: 1, background: "#EFEAE1", marginBottom: "2rem" }} />
+            {/* Divider */}
+            <div style={{ height: "0.5px", background: "#EFEAE1" }} />
 
             {/* CTA buttons */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
               {shopeeUrl && (
                 <Link href={shopeeUrl} target="_blank" style={{ textDecoration: "none" }}>
                   <button
                     style={{
                       width: "100%",
-                      padding: "1rem 1.5rem",
+                      padding: "13px 1.5rem",
                       border: "none",
-                      borderRadius: 12,
+                      borderRadius: 10,
                       background: "#EE4D2D",
                       color: "#fff",
                       cursor: "pointer",
                       fontSize: "0.9rem",
                       fontWeight: 500,
-                      letterSpacing: "0.08em",
+                      letterSpacing: "0.06em",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -357,7 +252,7 @@ export default async function ProductDetail({
                       fontFamily: "inherit",
                     }}
                   >
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                     </svg>
                     Buy on Shopee
@@ -370,15 +265,15 @@ export default async function ProductDetail({
                   <button
                     style={{
                       width: "100%",
-                      padding: "1rem 1.5rem",
+                      padding: "13px 1.5rem",
                       border: "none",
-                      borderRadius: 12,
+                      borderRadius: 10,
                       background: "#111",
                       color: "#fff",
                       cursor: "pointer",
                       fontSize: "0.9rem",
                       fontWeight: 500,
-                      letterSpacing: "0.08em",
+                      letterSpacing: "0.06em",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -386,7 +281,7 @@ export default async function ProductDetail({
                       fontFamily: "inherit",
                     }}
                   >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V9.05a8.16 8.16 0 004.77 1.52V7.12a4.85 4.85 0 01-1-.43z"/>
                     </svg>
                     Buy on TikTok Shop
@@ -395,18 +290,11 @@ export default async function ProductDetail({
               )}
             </div>
 
-            {/* reassurance */}
-            <p
-              style={{
-                marginTop: "1.5rem",
-                fontSize: "0.8rem",
-                color: "#aaa",
-                textAlign: "center",
-                lineHeight: 1.6,
-              }}
-            >
-              Secure checkout via Shopee &amp; TikTok Shop · Ships within Thailand
-            </p>
+            {/* Divider */}
+            <div style={{ height: "0.5px", background: "#EFEAE1" }} />
+
+            {/* ── ACCORDIONS: How to Use / Ingredients / Shipping (client) ── */}
+            <ProductAccordions howToUse={product.how_to_use} ingredients={product.ingredients} />
           </div>
         </div>
 
