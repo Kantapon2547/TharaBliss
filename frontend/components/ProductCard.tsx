@@ -24,17 +24,18 @@ export default function ProductCard({
 }) {
   return (
     <motion.div
-      whileHover={{ y: -8 }}
-      transition={{ duration: 0.25 }}
+      whileHover={{
+        y: -8,
+      }}
+      transition={{
+        duration: 0.25,
+      }}
       style={{
         background: "#fff",
         borderRadius: "24px",
         overflow: "hidden",
         border: "1px solid #ECECEC",
         boxShadow: "0 10px 30px rgba(0,0,0,.06)",
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
       }}
     >
       {/* IMAGE */}
@@ -47,15 +48,21 @@ export default function ProductCard({
       >
         {product.image ? (
           <motion.div
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.4 }}
-            style={{ width: "100%", height: "100%" }}
+            whileHover={{
+              scale: 1.08,
+            }}
+            transition={{
+              duration: 0.4,
+            }}
+            style={{
+              width: "100%",
+              height: "100%",
+            }}
           >
             <Image
               src={product.image}
               alt={product.name}
               fill
-              sizes="(max-width: 768px) 100vw, 33vw"
               style={{
                 objectFit: "cover",
               }}
@@ -71,7 +78,6 @@ export default function ProductCard({
               justifyContent: "center",
               background: "#f5f5f5",
               color: "#999",
-              fontSize: "14px",
             }}
           >
             No Image
@@ -83,12 +89,9 @@ export default function ProductCard({
       <div
         style={{
           padding: "1.5rem",
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
         }}
       >
-        {/* Accent line */}
+        {/* Green Accent Line */}
         <div
           style={{
             width: "42px",
@@ -108,17 +111,16 @@ export default function ProductCard({
             marginBottom: "10px",
           }}
         >
-          {product.category?.name ?? "Recommended"}
+          {product.category?.name || "Recommended"}
         </p>
 
-        {/* Name */}
+        {/* Product Name */}
         <h3
           style={{
-            fontSize: "1.3rem",
+            fontSize: "1.4rem",
             fontWeight: 600,
             color: "#222",
             marginBottom: "10px",
-            lineHeight: 1.3,
           }}
         >
           {product.name}
@@ -130,11 +132,11 @@ export default function ProductCard({
             color: "#888",
             lineHeight: 1.7,
             fontSize: "14px",
+            minHeight: "48px",
+            overflow: "hidden",
             display: "-webkit-box",
             WebkitLineClamp: 2,
             WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-            minHeight: "42px",
           }}
         >
           {product.description}
@@ -143,8 +145,7 @@ export default function ProductCard({
         {/* Price */}
         <div
           style={{
-            marginTop: "auto",
-            paddingTop: "1rem",
+            marginTop: "1rem",
             fontWeight: 600,
             color: "#2F3A33",
             fontSize: "1rem",
@@ -153,22 +154,33 @@ export default function ProductCard({
           ฿{product.price}
         </div>
 
-        {/* Button */}
-        <div style={{ marginTop: "1rem" }}>
-          <Link href={`/products/${product.id}`}>
+        {/* Details Button */}
+        <div
+          style={{
+            marginTop: "1.5rem",
+          }}
+        >
+          <Link
+            href={`/products/${product.id}`}
+            style={{
+              textDecoration: "none",
+            }}
+          >
             <motion.button
               whileHover={{
                 backgroundColor: "#0F6E56",
-                color: "#fff",
+                color: "#ffffff",
                 borderColor: "#0F6E56",
               }}
-              transition={{ duration: 0.2 }}
+              transition={{
+                duration: 0.25,
+              }}
               style={{
                 width: "100%",
                 height: "44px",
                 borderRadius: "999px",
                 border: "1px solid #D8D8D8",
-                background: "#fff",
+                background: "#ffffff",
                 color: "#333",
                 cursor: "pointer",
                 fontSize: "14px",

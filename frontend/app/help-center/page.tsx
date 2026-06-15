@@ -3,8 +3,6 @@
 import { useState } from "react";
 import Navbar from "../../components/Navbar";
 
-/* ================= DATA ================= */
-
 const FAQS = [
   {
     question: "Thara Bliss จัดส่งสินค้าอย่างไร?",
@@ -104,318 +102,654 @@ const SCENT_GUIDE = [
   },
 ];
 
-/* ================= ACCORDION ================= */
-
 function AccordionItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
-
   return (
-    <div className="faq-item">
-      <button className="faq-btn" onClick={() => setOpen(!open)}>
-        <span>{question}</span>
-        <span className={`icon ${open ? "open" : ""}`}>＋</span>
+    <div
+      style={{
+        background: "#FFFFFF",
+        borderRadius: 16,
+        border: `1px solid ${open ? "#0F6E56" : "#EFEAE1"}`,
+        overflow: "hidden",
+        transition: "border-color 0.2s",
+      }}
+    >
+      <button
+        onClick={() => setOpen(!open)}
+        style={{
+          width: "100%",
+          padding: "1.4rem 1.75rem",
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: "1rem",
+          textAlign: "left",
+          fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+        }}
+      >
+        <span style={{ fontWeight: 400, color: "#2F3A33", fontSize: "1rem", lineHeight: 1.5 }}>
+          {question}
+        </span>
+        <span
+          style={{
+            flexShrink: 0,
+            width: 28,
+            height: 28,
+            borderRadius: "50%",
+            background: open ? "#0F6E56" : "#F5F2EB",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transition: "background 0.2s",
+          }}
+        >
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            style={{ transform: open ? "rotate(45deg)" : "rotate(0deg)", transition: "transform 0.25s" }}
+          >
+            <line x1="6" y1="1" x2="6" y2="11" stroke={open ? "#FBF5DD" : "#666"} strokeWidth="1.5" strokeLinecap="round" />
+            <line x1="1" y1="6" x2="11" y2="6" stroke={open ? "#FBF5DD" : "#666"} strokeWidth="1.5" strokeLinecap="round" />
+          </svg>
+        </span>
       </button>
-
       {open && (
-        <div className="faq-answer">
-          <p>{answer}</p>
+        <div
+          style={{
+            padding: "0 1.75rem 1.4rem",
+            color: "#666",
+            lineHeight: 1.85,
+            fontSize: "0.95rem",
+            borderTop: "1px solid #EFEAE1",
+          }}
+        >
+          <p style={{ margin: "1rem 0 0" }}>{answer}</p>
         </div>
       )}
     </div>
   );
 }
 
-/* ================= PAGE ================= */
-
 export default function HelpCenterPage() {
   return (
     <>
       <Navbar />
 
-      <main className="help-page">
-
-        {/* HERO */}
-        <section className="hero">
-          <div>
-            <p className="label">Customer Care</p>
-
-            <h1>
-              ศูนย์ <br />
-              <em>ช่วยเหลือ</em>
-            </h1>
-
-            <p className="desc">
-              ค้นหาคำตอบเกี่ยวกับการสั่งซื้อ การจัดส่งสินค้า และบริการของเรา
-            </p>
-
-            <div className="search">
-              <input placeholder="ค้นหาคำถามที่ต้องการ..." />
-            </div>
-          </div>
-
-          <div className="hero-links">
-            {["คำสั่งซื้อ", "การจัดส่ง", "ผลิตภัณฑ์", "OEM"].map((l) => (
-              <div key={l} className="hero-box">
-                {l} →
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <div className="divider" />
-
-        {/* QUICK LINKS */}
-        <section className="section">
-          <h2>หัวข้อยอดนิยม</h2>
-
-          <div className="grid">
-            {QUICK_LINKS.map((item) => (
-              <div key={item.title} className="card">
-                <div className="icon-box">{item.icon}</div>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* FAQ */}
-        <section className="faq">
-          <h2>คำถามที่พบบ่อย</h2>
-
-          <div className="faq-list">
-            {FAQS.map((faq) => (
-              <AccordionItem key={faq.question} {...faq} />
-            ))}
-          </div>
-        </section>
-
-        {/* SCENT GUIDE */}
-        <section className="section">
-          <h2>คู่มือเลือกกลิ่น</h2>
-
-          <div className="grid">
-            {SCENT_GUIDE.map((s) => (
-              <div key={s.name} className="scent-card">
-                <div className="top" style={{ background: s.color }}>
-                  <span>{s.mood}</span>
-                  <h3>{s.name}</h3>
-                </div>
-
-                <div className="body">
-                  <p>{s.description}</p>
-                  <small>{s.best}</small>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* CONTACT */}
-        <section className="contact">
-          <div>
-            <h2>
-              ต้องการ <em>ความช่วยเหลือ?</em>
-            </h2>
-            <p>เราพร้อมช่วยเหลือคุณเสมอ</p>
-          </div>
-
-          <div className="buttons">
-            <a href="mailto:hello@tharabliss.com">ส่งอีเมล</a>
-            <a href="https://line.me" target="_blank">LINE Official</a>
-          </div>
-        </section>
-
-        {/* FOOTER */}
-        <footer className="footer">
-          <div className="footer-grid">
-            <div>
-              <h3>Thara Bliss</h3>
-              <p>Luxury Aromatic Wellness Brand</p>
-            </div>
-
-            <div>
-              <p>Explore</p>
-              {["Shop", "About", "Journal", "Help"].map((l) => (
-                <a key={l} href={`/${l.toLowerCase()}`}>{l}</a>
-              ))}
-            </div>
-
-            <div>
-              <p>Connect</p>
-              <a href="#">Instagram</a>
-              <a href="#">Facebook</a>
-              <a href="#">TikTok</a>
-            </div>
-          </div>
-        </footer>
-      </main>
-
-      {/* ================= CSS ================= */}
       <style>{`
-        .help-page {
-          font-family: Helvetica, Arial;
-          background: #FAFAF7;
-          color: #2F3A33;
-        }
-
-        /* HERO */
-        .hero {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          padding: 6rem 6vw;
-          gap: 3rem;
-          background: #FBF5DD;
-        }
-
-        .label {
-          color: #0F6E56;
-          font-size: 11px;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-        }
-
-        h1 {
-          font-size: 3.5rem;
-          font-weight: 300;
-        }
-
-        .desc {
-          color: #666;
-          max-width: 420px;
-          line-height: 1.8;
-        }
-
-        .search input {
-          width: 100%;
-          padding: 14px;
-          border-radius: 40px;
-          border: 1px solid #ddd;
-        }
-
-        .hero-links {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-        }
-
-        .hero-box {
-          background: #fff;
-          padding: 1rem;
-          border-radius: 12px;
-          border: 1px solid #eee;
-        }
-
-        .divider {
-          height: 3px;
-          background: #0F6E56;
-        }
-
-        .section {
-          padding: 5rem 6vw;
-        }
-
-        .grid {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 1.5rem;
-        }
-
-        .card, .scent-card {
-          background: #fff;
-          border: 1px solid #eee;
-          border-radius: 16px;
-          padding: 2rem;
-        }
-
-        .faq {
-          padding: 5rem 6vw;
-          background: #F5F2EB;
-        }
-
-        .faq-item {
-          background: #fff;
-          margin-bottom: 1rem;
-          border-radius: 14px;
-          border: 1px solid #eee;
-        }
-
-        .faq-btn {
-          width: 100%;
-          padding: 1.2rem;
-          display: flex;
-          justify-content: space-between;
-          background: none;
-          border: none;
-        }
-
-        .faq-answer {
-          padding: 0 1.2rem 1.2rem;
-          color: #666;
-        }
-
-        .contact {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          padding: 5rem 6vw;
-          background: #0F6E56;
-          color: #fff;
-        }
-
-        .contact a {
-          display: block;
-          padding: 1rem;
-          background: #FBF5DD;
-          color: #0F6E56;
-          text-align: center;
-          border-radius: 40px;
-          margin-bottom: 1rem;
-          text-decoration: none;
-        }
-
-        .footer {
-          background: #2F3A33;
-          color: #FBF5DD;
-          padding: 4rem 6vw;
-        }
-
-        .footer-grid {
-          display: grid;
-          grid-template-columns: 2fr 1fr 1fr;
-          gap: 2rem;
-        }
-
-        a {
-          color: rgba(255,255,255,0.7);
-          text-decoration: none;
-          display: block;
-          margin-top: 0.5rem;
-        }
-
-        /* ================= MOBILE ================= */
         @media (max-width: 768px) {
-          .hero {
-            grid-template-columns: 1fr;
+          .help-hero {
+            grid-template-columns: 1fr !important;
+            padding: 4rem 6vw !important;
+            gap: 2.5rem !important;
           }
-
-          h1 {
-            font-size: 2.2rem;
+          .help-hero-links {
+            display: none !important;
           }
-
-          .grid {
-            grid-template-columns: 1fr;
+          .contact-banner {
+            grid-template-columns: 1fr !important;
+            padding: 4rem 6vw !important;
+            gap: 2rem !important;
           }
-
-          .contact {
-            grid-template-columns: 1fr;
-            text-align: center;
+          .contact-buttons {
+            max-width: 100% !important;
           }
-
           .footer-grid {
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr !important;
+            gap: 2rem !important;
+          }
+          .footer-bottom {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+          }
+          .quick-links-section {
+            padding: 3.5rem 6vw !important;
+          }
+          .faq-section {
+            padding: 4rem 6vw !important;
+          }
+          .scent-section {
+            padding: 4rem 6vw !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .quick-links-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .scent-grid {
+            grid-template-columns: 1fr !important;
+          }
+          .accordion-button {
+            padding: 1.2rem 1.25rem !important;
+          }
+          .accordion-answer {
+            padding: 0 1.25rem 1.2rem !important;
           }
         }
       `}</style>
+
+      <main
+        style={{
+          background: "#FAFAF7",
+          minHeight: "100vh",
+          fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+          color: "#2F3A33",
+          overflowX: "hidden",
+        }}
+      >
+        {/* ── HERO ── */}
+        <section
+          className="help-hero"
+          style={{
+            background: "#FBF5DD",
+            padding: "6rem 6vw",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "4rem",
+            alignItems: "center",
+          }}
+        >
+          <div>
+            <p
+              style={{
+                color: "#0F6E56",
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                fontSize: "11px",
+                marginBottom: "1.25rem",
+              }}
+            >
+              Customer Care
+            </p>
+            <h1
+              style={{
+                fontSize: "clamp(2.5rem, 5vw, 4.5rem)",
+                fontWeight: 300,
+                color: "#2F3A33",
+                lineHeight: 1.08,
+                margin: "0 0 1.5rem",
+              }}
+            >
+              ศูนย์
+              <br />
+              <em style={{ fontStyle: "italic", color: "#0F6E56" }}>ช่วยเหลือ</em>
+            </h1>
+            <p
+              style={{
+                color: "#666",
+                lineHeight: 1.85,
+                maxWidth: 400,
+                marginBottom: "2rem",
+              }}
+            >
+              ค้นหาคำตอบเกี่ยวกับการสั่งซื้อ การจัดส่งสินค้า ผลิตภัณฑ์ บริการ OEM และการติดต่อทีมงานของเรา
+            </p>
+            {/* search bar */}
+            <div style={{ position: "relative", maxWidth: 420 }}>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#aaa"
+                strokeWidth="2"
+                strokeLinecap="round"
+                style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)" }}
+              >
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              <input
+                type="text"
+                placeholder="ค้นหาคำถามที่ต้องการ..."
+                style={{
+                  width: "100%",
+                  padding: "14px 16px 14px 44px",
+                  borderRadius: 40,
+                  border: "1px solid #EFEAE1",
+                  fontSize: "14px",
+                  outline: "none",
+                  background: "#FFFFFF",
+                  fontFamily: "inherit",
+                  boxSizing: "border-box",
+                }}
+              />
+            </div>
+          </div>
+
+          {/* decorative right side — hidden on mobile */}
+          <div
+            className="help-hero-links"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+            }}
+          >
+            {["คำสั่งซื้อ & การชำระเงิน →", "การจัดส่ง & ติดตามพัสดุ →", "ข้อมูลผลิตภัณฑ์ →", "บริการ OEM →"].map((label) => (
+              <div
+                key={label}
+                style={{
+                  background: "#FFFFFF",
+                  border: "1px solid #EFEAE1",
+                  borderRadius: 12,
+                  padding: "1rem 1.5rem",
+                  color: "#2F3A33",
+                  fontSize: "0.9rem",
+                  cursor: "pointer",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <span>{label}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* thin sage rule */}
+        <div style={{ height: 3, background: "#0F6E56" }} />
+
+        {/* ── QUICK LINKS ── */}
+        <section
+          className="quick-links-section"
+          style={{
+            maxWidth: 1280,
+            margin: "0 auto",
+            padding: "5rem 6vw",
+          }}
+        >
+          <p
+            style={{
+              color: "#0F6E56",
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              fontSize: "11px",
+              marginBottom: "0.75rem",
+            }}
+          >
+            Browse by Topic
+          </p>
+          <h2
+            style={{
+              fontSize: "clamp(1.8rem, 3vw, 2.5rem)",
+              fontWeight: 300,
+              marginBottom: "2.5rem",
+            }}
+          >
+            หัวข้อยอดนิยม
+          </h2>
+          <div
+            className="quick-links-grid"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
+              gap: "1.25rem",
+            }}
+          >
+            {QUICK_LINKS.map((item) => (
+              <div
+                key={item.title}
+                style={{
+                  background: "#FFFFFF",
+                  padding: "2rem",
+                  borderRadius: 20,
+                  border: "1px solid #EFEAE1",
+                  cursor: "pointer",
+                  transition: "border-color 0.2s",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1rem",
+                }}
+                onMouseEnter={(e) =>
+                  ((e.currentTarget as HTMLDivElement).style.borderColor = "#0F6E56")
+                }
+                onMouseLeave={(e) =>
+                  ((e.currentTarget as HTMLDivElement).style.borderColor = "#EFEAE1")
+                }
+              >
+                <div
+                  style={{
+                    width: 44,
+                    height: 44,
+                    borderRadius: 12,
+                    background: "#EAF3EC",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: "#0F6E56",
+                  }}
+                >
+                  {item.icon}
+                </div>
+                <div>
+                  <h3
+                    style={{
+                      color: "#2F3A33",
+                      fontSize: "1rem",
+                      fontWeight: 500,
+                      marginBottom: "0.5rem",
+                    }}
+                  >
+                    {item.title}
+                  </h3>
+                  <p style={{ color: "#888", lineHeight: 1.7, fontSize: "0.9rem" }}>
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── FAQ ── */}
+        <section className="faq-section" style={{ background: "#F5F2EB", padding: "6rem 6vw" }}>
+          <div style={{ maxWidth: 800, margin: "0 auto" }}>
+            <p
+              style={{
+                color: "#0F6E56",
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                fontSize: "11px",
+                marginBottom: "0.75rem",
+                textAlign: "center",
+              }}
+            >
+              FAQ
+            </p>
+            <h2
+              style={{
+                fontSize: "clamp(1.8rem, 3vw, 2.5rem)",
+                fontWeight: 300,
+                textAlign: "center",
+                marginBottom: "3rem",
+              }}
+            >
+              คำถามที่พบบ่อย
+            </h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.85rem" }}>
+              {FAQS.map((faq) => (
+                <AccordionItem key={faq.question} question={faq.question} answer={faq.answer} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── SCENT GUIDE ── */}
+        <section className="scent-section" style={{ maxWidth: 1280, margin: "0 auto", padding: "6rem 6vw" }}>
+          <p
+            style={{
+              color: "#0F6E56",
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              fontSize: "11px",
+              marginBottom: "0.75rem",
+            }}
+          >
+            Fragrance Guide
+          </p>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-end",
+              marginBottom: "2.5rem",
+              flexWrap: "wrap",
+              gap: "1rem",
+            }}
+          >
+            <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", fontWeight: 300, margin: 0 }}>
+              คู่มือเลือกกลิ่น
+            </h2>
+            <p style={{ color: "#888", fontSize: "0.9rem" }}>
+              เลือกกลิ่นที่ใช่ให้ทุกช่วงเวลาของคุณพิเศษขึ้น
+            </p>
+          </div>
+
+          <div
+            style={{
+              height: 1,
+              background: "#EFEAE1",
+              marginBottom: "2.5rem",
+            }}
+          />
+
+          <div
+            className="scent-grid"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+              gap: "1.5rem",
+            }}
+          >
+            {SCENT_GUIDE.map((scent) => (
+              <div
+                key={scent.name}
+                style={{
+                  background: "#FFFFFF",
+                  borderRadius: 20,
+                  overflow: "hidden",
+                  border: "1px solid #EFEAE1",
+                }}
+              >
+                {/* coloured top band */}
+                <div
+                  style={{
+                    background: scent.color,
+                    padding: "1.5rem 1.75rem 1.25rem",
+                    borderBottom: "1px solid #EFEAE1",
+                  }}
+                >
+                  <span
+                    style={{
+                      display: "inline-block",
+                      background: "rgba(255,255,255,0.6)",
+                      color: scent.accent,
+                      fontSize: "10px",
+                      letterSpacing: "0.15em",
+                      textTransform: "uppercase",
+                      padding: "3px 10px",
+                      borderRadius: 20,
+                      marginBottom: "0.75rem",
+                    }}
+                  >
+                    {scent.mood}
+                  </span>
+                  <h3
+                    style={{
+                      fontSize: "1.15rem",
+                      fontWeight: 400,
+                      color: "#2F3A33",
+                      margin: 0,
+                    }}
+                  >
+                    {scent.name}
+                  </h3>
+                </div>
+                <div style={{ padding: "1.5rem 1.75rem" }}>
+                  <p style={{ color: "#555", lineHeight: 1.85, marginBottom: "1.25rem", fontSize: "0.9rem" }}>
+                    {scent.description}
+                  </p>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.4rem",
+                    }}
+                  >
+                    <span style={{ fontSize: "11px", color: "#aaa", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                      เหมาะสำหรับ
+                    </span>
+                    <span style={{ fontSize: "0.82rem", color: scent.accent, fontStyle: "italic" }}>
+                      {scent.best}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── CONTACT BANNER ── */}
+        <section
+          className="contact-banner"
+          style={{
+            background: "#0F6E56",
+            color: "#FBF5DD",
+            padding: "6rem 6vw",
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "3rem",
+            alignItems: "center",
+          }}
+        >
+          <div>
+            <p
+              style={{
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                fontSize: "11px",
+                opacity: 0.55,
+                marginBottom: "1.25rem",
+              }}
+            >
+              Still need help?
+            </p>
+            <h2
+              style={{
+                fontSize: "clamp(2rem, 4vw, 3.2rem)",
+                fontWeight: 300,
+                lineHeight: 1.1,
+                margin: "0 0 1rem",
+              }}
+            >
+              ต้องการความ
+              <br />
+              <em style={{ fontStyle: "italic" }}>ช่วยเหลือเพิ่มเติม?</em>
+            </h2>
+            <p style={{ opacity: 0.75, lineHeight: 1.8, maxWidth: 360 }}>
+              "Because every day deserves a moment of bliss." เพราะทุกวันควรมีช่วงเวลาแห่งความสุขเล็ก ๆ ซ่อนอยู่เสมอ
+            </p>
+          </div>
+          <div
+            className="contact-buttons"
+            style={{ display: "flex", flexDirection: "column", gap: "1rem", maxWidth: 340 }}
+          >
+            <a
+              href="mailto:hello@tharabliss.com"
+              style={{
+                display: "block",
+                background: "#FBF5DD",
+                color: "#0F6E56",
+                textDecoration: "none",
+                padding: "1rem 1.75rem",
+                borderRadius: 40,
+                fontWeight: 500,
+                fontSize: "0.85rem",
+                letterSpacing: "0.1em",
+                textAlign: "center",
+              }}
+            >
+              ส่งอีเมลหาเรา
+            </a>
+            <a
+              href="https://line.me"
+              target="_blank"
+              style={{
+                display: "block",
+                border: "1px solid rgba(251,245,221,0.4)",
+                color: "#FBF5DD",
+                textDecoration: "none",
+                padding: "1rem 1.75rem",
+                borderRadius: 40,
+                fontSize: "0.85rem",
+                letterSpacing: "0.1em",
+                textAlign: "center",
+              }}
+            >
+              ติดต่อผ่าน LINE Official
+            </a>
+          </div>
+        </section>
+
+        {/* ── FOOTER ── */}
+        <footer
+          style={{
+            background: "#2F3A33",
+            color: "#FBF5DD",
+            padding: "4rem 8vw 2.5rem",
+          }}
+        >
+          <div
+            className="footer-grid"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "2fr 1fr 1fr",
+              gap: "3rem",
+              paddingBottom: "3rem",
+              borderBottom: "1px solid rgba(251,245,221,0.1)",
+            }}
+          >
+            <div>
+              <h3 style={{ fontSize: "1.5rem", fontWeight: 300, marginBottom: "0.75rem" }}>
+                Thara Bliss
+              </h3>
+              <p style={{ color: "rgba(251,245,221,0.5)", lineHeight: 1.8, fontSize: "0.9rem", maxWidth: 280 }}>
+                Luxury Aromatic Products & Wellness Collection — crafted in Thailand for daily calm.
+              </p>
+            </div>
+            <div>
+              <p style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", opacity: 0.4, marginBottom: "1.2rem" }}>
+                Explore
+              </p>
+              {["Shop", "About", "Journal", "Help"].map((link) => (
+                <a key={link} href={`/${link.toLowerCase()}`} style={{ display: "block", color: "rgba(251,245,221,0.7)", textDecoration: "none", fontSize: "0.9rem", marginBottom: "0.6rem" }}>
+                  {link}
+                </a>
+              ))}
+            </div>
+            <div>
+              <p style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", opacity: 0.4, marginBottom: "1.2rem" }}>
+                Connect
+              </p>
+              {[
+                { name: "Instagram", href: "https://shorturl.at/AfAPc" },
+                { name: "Facebook", href: "https://shorturl.at/BJPYF" },
+                { name: "TikTok", href: "https://www.tiktok.com/@tharabliss?_r=1&_t=ZS-975GjfaqjAe" },
+                { name: "Shopee", href: "https://shorturl.at/2Eg4w" },
+              ].map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "block",
+                    color: "rgba(251,245,221,0.7)",
+                    textDecoration: "none",
+                    fontSize: "0.9rem",
+                    marginBottom: "0.6rem",
+                    transition: "0.2s",
+                  }}
+                >
+                  {item.name}
+                </a>
+              ))}
+            </div>
+          </div>
+          <div
+            className="footer-bottom"
+            style={{ paddingTop: "1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}
+          >
+            <p style={{ color: "rgba(251,245,221,0.3)", fontSize: "12px" }}>© 2026 Thara Bliss. All rights reserved.</p>
+            <p style={{ color: "rgba(251,245,221,0.3)", fontSize: "12px" }}>Calm. Balance. Bliss.</p>
+          </div>
+        </footer>
+      </main>
     </>
   );
 }
