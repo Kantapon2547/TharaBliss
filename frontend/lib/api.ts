@@ -37,7 +37,7 @@ export async function getProducts(): Promise<Product[]> {
     console.log("API_URL =", API_URL);
 
     const res = await fetch(`${API_URL}/api/products/`, {
-      cache: "no-store",
+      next: { revalidate: 60 }
     });
 
     console.log("STATUS =", res.status);
@@ -62,7 +62,7 @@ export async function getProduct(
 ): Promise<Product | null> {
   try {
     const res = await fetch(`${API_URL}/api/products/${id}/`, {
-      cache: "no-store",
+      next: { revalidate: 60 }
     });
 
     if (!res.ok) {
@@ -79,7 +79,7 @@ export async function getProduct(
 export async function getSettings(): Promise<SiteSettings | null> {
   try {
     const res = await fetch(`${API_URL}/api/site-settings/`, {
-      cache: "no-store",
+      next: { revalidate: 60 }
     });
 
     if (!res.ok) {
