@@ -2,6 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "../../../components/Navbar";
 import {
+  getProduct,
+  getSettings,
+  SiteSettings,
+  Product,
+} from "@/lib/api";
+import {
   ProductImagePanel,
   ProductSizeAndPrice,
   ProductAccordions,
@@ -35,32 +41,6 @@ interface SiteSettings {
   shopee_regular_url: string | null;
   shopee_set_url: string | null;
   tiktok_url: string | null;
-}
-
-async function getProduct(id: string): Promise<Product | null> {
-  try {
-    const res = await fetch(`http://127.0.0.1:8000/api/products/${id}/`, {
-      cache: "no-store",
-    });
-    if (!res.ok) return null;
-    return await res.json();
-  } catch (err) {
-    console.error("getProduct error:", err);
-    return null;
-  }
-}
-
-async function getSettings(): Promise<SiteSettings | null> {
-  try {
-    const res = await fetch("http://127.0.0.1:8000/api/site-settings/", {
-      cache: "no-store",
-    });
-    if (!res.ok) return null;
-    return await res.json();
-  } catch (err) {
-    console.error("getSettings error:", err);
-    return null;
-  }
 }
 
 export default async function ProductDetail({

@@ -1,30 +1,6 @@
 import Navbar from "../../components/Navbar";
 import ProductCard from "../../components/ProductCard";
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: string;
-  scent: string;
-  image: string | null;
-  category?: {
-    id: number;
-    name: string;
-  };
-}
-
-async function getProducts(): Promise<Product[]> {
-  try {
-    const res = await fetch("http://127.0.0.1:8000/api/products/", {
-      cache: "no-store",
-    });
-    if (!res.ok) return [];
-    return res.json();
-  } catch {
-    return [];
-  }
-}
+import { getProducts, Product } from "@/lib/api";
 
 const CERTIFICATIONS = [
   { label: "Natural Essence", icon: "✦" },

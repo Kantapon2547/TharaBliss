@@ -1,9 +1,7 @@
-"use client";
-
-import { useState } from "react";
 import Image from "next/image";
 import Navbar from "../../components/Navbar";
 import { motion } from "framer-motion";
+import { getProducts } from "@/lib/api";
 
 const HERO = {
   img: "/images/banner/product_banner.jpg",
