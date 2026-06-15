@@ -146,10 +146,6 @@ CORS_ALLOWED_ORIGINS = [
     "https://thara-bliss.vercel.app",
 ]
 
-CLOUDINARY_CLOUD_NAME="dwhfrcluv"
-CLOUDINARY_API_KEY="392147426186493"
-CLOUDINARY_API_SECRET="0waIGW_VjBYj7_kryjsfuNx7wQ0"
-
 CLOUDINARY_STORAGE = {
     "CLOUD_NAME": os.environ["CLOUDINARY_CLOUD_NAME"],
     "API_KEY": os.environ["CLOUDINARY_API_KEY"],
@@ -157,3 +153,12 @@ CLOUDINARY_STORAGE = {
 }
 
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    },
+}
