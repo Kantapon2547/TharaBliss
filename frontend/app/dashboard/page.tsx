@@ -88,7 +88,10 @@ export default function HomePage() {
         }}
       >
         {/* ── HERO ── */}
-        <section style={{ position: "relative", height: "95vh", minHeight: 600, overflow: "hidden" }}>
+        <section
+          className="hero-section"
+          style={{ position: "relative", height: "95vh", minHeight: 600, overflow: "hidden" }}
+        >
           <Image
             src={HERO.img}
             alt="Thara Bliss — Create Your Own"
@@ -98,6 +101,7 @@ export default function HomePage() {
           />
           {/* left-to-right scrim so text pops on the left side */}
           <div
+            className="hero-scrim"
             style={{
               position: "absolute",
               inset: 0,
@@ -106,6 +110,7 @@ export default function HomePage() {
             }}
           />
           <div
+            className="hero-content"
             style={{
               position: "relative",
               zIndex: 2,
@@ -130,7 +135,7 @@ export default function HomePage() {
             </p>
             <h1
               style={{
-                fontSize: "clamp(3rem, 7vw, 6rem)",
+                fontSize: "clamp(2.6rem, 7vw, 6rem)",
                 fontWeight: 300,
                 color: "#FBF5DD",
                 lineHeight: 1.05,
@@ -193,6 +198,7 @@ export default function HomePage() {
 
           {/* scroll hint */}
           <div
+            className="scroll-hint"
             style={{
               position: "absolute",
               bottom: "2.5rem",
@@ -228,6 +234,7 @@ export default function HomePage() {
         {/* ── STATS BAR ── */}
         <div style={{ background: "#0F6E56", padding: "2rem 6vw" }}>
           <div
+            className="stats-grid"
             style={{
               maxWidth: 1000,
               margin: "0 auto",
@@ -283,6 +290,7 @@ export default function HomePage() {
             padding: "8rem 6vw",
             textAlign: "center",
           }}
+          className="brand-statement"
         >
           <p
             style={{
@@ -368,6 +376,7 @@ export default function HomePage() {
             <motion.div
               key={item.title}
               {...fadeUp}
+              className="collection-row"
               style={{
                 display: "grid",
                 gridTemplateColumns: "1fr 1fr",
@@ -375,7 +384,7 @@ export default function HomePage() {
               }}
             >
               {index % 2 === 0 && (
-                <div style={{ position: "relative", overflow: "hidden" }}>
+                <div className="collection-image" style={{ position: "relative", overflow: "hidden" }}>
                   <Image
                     src={item.image}
                     alt={item.title}
@@ -385,6 +394,7 @@ export default function HomePage() {
                 </div>
               )}
               <div
+                className="collection-text"
                 style={{
                   background: index % 2 === 0 ? "#F5F2EB" : "#FAFAF7",
                   display: "flex",
@@ -435,7 +445,7 @@ export default function HomePage() {
                 </div>
               </div>
               {index % 2 === 1 && (
-                <div style={{ position: "relative", overflow: "hidden" }}>
+                <div className="collection-image" style={{ position: "relative", overflow: "hidden" }}>
                   <Image
                     src={item.image}
                     alt={item.title}
@@ -470,6 +480,7 @@ export default function HomePage() {
             margin: "0 auto",
             padding: "8rem 6vw",
           }}
+          className="services-section"
         >
           <div style={{ marginBottom: "4rem" }}>
             <p
@@ -484,6 +495,7 @@ export default function HomePage() {
               Our Services
             </p>
             <div
+              className="services-header"
               style={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -709,6 +721,7 @@ export default function HomePage() {
           }}
         >
           <div
+            className="footer-grid"
             style={{
               display: "grid",
               gridTemplateColumns: "2fr 1fr 1fr",
@@ -828,6 +841,79 @@ export default function HomePage() {
           </div>
         </footer>
       </main>
+
+      {/* ── RESPONSIVE STYLES ── */}
+      <style>{`
+        @media (max-width: 768px) {
+          /* Hero: shorter height, less side padding */
+          .hero-section {
+            height: 80vh !important;
+            min-height: 480px !important;
+          }
+          .hero-content {
+            padding: 0 6vw !important;
+            max-width: 100% !important;
+          }
+          .hero-scrim {
+            background: linear-gradient(to bottom, rgba(10,22,14,0.35) 0%, rgba(10,22,14,0.75) 75%) !important;
+          }
+          .scroll-hint {
+            display: none !important;
+          }
+
+          /* Stats: stack to 1 column for readability */
+          .stats-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1.5rem !important;
+          }
+
+          /* Brand statement: tighter padding */
+          .brand-statement {
+            padding: 4rem 6vw !important;
+          }
+
+          /* Collections: stack image above text, smaller image height */
+          .collection-row {
+            grid-template-columns: 1fr !important;
+            min-height: auto !important;
+          }
+          .collection-image {
+            height: 280px !important;
+            order: -1 !important;
+          }
+          .collection-text {
+            padding: 2.5rem 6vw !important;
+          }
+
+          /* Services: tighter section padding, stack header */
+          .services-section {
+            padding: 4rem 6vw !important;
+          }
+          .services-header {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+          }
+          .services-header p {
+            max-width: 100% !important;
+          }
+
+          /* Footer: stack columns */
+          .footer-grid {
+            grid-template-columns: 1fr !important;
+            gap: 2.5rem !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .hero-section {
+            height: 75vh !important;
+            min-height: 420px !important;
+          }
+          .collection-image {
+            height: 220px !important;
+          }
+        }
+      `}</style>
     </>
   );
 }

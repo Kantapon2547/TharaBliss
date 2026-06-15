@@ -23,14 +23,19 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // close mobile menu on route change
-  useEffect(() => { setMenuOpen(false); }, [pathname]);
+  // close menu on route change
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  // lock body scroll when menu open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "auto";
+  }, [menuOpen]);
 
   const isActive = (href: string) => {
     if (!pathname) return false;
-    const cleanPath = pathname.replace(/\/$/, "");
-    const cleanHref = href.replace(/\/$/, "");
-    return cleanPath === cleanHref;
+    return pathname.replace(/\/$/, "") === href.replace(/\/$/, "");
   };
 
   return (
@@ -39,13 +44,11 @@ export default function Navbar() {
         style={{
           position: "sticky",
           top: 0,
-          zIndex: 50,
+          zIndex: 1000,
           background: scrolled ? "rgba(255,255,255,0.97)" : "rgba(255,255,255,0.92)",
           backdropFilter: "blur(12px)",
           borderBottom: scrolled ? "1px solid #ECE8DF" : "1px solid transparent",
-          transition: "border-color 0.3s, background 0.3s, box-shadow 0.3s",
           boxShadow: scrolled ? "0 2px 24px rgba(47,58,51,0.06)" : "none",
-          fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
         }}
       >
         <div
@@ -55,47 +58,24 @@ export default function Navbar() {
             padding: "0 6vw",
             height: 68,
             display: "flex",
-            justifyContent: "space-between",
             alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
-          {/* ── LOGO ── */}
-          <Link href="/" style={{ textDecoration: "none", flexShrink: 0 }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 1 }}>
-              <span
-                style={{
-                  color: "#2F3A33",
-                  fontSize: 20,
-                  fontWeight: 400,
-                  letterSpacing: "0.04em",
-                  lineHeight: 1,
-                }}
-              >
-                Thara<em style={{ fontStyle: "italic", color: "#0F6E56" }}>Bliss</em>
+          {/* LOGO */}
+          <Link href="/" style={{ textDecoration: "none" }}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <span style={{ fontSize: 20, color: "#2F3A33" }}>
+                Thara<em style={{ color: "#0F6E56" }}>Bliss</em>
               </span>
-              <span
-                style={{
-                  fontSize: 9,
-                  color: "#aaa",
-                  letterSpacing: "0.22em",
-                  textTransform: "uppercase",
-                  lineHeight: 2,
-                }}
-              >
-                Refresh Your Senses. Relax Your Mind.
+              <span style={{ fontSize: 9, color: "#aaa", letterSpacing: "0.2em" }}>
+                Refresh Your Senses
               </span>
             </div>
           </Link>
 
-          {/* ── NAV LINKS (desktop) ── */}
-          <div
-            style={{
-              display: "flex",
-              gap: "0.25rem",
-              alignItems: "center",
-            }}
-            className="desktop-nav"
-          >
+          {/* DESKTOP NAV */}
+          <div className="desktop-nav" style={{ display: "flex", gap: 6 }}>
             {NAV_LINKS.map((item) => {
               const active = isActive(item.href);
               return (
@@ -103,28 +83,12 @@ export default function Navbar() {
                   key={item.href}
                   href={item.href}
                   style={{
+                    padding: "6px 12px",
+                    borderRadius: 30,
                     textDecoration: "none",
                     color: active ? "#0F6E56" : "#555",
-                    fontSize: "0.875rem",
-                    fontWeight: 400,
-                    letterSpacing: "0.02em",
-                    padding: "0.4rem 0.85rem",
-                    borderRadius: 40,
                     background: active ? "#EAF3EC" : "transparent",
-                    transition: "color 0.2s, background 0.2s",
-                    position: "relative",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!active) {
-                      (e.currentTarget as HTMLAnchorElement).style.color = "#2F3A33";
-                      (e.currentTarget as HTMLAnchorElement).style.background = "#F5F2EB";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!active) {
-                      (e.currentTarget as HTMLAnchorElement).style.color = "#555";
-                      (e.currentTarget as HTMLAnchorElement).style.background = "transparent";
-                    }
+                    fontSize: 14,
                   }}
                 >
                   {item.label}
@@ -133,117 +97,101 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* ── RIGHT SIDE ── */}
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexShrink: 0 }}>
+          {/* RIGHT */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <Link
               href="https://www.facebook.com/share/1Bm1TTxF7p/"
               target="_blank"
-              rel="noopener noreferrer"
               style={{
                 background: "#0F6E56",
                 color: "#FBF5DD",
-                textDecoration: "none",
-                padding: "0.55rem 1.4rem",
-                borderRadius: 40,
-                fontSize: "0.82rem",
-                letterSpacing: "0.1em",
+                padding: "8px 16px",
+                borderRadius: 30,
+                fontSize: 12,
                 textTransform: "uppercase",
-                fontWeight: 400,
-                whiteSpace: "nowrap",
               }}
             >
-              Contact Us
+              Contact
             </Link>
 
-            {/* mobile hamburger */}
+            {/* HAMBURGER */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Toggle menu"
+              aria-expanded={menuOpen}
+              className="hamburger"
               style={{
                 display: "none",
                 background: "none",
                 border: "none",
                 cursor: "pointer",
-                padding: "4px",
-                color: "#2F3A33",
               }}
-              className="hamburger"
             >
-              {menuOpen ? (
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
-              ) : (
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-                  <line x1="3" y1="7" x2="21" y2="7"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="17" x2="21" y2="17"/>
-                </svg>
-              )}
+              {menuOpen ? "✕" : "☰"}
             </button>
           </div>
         </div>
-
-        {/* ── MOBILE MENU ── */}
-        {menuOpen && (
-          <div
-            style={{
-              borderTop: "1px solid #EFEAE1",
-              background: "#FFFFFF",
-              padding: "1rem 6vw 1.5rem",
-              display: "flex",
-              flexDirection: "column",
-              gap: "0.25rem",
-            }}
-          >
-            {NAV_LINKS.map((item) => {
-              const active = isActive(item.href);
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  style={{
-                    textDecoration: "none",
-                    color: active ? "#0F6E56" : "#2F3A33",
-                    fontSize: "1rem",
-                    fontWeight: active ? 500 : 400,
-                    padding: "0.75rem 1rem",
-                    borderRadius: 12,
-                    background: active ? "#EAF3EC" : "transparent",
-                    letterSpacing: "0.02em",
-                  }}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
-            <div style={{ height: 1, background: "#EFEAE1", margin: "0.75rem 0" }} />
-            <Link
-              href="https://www.facebook.com/share/1Bm1TTxF7p/"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                background: "#0F6E56",
-                color: "#FBF5DD",
-                textDecoration: "none",
-                padding: "0.85rem 1rem",
-                borderRadius: 12,
-                fontSize: "0.9rem",
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                fontWeight: 400,
-                textAlign: "center",
-              }}
-            >
-              Contact Us
-            </Link>
-          </div>
-        )}
       </nav>
 
-      {/* responsive style */}
+      {/* MOBILE OVERLAY MENU */}
+      <div
+        style={{
+          position: "fixed",
+          inset: 0,
+          background: "rgba(255,255,255,0.98)",
+          transform: menuOpen ? "translateY(0)" : "translateY(-100%)",
+          transition: "transform 0.3s ease",
+          zIndex: 999,
+          display: "flex",
+          flexDirection: "column",
+          padding: "90px 24px",
+          gap: 12,
+        }}
+      >
+        {NAV_LINKS.map((item) => {
+          const active = isActive(item.href);
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={() => setMenuOpen(false)}
+              style={{
+                fontSize: 18,
+                padding: "14px 12px",
+                borderRadius: 12,
+                background: active ? "#EAF3EC" : "transparent",
+                color: active ? "#0F6E56" : "#2F3A33",
+                textDecoration: "none",
+              }}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
+
+        <Link
+          href="https://www.facebook.com/share/1Bm1TTxF7p/"
+          target="_blank"
+          onClick={() => setMenuOpen(false)}
+          style={{
+            marginTop: 20,
+            background: "#0F6E56",
+            color: "#FBF5DD",
+            padding: "14px",
+            borderRadius: 12,
+            textAlign: "center",
+            textTransform: "uppercase",
+          }}
+        >
+          Contact Us
+        </Link>
+      </div>
+
+      {/* RESPONSIVE RULES */}
       <style>{`
         @media (max-width: 768px) {
           .desktop-nav { display: none !important; }
-          .hamburger { display: flex !important; }
+          .hamburger { display: block !important; font-size: 22px; }
         }
       `}</style>
     </>

@@ -1,6 +1,6 @@
 import Navbar from "../../components/Navbar";
 import ProductCard from "../../components/ProductCard";
-import { getProducts, Product } from "@/lib/api";
+import { getProducts } from "@/lib/api";
 
 const CERTIFICATIONS = [
   { label: "Natural Essence", icon: "✦" },
@@ -25,7 +25,13 @@ export default async function DashboardPage() {
         }}
       >
         {/* ── HERO ── */}
-        <section style={{ position: "relative", height: "88vh", minHeight: 540 }}>
+        <section
+          style={{
+            position: "relative",
+            height: "88vh",
+            minHeight: 540,
+          }}
+        >
           <img
             src="/images/banner/home_banner.jpg"
             alt="Thara Bliss aroma balm collection"
@@ -38,7 +44,7 @@ export default async function DashboardPage() {
               objectPosition: "center",
             }}
           />
-          {/* gradient: lighter on right so text pops on left */}
+
           <div
             style={{
               position: "absolute",
@@ -47,6 +53,7 @@ export default async function DashboardPage() {
                 "linear-gradient(to right, rgba(10,22,14,0.78) 0%, rgba(10,22,14,0.35) 55%, rgba(10,22,14,0.1) 100%)",
             }}
           />
+
           <div
             style={{
               position: "relative",
@@ -56,7 +63,7 @@ export default async function DashboardPage() {
               flexDirection: "column",
               justifyContent: "center",
               padding: "0 8vw",
-              maxWidth: 680,
+              maxWidth: 700,
             }}
           >
             <p
@@ -70,37 +77,38 @@ export default async function DashboardPage() {
             >
               Product Collection
             </p>
+
             <h1
               style={{
                 fontSize: "clamp(2.8rem, 6vw, 5.2rem)",
                 fontWeight: 300,
                 color: "#FBF5DD",
                 lineHeight: 1.08,
-                margin: "0 0 1.5rem",
               }}
             >
-              Find Your
-              <br />
-              <em style={{ fontStyle: "italic" }}>Signature</em>
-              <br />
+              Find Your <br />
+              <em style={{ fontStyle: "italic" }}>Signature</em> <br />
               Scent.
             </h1>
+
             <p
               style={{
                 color: "rgba(251,245,221,0.8)",
                 lineHeight: 1.8,
                 fontSize: "1rem",
                 maxWidth: 420,
-                marginBottom: "2rem",
+                marginTop: "1.5rem",
               }}
             >
               บาล์มอโรมาสัญชาติไทย ออกแบบกลิ่นให้หอมละมุน ใช้ได้ทุกวัน
               ช่วยผ่อนคลาย สดชื่น และดูแลอารมณ์อย่างอ่อนโยน
             </p>
+
             <a
               href="#collection"
               style={{
                 display: "inline-block",
+                marginTop: "2rem",
                 background: "#FBF5DD",
                 color: "#0F6E56",
                 padding: "0.85rem 2.2rem",
@@ -109,7 +117,6 @@ export default async function DashboardPage() {
                 letterSpacing: "0.12em",
                 textTransform: "uppercase",
                 textDecoration: "none",
-                fontWeight: 500,
                 width: "fit-content",
               }}
             >
@@ -125,14 +132,13 @@ export default async function DashboardPage() {
             padding: "1rem 4vw",
             display: "flex",
             justifyContent: "center",
-            alignItems: "center",
-            gap: "clamp(1.5rem, 4vw, 4rem)",
             flexWrap: "wrap",
+            gap: "2rem",
           }}
         >
-          {CERTIFICATIONS.map((cert) => (
+          {CERTIFICATIONS.map((c) => (
             <div
-              key={cert.label}
+              key={c.label}
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -140,18 +146,15 @@ export default async function DashboardPage() {
                 color: "#FBF5DD",
               }}
             >
-              <span style={{ color: "rgba(251,245,221,0.5)", fontSize: "0.6rem" }}>
-                {cert.icon}
-              </span>
+              <span style={{ opacity: 0.6 }}>{c.icon}</span>
               <span
                 style={{
                   fontSize: "11px",
                   letterSpacing: "0.14em",
                   textTransform: "uppercase",
-                  opacity: 0.9,
                 }}
               >
-                {cert.label}
+                {c.label}
               </span>
             </div>
           ))}
@@ -163,48 +166,39 @@ export default async function DashboardPage() {
           style={{
             maxWidth: 1400,
             margin: "0 auto",
-            padding: "5rem 5vw 6rem",
+            padding: "5rem 5vw",
           }}
         >
-          {/* section header */}
           <div
             style={{
               display: "flex",
-              alignItems: "baseline",
               justifyContent: "space-between",
-              marginBottom: "3rem",
               flexWrap: "wrap",
               gap: "1rem",
+              marginBottom: "3rem",
             }}
           >
             <div>
               <p
                 style={{
                   color: "#0F6E56",
-                  letterSpacing: "0.18em",
                   textTransform: "uppercase",
+                  letterSpacing: "0.18em",
                   fontSize: "11px",
-                  marginBottom: "0.5rem",
                 }}
               >
                 Featured Collection
               </p>
-              <h2
-                style={{
-                  fontSize: "clamp(1.8rem, 3vw, 2.8rem)",
-                  fontWeight: 300,
-                  margin: 0,
-                }}
-              >
+              <h2 style={{ fontWeight: 300, margin: 0 }}>
                 Aroma Balm Series
               </h2>
             </div>
-            <p style={{ color: "#888", fontSize: "0.9rem" }}>
+
+            <p style={{ color: "#888" }}>
               {products.length} product{products.length !== 1 ? "s" : ""}
             </p>
           </div>
 
-          {/* decorative rule */}
           <div
             style={{
               height: 1,
@@ -217,165 +211,86 @@ export default async function DashboardPage() {
             <div
               style={{
                 textAlign: "center",
-                color: "#888",
-                padding: "5rem 0",
-                background: "#FFFFFF",
+                padding: "4rem",
+                background: "#fff",
                 borderRadius: 16,
                 border: "1px solid #EFEAE1",
               }}
             >
-              <p style={{ fontSize: "2rem", marginBottom: "1rem" }}>🌿</p>
-              <p style={{ fontSize: "1.1rem", fontWeight: 300 }}>
-                Products are on their way.
-              </p>
-              <p style={{ fontSize: "0.9rem", marginTop: "0.5rem" }}>
-                Check back soon for our full collection.
-              </p>
+              <p style={{ fontSize: "2rem" }}>🌿</p>
+              <p>Products are coming soon</p>
             </div>
           ) : (
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+                gridTemplateColumns:
+                  "repeat(auto-fill, minmax(280px, 1fr))",
                 gap: "2rem",
               }}
             >
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
+              {products.map((p) => (
+                <ProductCard key={p.id} product={p} />
               ))}
             </div>
           )}
         </section>
 
-        {/* ── BRAND STRIP — mid-page palette break ── */}
+        {/* ── BRAND STRIP ── */}
         <section
           style={{
             background: "#FBF5DD",
             padding: "5rem 6vw",
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
-            gap: "4rem",
-            alignItems: "center",
+            gap: "3rem",
           }}
         >
           <div>
-            <p
-              style={{
-                color: "#0F6E56",
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                fontSize: "11px",
-                marginBottom: "1.2rem",
-              }}
-            >
+            <p style={{ color: "#0F6E56", textTransform: "uppercase" }}>
               Why Thara Bliss
             </p>
-            <h2
-              style={{
-                fontSize: "clamp(1.8rem, 3vw, 2.8rem)",
-                fontWeight: 300,
-                lineHeight: 1.2,
-                marginBottom: "1.5rem",
-              }}
-            >
-              More than a balm —<br />
-              <em style={{ fontStyle: "italic" }}>a daily ritual.</em>
+            <h2 style={{ fontWeight: 300 }}>
+              More than a balm — <em>a ritual</em>
             </h2>
-            <p style={{ lineHeight: 1.9, color: "#555", maxWidth: 400 }}>
-              Aromatic Balm สูตรพรีเมียมสัญชาติไทย ผลิตจากส่วนผสมคุณภาพสูง ออกแบบกลิ่นให้ช่วยผ่อนคลาย
-              สดชื่น และดูแลสุขภาพจิตใจอย่างอ่อนโยนในทุกวัน
+            <p style={{ color: "#555" }}>
+              Aromatic Balm crafted for emotional balance and daily calm.
             </p>
           </div>
-          <div style={{ overflow: "hidden", borderRadius: 16, height: 500 }}>
-            <img
-              src="images/products/aroma.jpg"
-              alt="Thara Bliss product lifestyle"
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            />
-          </div>
+
+          <img
+            src="/images/products/aroma.jpg"
+            alt="product"
+            style={{ width: "100%", borderRadius: 16 }}
+          />
         </section>
 
-        {/* ── CTA BANNER ── */}
+        {/* ── CTA ── */}
         <section
           style={{
             background: "#0F6E56",
             color: "#FBF5DD",
             textAlign: "center",
-            padding: "6rem 2rem",
-            position: "relative",
-            overflow: "hidden",
+            padding: "5rem 2rem",
           }}
         >
-          {/* faint large watermark text */}
-          <span
-            aria-hidden
+          <h2 style={{ fontWeight: 300 }}>
+            Choose Your Signature Scent
+          </h2>
+          <a
+            href="#collection"
             style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              fontSize: "clamp(8rem, 20vw, 18rem)",
-              fontWeight: 700,
-              opacity: 0.04,
-              whiteSpace: "nowrap",
-              letterSpacing: "0.05em",
+              display: "inline-block",
+              marginTop: "2rem",
+              border: "1px solid #FBF5DD",
+              padding: "0.8rem 2rem",
+              borderRadius: 40,
               color: "#FBF5DD",
-              pointerEvents: "none",
-              userSelect: "none",
+              textDecoration: "none",
             }}
           >
-            BLISS
-          </span>
-          <div style={{ position: "relative", zIndex: 1 }}>
-            <p
-              style={{
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                fontSize: "11px",
-                opacity: 0.6,
-                marginBottom: "1.2rem",
-              }}
-            >
-              Discover Your Scent
-            </p>
-            <h2
-              style={{
-                fontSize: "clamp(2rem, 5vw, 4rem)",
-                fontWeight: 300,
-                margin: "0 0 1.5rem",
-                lineHeight: 1.1,
-              }}
-            >
-              เลือกกลิ่นที่เป็น<em style={{ fontStyle: "italic" }}>ตัวคุณ</em>
-            </h2>
-            <p
-              style={{
-                opacity: 0.8,
-                lineHeight: 1.8,
-                maxWidth: 480,
-                margin: "0 auto 2.5rem",
-                fontSize: "0.95rem",
-              }}
-            >
-              เติมเต็มช่วงเวลาแห่งความผ่อนคลายกับผลิตภัณฑ์กลิ่นหอมที่สะท้อนตัวตนของคุณ
-            </p>
-            <a
-              href="#collection"
-              style={{
-                display: "inline-block",
-                border: "1px solid rgba(251,245,221,0.6)",
-                color: "#FBF5DD",
-                padding: "0.85rem 2.5rem",
-                borderRadius: 40,
-                fontSize: "0.85rem",
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                textDecoration: "none",
-              }}
-            >
-              Browse Collection
-            </a>
-          </div>
+            Browse Collection
+          </a>
         </section>
 
         {/* ── FOOTER ── */}
@@ -383,141 +298,12 @@ export default async function DashboardPage() {
           style={{
             background: "#2F3A33",
             color: "#FBF5DD",
-            padding: "4rem 8vw 2.5rem",
+            padding: "3rem 6vw",
           }}
         >
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "2fr 1fr 1fr",
-              gap: "3rem",
-              paddingBottom: "3rem",
-              borderBottom: "1px solid rgba(251,245,221,0.12)",
-              flexWrap: "wrap",
-            }}
-          >
-            {/* brand column */}
-            <div>
-              <h3
-                style={{
-                  fontSize: "1.5rem",
-                  fontWeight: 300,
-                  marginBottom: "0.75rem",
-                  color: "#FBF5DD",
-                }}
-              >
-                Thara Bliss
-              </h3>
-              <p
-                style={{
-                  color: "rgba(251,245,221,0.55)",
-                  lineHeight: 1.8,
-                  fontSize: "0.9rem",
-                  maxWidth: 280,
-                }}
-              >
-                ไม่ใช่แค่ความหอม แต่คือการดูแลอารมณ์และจิตใจในทุกวัน — เลือกกลิ่นที่สะท้อนตัวตนและอยู่กับคุณในทุกช่วงเวลา
-              </p>
-            </div>
-
-            {/* nav column */}
-            <div>
-              <p
-                style={{
-                  fontSize: "11px",
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase",
-                  opacity: 0.45,
-                  marginBottom: "1.2rem",
-                }}
-              >
-                Explore
-              </p>
-              {["Shop", "About", "Journal"].map((link) => (
-                <a
-                  key={link}
-                  href={`/${link.toLowerCase()}`}
-                  style={{
-                    display: "block",
-                    color: "rgba(251,245,221,0.75)",
-                    textDecoration: "none",
-                    fontSize: "0.9rem",
-                    marginBottom: "0.6rem",
-                  }}
-                >
-                  {link}
-                </a>
-              ))}
-            </div>
-
-            {/* contact column */}
-            <div>
-              <p
-                style={{
-                  fontSize: "11px",
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase",
-                  opacity: 0.45,
-                  marginBottom: "1.2rem",
-                }}
-              >
-                Connect
-              </p>
-              {[
-                {
-                 name: "Instagram",
-                 href: "https://shorturl.at/AfAPc",
-                },
-                {
-                name: "Facebook",
-                href: "https://shorturl.at/BJPYF",
-                },
-                {
-                name: "TikTok",
-                href: "https://www.tiktok.com/@tharabliss?_r=1&_t=ZS-975GjfaqjAe",
-                },
-                {
-                name: "Shopee",
-                href: "https://shorturl.at/2Eg4w",
-                },
-              ].map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: "block",
-                    color: "rgba(251,245,221,0.7)",
-                    textDecoration: "none",
-                    fontSize: "0.9rem",
-                    marginBottom: "0.6rem",
-                    transition: "0.2s",
-                  }}
-                >
-                  {item.name}
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <div
-            style={{
-              paddingTop: "1.5rem",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: "0.5rem",
-            }}
-          >
-            <p style={{ color: "rgba(251,245,221,0.35)", fontSize: "12px" }}>
-              © 2026 Thara Bliss. All rights reserved.
-            </p>
-            <p style={{ color: "rgba(251,245,221,0.35)", fontSize: "12px" }}>
-              Calm. Balance. Bliss.
-            </p>
-          </div>
+          <p style={{ opacity: 0.6, fontSize: 12 }}>
+            © 2026 Thara Bliss
+          </p>
         </footer>
       </main>
     </>

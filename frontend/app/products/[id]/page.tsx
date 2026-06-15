@@ -4,8 +4,6 @@ import Navbar from "../../../components/Navbar";
 import {
   getProduct,
   getSettings,
-  SiteSettings as ApiSiteSettings,
-  Product as ApiProduct,
 } from "@/lib/api";
 
 import {
@@ -19,40 +17,19 @@ interface FragranceNote {
   notes: string;
 }
 
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: string;
-  scent: string;
-  image: string | null;
-  images?: string[];
-  category?: {
-    id: number;
-    name: string;
-    slug?: string;
-  };
-  ingredients?: string;
-  how_to_use?: string;
-  fragrance_notes?: FragranceNote[];
-  sizes?: { label: string; price: string }[];
-}
-
-interface SiteSettings {
-  shopee_regular_url: string | null;
-  shopee_set_url: string | null;
-  tiktok_url: string | null;
-}
-
 export const dynamic = "force-dynamic";
 
 export default async function ProductDetail({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
-  const { id } = await params;
-  const [product, settings] = await Promise.all([getProduct(id), getSettings()]);
+  const { id } = params;
+
+  const [product, settings] = await Promise.all([
+    getProduct(id),
+    getSettings(),
+  ]);
 
   if (!product) {
     return (
@@ -92,8 +69,9 @@ export default async function ProductDetail({
     );
   }
 
-  const categoryName = product.category?.name?.toLowerCase() || "";
-  const categorySlug = product.category?.slug?.toLowerCase() || "";
+  const categoryName = product.category?.name?.toLowerCase() ?? "";
+  const categorySlug = product.category?.slug?.toLowerCase() ?? "";
+
   const isSet =
     categoryName.includes("set") ||
     categorySlug.includes("set") ||
@@ -101,10 +79,10 @@ export default async function ProductDetail({
     categoryName.includes("trio") ||
     categoryName.includes("bundle");
 
-  const shopeeUrl =
-    isSet && settings?.shopee_set_url
-      ? settings.shopee_set_url
-      : settings?.shopee_regular_url;
+  const shopeeUrl = isSet
+    ? settings?.shopee_set_url
+    : settings?.shopee_regular_url;
+
   const tiktokUrl = settings?.tiktok_url;
 
   const allImages = [
@@ -136,9 +114,10 @@ export default async function ProductDetail({
             fontSize: "11px",
             color: "#aaa",
             letterSpacing: "0.05em",
+            flexWrap: "wrap",
           }}
         >
-          <Link href="/products" style={{ color: "#0F6E56", textDecoration: "none" }}>
+          <Link href="/products" style={{ color: "#0F6E56" }}>
             Collection
           </Link>
           <span>›</span>
@@ -147,19 +126,19 @@ export default async function ProductDetail({
           <span style={{ color: "#555" }}>{product.name}</span>
         </div>
 
-        {/* ── MAIN GRID ── */}
+        {/* ── MAIN GRID (RESPONSIVE FIXED) ── */}
         <div
           style={{
             maxWidth: 1280,
             margin: "0 auto",
             display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "5vw",
+            gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+            gap: "4vw",
             alignItems: "start",
             padding: "3.5rem 6vw 6rem",
           }}
         >
-          {/* ── IMAGE PANEL (client: gallery + perks + notes) ── */}
+          {/* ── IMAGE PANEL ── */}
           <ProductImagePanel
             productName={product.name}
             images={allImages}
@@ -167,136 +146,151 @@ export default async function ProductDetail({
           />
 
           {/* ── INFO PANEL ── */}
-          <div style={{ paddingTop: "0.25rem", display: "flex", flexDirection: "column", gap: "1.25rem" }}>
-            {/* Category + back */}
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span style={{ color: "#0F6E56", textTransform: "uppercase", fontSize: "10px", letterSpacing: "0.18em" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1.25rem",
+            }}
+          >
+            {/* Category */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <span
+                style={{
+                  color: "#0F6E56",
+                  textTransform: "uppercase",
+                  fontSize: "10px",
+                  letterSpacing: "0.18em",
+                }}
+              >
                 {product.category?.name || "Aroma Balm"}
               </span>
-              <Link href="/products" style={{ color: "#aaa", fontSize: "12px", textDecoration: "none" }}>
+
+              <Link href="/products" style={{ color: "#aaa", fontSize: "12px" }}>
                 ← All products
               </Link>
             </div>
 
             {/* Name */}
-            <h1 style={{ fontSize: "clamp(1.8rem, 4vw, 3rem)", fontWeight: 300, lineHeight: 1.1, color: "#2F3A33", margin: 0 }}>
+            <h1
+              style={{
+                fontSize: "clamp(1.8rem, 4vw, 3rem)",
+                fontWeight: 300,
+                margin: 0,
+              }}
+            >
               {product.name}
             </h1>
 
-            {/* Scent tag */}
+            {/* Scent */}
             <div
               style={{
                 display: "inline-flex",
-                alignItems: "center",
                 gap: "0.4rem",
                 background: "#FBF5DD",
-                border: "0.5px solid #e8e0c8",
-                borderRadius: 4,
+                borderRadius: 6,
                 padding: "4px 12px",
                 alignSelf: "flex-start",
               }}
             >
-              <span style={{ fontSize: "10px", color: "#aaa", textTransform: "uppercase", letterSpacing: "0.08em" }}>Scent</span>
-              <span style={{ fontSize: "12px", color: "#2F3A33", fontStyle: "italic" }}>{product.scent}</span>
+              <span style={{ fontSize: "10px", color: "#999" }}>Scent</span>
+              <span style={{ fontSize: "12px", fontStyle: "italic" }}>
+                {product.scent}
+              </span>
             </div>
 
-            {/* Divider */}
-            <div style={{ height: "0.5px", background: "#EFEAE1" }} />
+            <div style={{ height: 1, background: "#EFEAE1" }} />
 
             {/* Description */}
-            <p style={{ lineHeight: 1.9, color: "#666", fontSize: "0.95rem" }}>{product.description}</p>
+            <p style={{ lineHeight: 1.9, color: "#666" }}>
+              {product.description}
+            </p>
 
-            {/* ── SIZE SELECTOR + PRICE + STOCK (client) ── */}
-            <ProductSizeAndPrice sizes={product.sizes} basePrice={product.price} />
+            {/* SIZE + PRICE */}
+            <ProductSizeAndPrice
+              sizes={product.sizes}
+              basePrice={product.price}
+            />
 
-            {/* Divider */}
-            <div style={{ height: "0.5px", background: "#EFEAE1" }} />
+            <div style={{ height: 1, background: "#EFEAE1" }} />
 
-            {/* CTA buttons */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+            {/* CTA */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {shopeeUrl && (
-                <Link href={shopeeUrl} target="_blank" style={{ textDecoration: "none" }}>
+                <a
+                  href={shopeeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: "none" }}
+                >
                   <button
                     style={{
                       width: "100%",
-                      padding: "13px 1.5rem",
-                      border: "none",
-                      borderRadius: 10,
+                      padding: "13px",
                       background: "#EE4D2D",
                       color: "#fff",
+                      border: "none",
+                      borderRadius: 10,
                       cursor: "pointer",
-                      fontSize: "0.9rem",
-                      fontWeight: 500,
-                      letterSpacing: "0.06em",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "0.6rem",
-                      fontFamily: "inherit",
                     }}
                   >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                    </svg>
                     Buy on Shopee
                   </button>
-                </Link>
+                </a>
               )}
 
               {tiktokUrl && (
-                <Link href={tiktokUrl} target="_blank" style={{ textDecoration: "none" }}>
+                <a
+                  href={tiktokUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ textDecoration: "none" }}
+                >
                   <button
                     style={{
                       width: "100%",
-                      padding: "13px 1.5rem",
-                      border: "none",
-                      borderRadius: 10,
+                      padding: "13px",
                       background: "#111",
                       color: "#fff",
+                      border: "none",
+                      borderRadius: 10,
                       cursor: "pointer",
-                      fontSize: "0.9rem",
-                      fontWeight: 500,
-                      letterSpacing: "0.06em",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "0.6rem",
-                      fontFamily: "inherit",
                     }}
                   >
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V9.05a8.16 8.16 0 004.77 1.52V7.12a4.85 4.85 0 01-1-.43z"/>
-                    </svg>
                     Buy on TikTok Shop
                   </button>
-                </Link>
+                </a>
               )}
             </div>
 
-            {/* Divider */}
-            <div style={{ height: "0.5px", background: "#EFEAE1" }} />
+            <div style={{ height: 1, background: "#EFEAE1" }} />
 
-            {/* ── ACCORDIONS: How to Use / Ingredients / Shipping (client) ── */}
-            <ProductAccordions howToUse={product.how_to_use} ingredients={product.ingredients} />
+            {/* ACCORDIONS */}
+            <ProductAccordions
+              howToUse={product.how_to_use}
+              ingredients={product.ingredients}
+            />
           </div>
         </div>
 
-        {/* ── FOOTER STRIP ── */}
+        {/* ── FOOTER ── */}
         <footer
           style={{
             background: "#2F3A33",
             color: "#FBF5DD",
             padding: "2.5rem 6vw",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: "1rem",
+            textAlign: "center",
           }}
         >
-          <p style={{ fontWeight: 300, fontSize: "1.1rem" }}>Thara Bliss</p>
-          <p style={{ color: "rgba(251,245,221,0.4)", fontSize: "12px" }}>
-            Calm. Balance. Bliss. · © 2026 Thara Bliss
+          <p style={{ fontWeight: 300 }}>Thara Bliss</p>
+          <p style={{ fontSize: "12px", opacity: 0.5 }}>
+            Calm. Balance. Bliss. © 2026
           </p>
         </footer>
       </main>
