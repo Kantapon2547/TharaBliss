@@ -86,6 +86,8 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+DATABASE_URL="postgresql://neondb_owner:npg_OvIUZf4ocm3J@ep-winter-resonance-aoojdl9n-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+
 DATABASES = {
     "default": dj_database_url.parse(
         os.environ["DATABASE_URL"]
