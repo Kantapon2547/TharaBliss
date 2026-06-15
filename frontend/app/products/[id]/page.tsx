@@ -1,7 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "../../../components/Navbar";
-import { getProduct, SiteSettings as ApiSiteSettings, SiteSettings, Product } from "@/lib/api";
+import {
+  getProduct,
+  SiteSettings as ApiSiteSettings,
+  Product,
+} from "@/lib/api";
+
 import {
   ProductImagePanel,
   ProductSizeAndPrice,
