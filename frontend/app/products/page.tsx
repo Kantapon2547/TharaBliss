@@ -305,14 +305,14 @@ export default async function DashboardPage() {
               More than a balm —<br />
               <em style={{ fontStyle: "italic" }}>a daily ritual.</em>
             </h2>
-            <p style={{ lineHeight: 1.9, color: "#555", maxWidth: 460 }}>
+            <p style={{ lineHeight: 1.9, color: "#555", maxWidth: 400 }}>
               Aromatic Balm สูตรพรีเมียมสัญชาติไทย ผลิตจากส่วนผสมคุณภาพสูง ออกแบบกลิ่นให้ช่วยผ่อนคลาย
               สดชื่น และดูแลสุขภาพจิตใจอย่างอ่อนโยนในทุกวัน
             </p>
           </div>
-          <div style={{ overflow: "hidden", borderRadius: 16, height: 320 }}>
+          <div style={{ overflow: "hidden", borderRadius: 16, height: 500 }}>
             <img
-              src="images/products/aroma-balm.jpg"
+              src="images/products/aroma.jpg"
               alt="Thara Bliss product lifestyle"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
             />
