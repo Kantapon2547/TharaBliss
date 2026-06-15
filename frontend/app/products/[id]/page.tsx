@@ -3,8 +3,9 @@ import Link from "next/link";
 import Navbar from "../../../components/Navbar";
 import {
   getProduct,
+  getSettings,
   SiteSettings as ApiSiteSettings,
-  Product,
+  Product as ApiProduct,
 } from "@/lib/api";
 
 import {
