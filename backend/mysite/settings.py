@@ -20,6 +20,8 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# SECURITY
+SECRET_KEY = os.environ["SECRET_KEY"]
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -145,6 +147,7 @@ CLOUDINARY_STORAGE = {
     "CLOUD_NAME": os.environ["CLOUDINARY_CLOUD_NAME"],
     "API_KEY": os.environ["CLOUDINARY_API_KEY"],
     "API_SECRET": os.environ["CLOUDINARY_API_SECRET"],
+
 }
 
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
