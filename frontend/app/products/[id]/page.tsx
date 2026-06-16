@@ -4,8 +4,8 @@ import Navbar from "../../../components/Navbar";
 import {
   getProduct,
   getSettings,
-  SiteSettings as ApiSiteSettings,
-  Product as ApiProduct,
+  SiteSettings,
+  Product,
 } from "@/lib/api";
 
 import {
@@ -13,36 +13,6 @@ import {
   ProductSizeAndPrice,
   ProductAccordions,
 } from "../../../components/ProductInteractive";
-
-interface FragranceNote {
-  label: string;
-  notes: string;
-}
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: string;
-  scent: string;
-  image: string | null;
-  images?: string[];
-  category?: {
-    id: number;
-    name: string;
-    slug?: string;
-  };
-  ingredients?: string;
-  how_to_use?: string;
-  fragrance_notes?: FragranceNote[];
-  sizes?: { label: string; price: string }[];
-}
-
-interface SiteSettings {
-  shopee_regular_url: string | null;
-  shopee_set_url: string | null;
-  tiktok_url: string | null;
-}
 
 export const dynamic = "force-dynamic";
 
@@ -92,14 +62,8 @@ export default async function ProductDetail({
     );
   }
 
-  const categoryName = product.category?.name?.toLowerCase() || "";
-  const categorySlug = product.category?.slug?.toLowerCase() || "";
-  const isSet =
-    categoryName.includes("set") ||
-    categorySlug.includes("set") ||
-    categoryName.includes("duo") ||
-    categoryName.includes("trio") ||
-    categoryName.includes("bundle");
+  // ✅ UPDATED: use is_set_product from Django model instead of category name guessing
+  const isSet = product.is_set_product === true;
 
   const shopeeUrl =
     isSet && settings?.shopee_set_url

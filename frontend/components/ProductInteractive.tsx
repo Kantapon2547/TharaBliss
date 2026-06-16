@@ -58,6 +58,7 @@ function InfoAccordion({
           alignItems: "center",
           textAlign: "left",
           fontFamily: "inherit",
+          gap: "1rem",
         }}
       >
         <span style={{ fontSize: "0.95rem", fontWeight: 400, color: "#2F3A33", letterSpacing: "0.02em" }}>
@@ -106,139 +107,181 @@ export function ProductImagePanel({
   const [activeImage, setActiveImage] = useState(0);
 
   return (
-    <div style={{ position: "sticky", top: "5rem" }}>
-      {/* Main image */}
-      <div
-        style={{
-          background: "#FFFFFF",
-          borderRadius: 16,
-          overflow: "hidden",
-          border: "0.5px solid #EFEAE1",
-          aspectRatio: "1 / 1",
-          position: "relative",
-        }}
-      >
-        {images.length > 0 ? (
-          <Image src={images[activeImage]} alt={productName} fill style={{ objectFit: "cover" }} />
-        ) : (
+    <>
+      <style>{`
+        .product-image-panel {
+          position: sticky;
+          top: 5rem;
+        }
+        .fragrance-notes-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+        @media (max-width: 768px) {
+          .product-image-panel {
+            position: static !important;
+          }
+          .fragrance-notes-box {
+            margin-top: 1.25rem !important;
+          }
+        }
+        @media (max-width: 480px) {
+          .product-image-panel-perks {
+            gap: 0.4rem !important;
+          }
+          .thumbnail-strip {
+            gap: 6px !important;
+          }
+          .thumbnail-btn {
+            width: 50px !important;
+            height: 50px !important;
+          }
+        }
+      `}</style>
+
+      <div className="product-image-panel">
+        {/* Main image */}
+        <div
+          style={{
+            background: "#FFFFFF",
+            borderRadius: 16,
+            overflow: "hidden",
+            border: "0.5px solid #EFEAE1",
+            aspectRatio: "1 / 1",
+            position: "relative",
+          }}
+        >
+          {images.length > 0 ? (
+            <Image src={images[activeImage]} alt={productName} fill style={{ objectFit: "cover" }} />
+          ) : (
+            <div
+              style={{
+                height: "100%",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#ccc",
+                gap: "0.5rem",
+              }}
+            >
+              <span style={{ fontSize: "3rem" }}>🌿</span>
+              <span style={{ fontSize: "0.85rem" }}>No image available</span>
+            </div>
+          )}
+        </div>
+
+        {/* Thumbnail strip */}
+        {images.length > 1 && (
           <div
+            className="thumbnail-strip"
+            style={{ display: "flex", gap: 8, marginTop: 10, overflowX: "auto", paddingBottom: 2 }}
+          >
+            {images.map((src, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveImage(i)}
+                className="thumbnail-btn"
+                style={{
+                  flexShrink: 0,
+                  width: 58,
+                  height: 58,
+                  borderRadius: 8,
+                  overflow: "hidden",
+                  border: i === activeImage ? "1.5px solid #0F6E56" : "0.5px solid #EFEAE1",
+                  position: "relative",
+                  padding: 0,
+                  cursor: "pointer",
+                  background: "none",
+                }}
+              >
+                <Image src={src} alt={`${productName} ${i + 1}`} fill style={{ objectFit: "cover" }} />
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Perk badges */}
+        <div
+          className="product-image-panel-perks"
+          style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginTop: "1rem" }}
+        >
+          {PERKS.map((p) => (
+            <span
+              key={p.label}
+              style={{
+                background: "#E1F5EE",
+                color: "#085041",
+                fontSize: "10px",
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                padding: "4px 10px",
+                borderRadius: 4,
+              }}
+            >
+              {p.label}
+            </span>
+          ))}
+        </div>
+
+        {/* Fragrance notes pyramid */}
+        {fragranceNotes && fragranceNotes.length > 0 && (
+          <div
+            className="fragrance-notes-box"
             style={{
-              height: "100%",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "#ccc",
-              gap: "0.5rem",
+              marginTop: "2rem",
+              background: "#FFFFFF",
+              border: "0.5px solid #EFEAE1",
+              borderRadius: 16,
+              padding: "1.5rem",
             }}
           >
-            <span style={{ fontSize: "3rem" }}>🌿</span>
-            <span style={{ fontSize: "0.85rem" }}>No image available</span>
+            <p
+              style={{
+                fontSize: "11px",
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: "#0F6E56",
+                marginBottom: "1.25rem",
+              }}
+            >
+              Fragrance Notes
+            </p>
+            <div className="fragrance-notes-grid">
+              {fragranceNotes.map((n, i) => (
+                <div key={n.label} style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
+                  <div
+                    style={{
+                      flexShrink: 0,
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      marginTop: 5,
+                      background: i === 0 ? "#A8D5BE" : i === 1 ? "#0F6E56" : "#06402B",
+                    }}
+                  />
+                  <div>
+                    <p
+                      style={{
+                        fontSize: "0.78rem",
+                        color: "#aaa",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.1em",
+                        marginBottom: 2,
+                      }}
+                    >
+                      {n.label}
+                    </p>
+                    <p style={{ fontSize: "0.92rem", color: "#2F3A33" }}>{n.notes}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
       </div>
-
-      {/* Thumbnail strip */}
-      {images.length > 1 && (
-        <div style={{ display: "flex", gap: 8, marginTop: 10, overflowX: "auto", paddingBottom: 2 }}>
-          {images.map((src, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveImage(i)}
-              style={{
-                flexShrink: 0,
-                width: 58,
-                height: 58,
-                borderRadius: 8,
-                overflow: "hidden",
-                border: i === activeImage ? "1.5px solid #0F6E56" : "0.5px solid #EFEAE1",
-                position: "relative",
-                padding: 0,
-                cursor: "pointer",
-                background: "none",
-              }}
-            >
-              <Image src={src} alt={`${productName} ${i + 1}`} fill style={{ objectFit: "cover" }} />
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Perk badges */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", marginTop: "1rem" }}>
-        {PERKS.map((p) => (
-          <span
-            key={p.label}
-            style={{
-              background: "#E1F5EE",
-              color: "#085041",
-              fontSize: "10px",
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              padding: "4px 10px",
-              borderRadius: 4,
-            }}
-          >
-            {p.label}
-          </span>
-        ))}
-      </div>
-
-      {/* Fragrance notes pyramid */}
-      {fragranceNotes && fragranceNotes.length > 0 && (
-        <div
-          style={{
-            marginTop: "2rem",
-            background: "#FFFFFF",
-            border: "0.5px solid #EFEAE1",
-            borderRadius: 16,
-            padding: "1.5rem",
-          }}
-        >
-          <p
-            style={{
-              fontSize: "11px",
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              color: "#0F6E56",
-              marginBottom: "1.25rem",
-            }}
-          >
-            Fragrance Notes
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-            {fragranceNotes.map((n, i) => (
-              <div key={n.label} style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
-                <div
-                  style={{
-                    flexShrink: 0,
-                    width: 8,
-                    height: 8,
-                    borderRadius: "50%",
-                    marginTop: 5,
-                    background: i === 0 ? "#A8D5BE" : i === 1 ? "#0F6E56" : "#06402B",
-                  }}
-                />
-                <div>
-                  <p
-                    style={{
-                      fontSize: "0.78rem",
-                      color: "#aaa",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.1em",
-                      marginBottom: 2,
-                    }}
-                  >
-                    {n.label}
-                  </p>
-                  <p style={{ fontSize: "0.92rem", color: "#2F3A33" }}>{n.notes}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
+    </>
   );
 }
 
@@ -256,16 +299,32 @@ export function ProductSizeAndPrice({
 
   return (
     <>
+      <style>{`
+        @media (max-width: 480px) {
+          .size-btn-group {
+            gap: 0.5rem !important;
+          }
+          .size-btn {
+            padding: 0.55rem 0.9rem !important;
+            font-size: 0.8rem !important;
+          }
+          .price-display {
+            font-size: 1.9rem !important;
+          }
+        }
+      `}</style>
+
       {list.length > 0 && (
         <div>
           <p style={{ fontSize: "11px", color: "#aaa", textTransform: "uppercase", letterSpacing: "0.12em", marginBottom: "0.6rem" }}>
             Size
           </p>
-          <div style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap" }}>
+          <div className="size-btn-group" style={{ display: "flex", gap: "0.6rem", flexWrap: "wrap" }}>
             {list.map((s, i) => (
               <button
                 key={s.label}
                 onClick={() => setSelectedSize(i)}
+                className="size-btn"
                 style={{
                   padding: "0.6rem 1.1rem",
                   borderRadius: 8,
@@ -286,7 +345,9 @@ export function ProductSizeAndPrice({
 
       <div>
         <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem", marginBottom: 6 }}>
-          <span style={{ fontSize: "2.2rem", fontWeight: 300, color: "#0F6E56" }}>฿{displayPrice}</span>
+          <span className="price-display" style={{ fontSize: "2.2rem", fontWeight: 300, color: "#0F6E56" }}>
+            ฿{displayPrice}
+          </span>
           <span style={{ fontSize: "0.85rem", color: "#aaa" }}>THB</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>

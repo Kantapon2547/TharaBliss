@@ -24,6 +24,7 @@ export interface Product {
     label: string;
     price: string;
   }[];
+  is_set_product?: boolean;
 }
 
 export interface SiteSettings {

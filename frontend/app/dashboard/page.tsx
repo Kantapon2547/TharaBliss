@@ -7,7 +7,7 @@ import { getProducts } from "@/lib/api";
 
 const HERO = {
   img: "/images/banner/product_banner.jpg",
-  title: "Create Your Own",
+  title: "Find Your Own Scents",
   subtitle:
     "พกพาความสงบไปได้ทุกที่ เพียงแต้มเบา ๆ แล้วสูดหายใจลึก ๆ ให้กลิ่นหอมช่วยเติมความสดชื่น ผ่อนคลายความตึงเครียด และคืนสมดุลให้กับวันของคุณ",
 };
@@ -63,7 +63,7 @@ const COLLECTIONS = [
 const STATS = [
   { value: "3", unit: "Scent Collections", label: "Calm · Elegant · Warm" },
   { value: "100%", unit: "Thai Crafted", label: "Made with care in Thailand" },
-  { value: "อย.", unit: "Certified", label: "Alcohol & Paraben Free" },
+  { value: "FDA", unit: "Certified", label: "Alcohol & Paraben Free" },
 ];
 
 const fadeUp = {
@@ -94,7 +94,7 @@ export default function HomePage() {
         >
           <Image
             src={HERO.img}
-            alt="Thara Bliss — Create Your Own"
+            alt="Thara Bliss — Find Your Signature Scent."
             fill
             priority
             style={{ objectFit: "cover", objectPosition: "center" }}
@@ -142,9 +142,9 @@ export default function HomePage() {
                 margin: "0 0 1.5rem",
               }}
             >
-              Create
+              Find Your
               <br />
-              <em style={{ fontStyle: "italic" }}>Your Own</em>
+              <em style={{ fontStyle: "italic" }}> Signature </em>
               <br />
               Scent.
             </h1>
@@ -191,7 +191,7 @@ export default function HomePage() {
                   textDecoration: "none",
                 }}
               >
-                OEM Services
+                Our Services
               </a>
             </div>
           </div>
