@@ -34,9 +34,9 @@ const articles = [
   {
     title: "Behind The Brand",
     subtitle: "จุดเริ่มต้นของ Thara Bliss",
-    text: "Thara Bliss เกิดขึ้นจากความหลงใหลในศาสตร์แห่งกลิ่นหอมและความเชื่อว่าการดูแลตัวเองไม่จำเป็นต้องซับซ้อน เราอยากสร้างผลิตภัณฑ์ที่สามารถอยู่ร่วมกับชีวิตประจำวันได้อย่างเป็นธรรมชาติ",
+    text: "เมื่อกลิ่นหอมกลายเป็นส่วนหนึ่งของชีวิตประจำวัน Thara Bliss เกิดจากความเชื่อว่าการดูแลตัวเองไม่จำเป็นต้องซับซ้อน เราสร้างสรรค์กลิ่นหอมที่อ่อนโยนเพื่ออยู่กับคุณในช่วงเวลาธรรมดาแต่มีความหมาย—ทุกวัน",
     tag: "Our Story",
-    image: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=800&q=80&fit=crop",
+    image: "images/banner/test.jpg",
   },
 ];
 
@@ -370,7 +370,7 @@ export default function JournalPage() {
             Calm. Balance. Bliss.
           </h2>
           <p style={{ marginTop: "1rem", opacity: 0.8 }}>
-            More than fragrance — a daily ritual of well-being.
+            Aroma blam fragrance — a daily ritual of well-being.
           </p>
         </section>
 

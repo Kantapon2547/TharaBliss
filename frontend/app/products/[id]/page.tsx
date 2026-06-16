@@ -62,7 +62,6 @@ export default async function ProductDetail({
     );
   }
 
-  // ✅ UPDATED: use is_set_product from Django model instead of category name guessing
   const isSet = product.is_set_product === true;
 
   const shopeeUrl =

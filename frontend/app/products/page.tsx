@@ -86,14 +86,14 @@ export default async function DashboardPage() {
           style={{ position: "relative", height: "88vh", minHeight: 540 }}
         >
           <img
-            src="/images/banner/home_banner.jpg"
+            src="/images/products/ritual.jpg"
             alt="Thara Bliss aroma balm collection"
             style={{
               position: "absolute",
               inset: 0,
               width: "100%",
               height: "100%",
-              objectFit: "cover",
+              objectFit: "fill",
               objectPosition: "center",
             }}
           />
@@ -148,13 +148,12 @@ export default async function DashboardPage() {
               style={{
                 color: "rgba(251,245,221,0.8)",
                 lineHeight: 1.8,
-                fontSize: "1rem",
+                fontSize: "1.0rem",
                 maxWidth: 420,
                 marginBottom: "2rem",
               }}
             >
-              บาล์มอโรมาสัญชาติไทย ออกแบบกลิ่นให้หอมละมุน ใช้ได้ทุกวัน
-              ช่วยผ่อนคลาย สดชื่น และดูแลอารมณ์อย่างอ่อนโยน
+              บาล์มอโรมาที่ผสานกลิ่นหอมอย่างอ่อนโยนออกแบบมาเพื่ออยู่กับคุณในทุกช่วงเวลาช่วยให้ใจสงบ สดชื่น และผ่อนคลายอย่างเป็นธรรมชาติ
             </p>
             <a
               href="#collection"
@@ -422,7 +421,7 @@ export default async function DashboardPage() {
                 lineHeight: 1.8,
                 maxWidth: 480,
                 margin: "0 auto 2.5rem",
-                fontSize: "0.95rem",
+                fontSize: "1.0rem",
               }}
             >
               เติมเต็มช่วงเวลาแห่งความผ่อนคลายกับผลิตภัณฑ์กลิ่นหอมที่สะท้อนตัวตนของคุณ

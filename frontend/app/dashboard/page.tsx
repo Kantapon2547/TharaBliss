@@ -28,7 +28,7 @@ const SERVICES = [
   {
     img: "/images/services/logo_brand.jpg",
     title: "Created for Everyday Moments",
-    desc: "ออกแบบมาเพื่อช่วงเวลาของทุกวันเร่าเชื่อว่าความหอมไม่ควรจำกัดอยู่แค่โอกาสพิเศษ แต่ควรเป็นส่วนหนึ่งของชีวิตประจำวันทุกกลิ่นถูกออกแบบให้ใช้ง่ายกลมกลืนกับช่วงเวลาต่าง ๆ ตั้งแต่เช้าที่เริ่มต้นวันระหว่างวันทำงานและความหอมที่ดีควรทำให้วันเหล่านั้นรู้สึกเบาขึ้น สบายขึ้นเสมอ",
+    desc: "ออกแบบมาเพื่อช่วงเวลาของทุกวันเราเชื่อว่าความหอมไม่ควรจำกัดอยู่แค่โอกาสพิเศษ แต่ควรเป็นส่วนหนึ่งของชีวิตประจำวันทุกกลิ่นถูกออกแบบให้ใช้ง่ายกลมกลืนกับช่วงเวลาต่าง ๆ ตั้งแต่เช้าที่เริ่มต้นวันระหว่างวันทำงานและความหอมที่ดีควรทำให้วันเหล่านั้นรู้สึกเบาขึ้น สบายขึ้นเสมอ",
     number: "03",
   },
 ];
@@ -512,12 +512,12 @@ export default function HomePage() {
                   margin: 0,
                 }}
               >
-                End-to-End
+                Thara Bliss
                 <br />
-                <em style={{ fontStyle: "italic" }}>Manufacturing Solutions</em>
+                <em style={{ fontStyle: "italic" }}>From Scent to Sensation</em>
               </h2>
-              <p style={{ color: "#888", maxWidth: 320, lineHeight: 1.7, fontSize: "0.9rem" }}>
-                From concept to shelf — we handle formulation, design, and launch for your brand.
+              <p style={{ color: "#888", maxWidth: 350, lineHeight: 1.7, fontSize: "1.2rem" }}>
+                From the first note of scent to packaging you’ll love to pick up — every detail is designed with care.
               </p>
             </div>
           </div>
@@ -694,7 +694,7 @@ export default function HomePage() {
               Thara Bliss เริ่มต้นจาก Aroma Balm ที่ออกแบบมาเพื่อการพกพาและใช้งานได้ทุกวันในอนาคต เราจะขยายประสบการณ์แห่งความผ่อนคลายนี้ไปสู่ผลิตภัณฑ์สำหรับบ้านและพื้นที่อยู่อาศัย เพื่อให้ทุกพื้นที่สามารถกลายเป็นพื้นที่แห่งความสุขได้เช่นกัน
             </p>
             <a
-              href="mailto:hello@tharabliss.com"
+              href="mailto:tharabliss2025@gmail.com?subject=Inquiry%20from%20Thara%20Bliss%20Website"
               style={{
                 display: "inline-block",
                 border: "1px solid rgba(251,245,221,0.55)",
