@@ -24,9 +24,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-()a%t7k43_i8m3wb++4fmqded18$d3jv@is_s#vym3dr%^ul_3"
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -87,8 +84,6 @@ WSGI_APPLICATION = "mysite.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-DATABASE_URL="postgresql://neondb_owner:npg_OvIUZf4ocm3J@ep-winter-resonance-aoojdl9n-pooler.c-2.ap-southeast-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 
 DATABASES = {
     "default": dj_database_url.parse(

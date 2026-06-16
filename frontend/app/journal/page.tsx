@@ -152,7 +152,7 @@ export default function JournalPage() {
                 flex: "0 0 340px",
                 color: "rgba(251,245,221,0.72)",
                 lineHeight: 1.85,
-                fontSize: "0.92rem",
+                fontSize: "1.0rem",
                 paddingBottom: "0.25rem",
               }}
             >
