@@ -4,6 +4,7 @@ import Image from "next/image";
 import Navbar from "../../components/Navbar";
 import { motion } from "framer-motion";
 import { getProducts } from "@/lib/api";
+import { SplitLines, FadeUp, SlideIn, FadeIn } from "@/components/Animations";
 
 const HERO = {
   img: "/images/banner/product_banner.jpg",

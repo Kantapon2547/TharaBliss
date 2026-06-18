@@ -372,24 +372,23 @@ export function ProductAccordions({
       <InfoAccordion title="วิธีการใช้ผลิตภัณฑ์ — How to Use" defaultOpen>
         <p>
           {howToUse ??
-            "แต้มเบา ๆ บริเวณจุดพับ เช่น ข้อมือ ต้นคอ หรือขมับ เพื่อสัมผัสกลิ่นหอมอย่างเต็มที่ ใช้ได้ทุกเมื่อที่ต้องการความผ่อนคลาย"}
+            "หมุนและทาลงผิวเช่น บริเวณข้อมือมือ, คอ, หลังใบหู หรือตามข้อพับเพื่อให้กลิ่นหอมค่อยๆ กระจายตัว "}
         </p>
       </InfoAccordion>
 
-      <InfoAccordion title="ส่วนผสม — Ingredients">
+      <InfoAccordion title="การเก็บรักษา — Retention">
         <p style={{ wordBreak: "break-word" }}>
           {ingredients ??
-            "Caprylic/Capric Triglyceride, Cera Alba (Beeswax), Butyrospermum Parkii (Shea Butter), Parfum, Tocopherol (Vitamin E)."}
+            "แนะนำว่าควรเก็บสินค้าให้พ้นจากแสงแดดและความร้อน เพื่อรักษาคุณภาพและป้องกันบาล์มละลาย"}
         </p>
         <p style={{ marginTop: "0.75rem", fontSize: "0.8rem", color: "#aaa" }}>
           ผลิตภัณฑ์ปราศจาก Alcohol, Paraben และ SLES — ผ่านการรับรองจาก อย.
         </p>
       </InfoAccordion>
 
-      <InfoAccordion title="การจัดส่งและการคืนสินค้า — Shipping & Returns">
+      <InfoAccordion title="ข้อควรระวัง — Caution">
         <p>
-          จัดส่งภายใน 1–2 วันทำการสำหรับคำสั่งซื้อในประเทศไทย หากพบปัญหากับสินค้า
-          สามารถติดต่อทีมงานเพื่อเปลี่ยน/คืนสินค้าได้ภายใน 7 วันหลังได้รับสินค้า
+          สำหรับใช้ภายนอกเท่านั้น หลีกเลี่ยงการสัมผัสดวงตา ห้ามทาบริเวณผิวที่่เป็นแผลหรือผิวที่บอบบางเป็นพิเศษ หากใช้และพบความผิดปกติใดๆ กรุณาหยุดใช้และปรึกษาแพทย์หรือเภสัชกรทันที
         </p>
       </InfoAccordion>
     </div>

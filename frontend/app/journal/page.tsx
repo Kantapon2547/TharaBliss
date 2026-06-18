@@ -36,7 +36,7 @@ const articles = [
     subtitle: "จุดเริ่มต้นของ Thara Bliss",
     text: "เมื่อกลิ่นหอมกลายเป็นส่วนหนึ่งของชีวิตประจำวัน Thara Bliss เกิดจากความเชื่อว่าการดูแลตัวเองไม่จำเป็นต้องซับซ้อน เราสร้างสรรค์กลิ่นหอมที่อ่อนโยนเพื่ออยู่กับคุณในช่วงเวลาธรรมดาแต่มีความหมาย—ทุกวัน",
     tag: "Our Story",
-    image: "images/banner/test.jpg",
+    image: "/images/banner/test.jpg",
   },
 ];
 
@@ -83,7 +83,7 @@ export default function JournalPage() {
         >
           {/* Background image */}
           <img
-            src="images/services/stories.jpg"
+            src="/images/services/stories.jpg"
             alt="Thara Bliss Journal — fragrance atelier"
             style={{
               position: "absolute",

@@ -3,69 +3,37 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { Product } from "@/lib/api";
 
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: string;
-  scent: string;
-  image: string | null;
-  category?: {
-    id: number;
-    name: string;
-  };
-}
-
-export default function ProductCard({
-  product,
-}: {
-  product: Product;
-}) {
+export default function ProductCard({ product }: { product: Product }) {
   return (
     <motion.div
-      whileHover={{
-        y: -8,
-      }}
-      transition={{
-        duration: 0.25,
-      }}
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
+      whileHover={{ y: -4 }}
       style={{
-        background: "#fff",
-        borderRadius: "24px",
+        background: "#FFFFFF",
+        borderRadius: 16,
         overflow: "hidden",
-        border: "1px solid #ECECEC",
-        boxShadow: "0 10px 30px rgba(0,0,0,.06)",
+        border: "1px solid #EFEAE1",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
-      {/* IMAGE */}
-      <div
-        style={{
-          position: "relative",
-          height: "280px",
-          overflow: "hidden",
-        }}
-      >
+      {/* ── IMAGE ── */}
+      <div style={{ position: "relative", height: 260, overflow: "hidden", background: "#F4F0E8" }}>
         {product.image ? (
           <motion.div
-            whileHover={{
-              scale: 1.08,
-            }}
-            transition={{
-              duration: 0.4,
-            }}
-            style={{
-              width: "100%",
-              height: "100%",
-            }}
+            whileHover={{ scale: 1.04 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            style={{ width: "100%", height: "100%" }}
           >
             <Image
               src={product.image}
               alt={product.name}
               fill
-              style={{
-                objectFit: "cover",
-              }}
+              style={{ objectFit: "cover" }}
             />
           </motion.div>
         ) : (
@@ -76,118 +44,133 @@ export default function ProductCard({
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              background: "#f5f5f5",
-              color: "#999",
+              color: "#C8C2B6",
+              fontSize: "0.8rem",
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
             }}
           >
             No Image
           </div>
         )}
+
+        {/* scent pill — top left */}
+        {product.scent && (
+          <span
+            style={{
+              position: "absolute",
+              top: "1rem",
+              left: "1rem",
+              background: "rgba(255,255,255,0.88)",
+              backdropFilter: "blur(6px)",
+              color: "#0F6E56",
+              fontSize: "10px",
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              padding: "0.3rem 0.7rem",
+              borderRadius: 40,
+              fontWeight: 500,
+            }}
+          >
+            {product.scent}
+          </span>
+        )}
       </div>
 
-      {/* CONTENT */}
+      {/* ── CONTENT ── */}
       <div
         style={{
-          padding: "1.5rem",
+          padding: "1.25rem 1.5rem 1.5rem",
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+          gap: "0.5rem",
         }}
       >
-        {/* Green Accent Line */}
-        <div
-          style={{
-            width: "42px",
-            height: "2px",
-            background: "#72C39B",
-            marginBottom: "12px",
-          }}
-        />
-
-        {/* Category */}
+        {/* category */}
         <p
           style={{
-            color: "#72C39B",
-            fontSize: "11px",
-            letterSpacing: "2px",
+            color: "#B0A898",
+            fontSize: "10px",
+            letterSpacing: "0.18em",
             textTransform: "uppercase",
-            marginBottom: "10px",
+            margin: 0,
           }}
         >
-          {product.category?.name || "Recommended"}
+          {product.category?.name || "Thara Bliss"}
         </p>
 
-        {/* Product Name */}
+        {/* name */}
         <h3
           style={{
-            fontSize: "1.4rem",
-            fontWeight: 600,
-            color: "#222",
-            marginBottom: "10px",
+            fontSize: "1.1rem",
+            fontWeight: 500,
+            color: "#2F3A33",
+            margin: 0,
+            lineHeight: 1.3,
           }}
         >
           {product.name}
         </h3>
 
-        {/* Description */}
+        {/* description */}
         <p
           style={{
-            color: "#888",
-            lineHeight: 1.7,
-            fontSize: "14px",
-            minHeight: "48px",
+            color: "#999",
+            fontSize: "0.82rem",
+            lineHeight: 1.65,
+            margin: 0,
             overflow: "hidden",
             display: "-webkit-box",
             WebkitLineClamp: 2,
             WebkitBoxOrient: "vertical",
+            flex: 1,
           }}
         >
           {product.description}
         </p>
 
-        {/* Price */}
+        {/* price + button row */}
         <div
           style={{
-            marginTop: "1rem",
-            fontWeight: 600,
-            color: "#2F3A33",
-            fontSize: "1rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginTop: "0.75rem",
+            gap: "0.75rem",
           }}
         >
-          ฿{product.price}
-        </div>
-
-        {/* Details Button */}
-        <div
-          style={{
-            marginTop: "1.5rem",
-          }}
-        >
-          <Link
-            href={`/products/${product.id}`}
+          <span
             style={{
-              textDecoration: "none",
+              fontSize: "1.05rem",
+              fontWeight: 600,
+              color: "#2F3A33",
+              letterSpacing: "0.01em",
             }}
           >
+            ฿{product.price}
+          </span>
+
+          <Link href={`/products/${product.id}`} style={{ textDecoration: "none" }}>
             <motion.button
-              whileHover={{
-                backgroundColor: "#0F6E56",
-                color: "#ffffff",
-                borderColor: "#0F6E56",
-              }}
-              transition={{
-                duration: 0.25,
-              }}
+              whileHover={{ background: "#0F6E56", color: "#FBF5DD", borderColor: "#0F6E56" }}
+              transition={{ duration: 0.2 }}
               style={{
-                width: "100%",
-                height: "44px",
-                borderRadius: "999px",
+                height: 38,
+                padding: "0 1.25rem",
+                borderRadius: 40,
                 border: "1px solid #D8D8D8",
-                background: "#ffffff",
-                color: "#333",
+                background: "#FFFFFF",
+                color: "#2F3A33",
                 cursor: "pointer",
-                fontSize: "14px",
+                fontSize: "0.78rem",
                 fontWeight: 500,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                whiteSpace: "nowrap",
               }}
             >
-              Details
+              View Details
             </motion.button>
           </Link>
         </div>

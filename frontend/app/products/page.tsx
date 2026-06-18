@@ -1,6 +1,6 @@
 import Navbar from "../../components/Navbar";
-import ProductCard from "../../components/ProductCard";
-import { getProducts, Product } from "@/lib/api";
+import ProductCarousel from "../../components/ProductCarousel";
+import { getProducts } from "@/lib/api";
 
 const CERTIFICATIONS = [
   { label: "Natural Essence", icon: "✦" },
@@ -274,39 +274,8 @@ export default async function DashboardPage() {
             }}
           />
 
-          {products.length === 0 ? (
-            <div
-              style={{
-                textAlign: "center",
-                color: "#888",
-                padding: "5rem 0",
-                background: "#FFFFFF",
-                borderRadius: 16,
-                border: "1px solid #EFEAE1",
-              }}
-            >
-              <p style={{ fontSize: "2rem", marginBottom: "1rem" }}>🌿</p>
-              <p style={{ fontSize: "1.1rem", fontWeight: 300 }}>
-                Products are on their way.
-              </p>
-              <p style={{ fontSize: "0.9rem", marginTop: "0.5rem" }}>
-                Check back soon for our full collection.
-              </p>
-            </div>
-          ) : (
-            <div
-              className="product-grid"
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-                gap: "2rem",
-              }}
-            >
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          )}
+          {/* ── replaced static grid with carousel (tabs: Aroma Balm / Room Spray) ── */}
+          <ProductCarousel products={products} />
         </section>
 
         {/* ── BRAND STRIP — mid-page palette break ── */}
@@ -532,22 +501,10 @@ export default async function DashboardPage() {
                 Connect
               </p>
               {[
-                {
-                  name: "Instagram",
-                  href: "https://shorturl.at/AfAPc",
-                },
-                {
-                  name: "Facebook",
-                  href: "https://shorturl.at/BJPYF",
-                },
-                {
-                  name: "TikTok",
-                  href: "https://www.tiktok.com/@tharabliss?_r=1&_t=ZS-975GjfaqjAe",
-                },
-                {
-                  name: "Shopee",
-                  href: "https://shorturl.at/2Eg4w",
-                },
+                { name: "Instagram", href: "https://shorturl.at/AfAPc" },
+                { name: "Facebook", href: "https://shorturl.at/BJPYF" },
+                { name: "TikTok", href: "https://www.tiktok.com/@tharabliss?_r=1&_t=ZS-975GjfaqjAe" },
+                { name: "Shopee", href: "https://shorturl.at/2Eg4w" },
               ].map((item) => (
                 <a
                   key={item.name}
