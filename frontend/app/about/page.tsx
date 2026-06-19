@@ -3,7 +3,7 @@ import Navbar from "../../components/Navbar";
 
 
 const IMAGES = {
-  hero: "/images/about/banner_our.jpg",
+  hero: "/images/banner/brand.jpg",
   story: "/images/about/banner_our.jpg",
   scent: "/images/about/scent.jpg",
   craft: "/images/about/decorate.jpg",
@@ -52,7 +52,7 @@ export default function AboutPage() {
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              objectPosition: "right",
+              objectPosition: "center",
             }}
           />
           {/* dark-to-transparent scrim for legibility */}

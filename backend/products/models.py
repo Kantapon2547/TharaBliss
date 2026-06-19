@@ -14,6 +14,8 @@ class Product(models.Model):
         ('Thara Mist', 'Thara Mist'),
         ('Poised Pear & Freesia', 'Poised Pear & Freesia'),
         ('Aqua No.1', 'Aqua No.1'),
+        ('Box Set', 'Box Set'),
+        ('Trio Set', 'Trio Set')
     ]
 
     name = models.CharField(max_length=255)
@@ -26,6 +28,8 @@ class Product(models.Model):
         related_name='products'
     )
 
+    order = models.PositiveIntegerField(default=0,
+    db_index=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     scent = models.CharField(max_length=100, choices=SCENT_CHOICES)
 
@@ -38,6 +42,9 @@ class Product(models.Model):
     is_active = models.BooleanField(default=True)
     is_set_product = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['order', '-created_at']
 
     def __str__(self):
         return self.name
