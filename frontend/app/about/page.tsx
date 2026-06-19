@@ -1,6 +1,6 @@
 "use client";
 import Navbar from "../../components/Navbar";
-
+import Reveal from "../../components/Reveal";
 
 const IMAGES = {
   hero: "/images/banner/brand.jpg",
@@ -52,10 +52,9 @@ export default function AboutPage() {
               width: "100%",
               height: "100%",
               objectFit: "cover",
-              objectPosition: "center",
+              objectPosition: "right",
             }}
           />
-          {/* dark-to-transparent scrim for legibility */}
           <div
             style={{
               position: "absolute",
@@ -75,6 +74,7 @@ export default function AboutPage() {
               padding: "0 6vw 5rem",
             }}
           >
+            {/* hero content doesn't need scroll-reveal since it's visible on load */}
             <p
               style={{
                 color: "rgba(251,245,221,0.75)",
@@ -124,15 +124,7 @@ export default function AboutPage() {
             minHeight: 560,
           }}
         >
-          <div
-            className="split-text"
-            style={{
-              padding: "6rem 5vw 6rem 8vw",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
-          >
+          <Reveal direction="up" className="split-text" style={{ padding: "6rem 5vw 6rem 8vw", display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <p
               style={{
                 color: "#0F6E56",
@@ -159,14 +151,14 @@ export default function AboutPage() {
               ในโลกที่เต็มไปด้วยความเร่งรีบ เราอยากสร้างสิ่งเล็ก ๆ ที่ช่วยให้ผู้คนได้หยุดพัก หายใจลึกขึ้น และกลับมาอยู่กับตัวเองอีกครั้ง
               ผ่านพลังของกลิ่นหอมที่ถูกคัดสรรอย่างพิถีพิถัน
             </p>
-          </div>
-          <div className="split-image" style={{ overflow: "hidden" }}>
+          </Reveal>
+          <Reveal direction="right" className="split-image" style={{ overflow: "hidden" }}>
             <img
               src={IMAGES.story}
               alt="Handcrafted aroma balm"
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             />
-          </div>
+          </Reveal>
         </section>
 
         {/* ── POWER OF SCENT — image left, text right ── */}
@@ -180,22 +172,14 @@ export default function AboutPage() {
             background: "#FFFFFF",
           }}
         >
-          <div className="split-image" style={{ overflow: "hidden" }}>
+          <Reveal direction="left" className="split-image" style={{ overflow: "hidden" }}>
             <img
               src={IMAGES.scent}
               alt="Close-up of botanical fragrance ingredients"
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             />
-          </div>
-          <div
-            className="split-text"
-            style={{
-              padding: "6rem 8vw 6rem 5vw",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
-          >
+          </Reveal>
+          <Reveal direction="up" className="split-text" style={{ padding: "6rem 8vw 6rem 5vw", display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <p
               style={{
                 color: "#0F6E56",
@@ -224,12 +208,12 @@ export default function AboutPage() {
             <p style={{ lineHeight: 2, color: "#555", marginTop: "1.5rem" }}>
               ที่ Thara Bliss เราเชื่อว่ากลิ่นไม่ได้เป็นเพียงความหอม แต่เป็นส่วนหนึ่งของอารมณ์ ความทรงจำ และคุณภาพชีวิตในแต่ละวัน
             </p>
-          </div>
+          </Reveal>
         </section>
 
         {/* ── PHILOSOPHY — three cards over a warm background ── */}
         <section className="philosophy-section" style={{ background: "#FBF5DD", padding: "8rem 6vw" }}>
-          <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+          <Reveal direction="up" style={{ textAlign: "center", marginBottom: "4rem" }}>
             <p
               style={{
                 color: "#0F6E56",
@@ -250,7 +234,7 @@ export default function AboutPage() {
             >
               Three pillars, one intention.
             </h2>
-          </div>
+          </Reveal>
           <div
             style={{
               display: "grid",
@@ -260,50 +244,52 @@ export default function AboutPage() {
               margin: "0 auto",
             }}
           >
-            {philosophyItems.map((item) => (
-              <div
-                key={item.title}
-                style={{
-                  background: "#FFFFFF",
-                  borderRadius: "16px",
-                  padding: "2.5rem 2rem",
-                  border: "1px solid #EFEAE1",
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
-                <span
-                  style={{
-                    position: "absolute",
-                    top: "1.5rem",
-                    right: "1.5rem",
-                    fontSize: "2rem",
-                    opacity: 0.15,
-                  }}
-                >
-                  {item.icon}
-                </span>
+            {philosophyItems.map((item, i) => (
+              <Reveal key={item.title} direction="up" delay={i * 0.12}>
                 <div
                   style={{
-                    width: 40,
-                    height: 3,
-                    background: "#0F6E56",
-                    marginBottom: "1.5rem",
-                    borderRadius: 2,
-                  }}
-                />
-                <h3
-                  style={{
-                    fontSize: "1.75rem",
-                    fontWeight: 300,
-                    marginBottom: "1rem",
-                    color: "#2F3A33",
+                    background: "#FFFFFF",
+                    borderRadius: "16px",
+                    padding: "2.5rem 2rem",
+                    border: "1px solid #EFEAE1",
+                    position: "relative",
+                    overflow: "hidden",
+                    height: "100%",
                   }}
                 >
-                  {item.title}
-                </h3>
-                <p style={{ color: "#666", lineHeight: 1.9, fontSize: "0.95rem" }}>{item.thai}</p>
-              </div>
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: "1.5rem",
+                      right: "1.5rem",
+                      fontSize: "2rem",
+                      opacity: 0.15,
+                    }}
+                  >
+                    {item.icon}
+                  </span>
+                  <div
+                    style={{
+                      width: 40,
+                      height: 3,
+                      background: "#0F6E56",
+                      marginBottom: "1.5rem",
+                      borderRadius: 2,
+                    }}
+                  />
+                  <h3
+                    style={{
+                      fontSize: "1.75rem",
+                      fontWeight: 300,
+                      marginBottom: "1rem",
+                      color: "#2F3A33",
+                    }}
+                  >
+                    {item.title}
+                  </h3>
+                  <p style={{ color: "#666", lineHeight: 1.9, fontSize: "0.95rem" }}>{item.thai}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </section>
@@ -319,15 +305,7 @@ export default function AboutPage() {
             background: "#FAFAF7",
           }}
         >
-          <div
-            className="split-text"
-            style={{
-              padding: "6rem 5vw 6rem 8vw",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-            }}
-          >
+          <Reveal direction="up" className="split-text" style={{ padding: "6rem 5vw 6rem 8vw", display: "flex", flexDirection: "column", justifyContent: "center" }}>
             <p
               style={{
                 color: "#0F6E56",
@@ -354,14 +332,14 @@ export default function AboutPage() {
               เราเลือกใช้ส่วนผสมและกลิ่นหอมที่ให้ความรู้สึกนุ่มนวล สง่างาม และผ่อนคลาย
               เพื่อให้ทุกครั้งที่ใช้งานเป็นช่วงเวลาแห่งการดูแลตัวเองอย่างแท้จริง
             </p>
-          </div>
-          <div className="split-image" style={{ overflow: "hidden" }}>
+          </Reveal>
+          <Reveal direction="right" className="split-image" style={{ overflow: "hidden" }}>
             <img
               src={IMAGES.craft}
               alt="Crafting aroma balm"
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             />
-          </div>
+          </Reveal>
         </section>
 
         {/* ── LOOKING AHEAD — full-width image banner with text overlay ── */}
@@ -385,7 +363,8 @@ export default function AboutPage() {
               background: "rgba(15,30,20,0.62)",
             }}
           />
-          <div
+          <Reveal
+            direction="up"
             className="ahead-content"
             style={{
               position: "relative",
@@ -422,7 +401,7 @@ export default function AboutPage() {
               Thara Bliss เริ่มต้นจาก Aroma Balm ที่ออกแบบมาเพื่อการพกพาและใช้งานได้ทุกวัน ในอนาคตเราจะขยายประสบการณ์แห่งความผ่อนคลายนี้ไปสู่ผลิตภัณฑ์สำหรับบ้านและพื้นที่อยู่อาศัย
               เพื่อให้ทุกพื้นที่สามารถกลายเป็นพื้นที่แห่งความสุขได้เช่นกัน
             </p>
-          </div>
+          </Reveal>
         </section>
 
         {/* ── FOOTER BANNER ── */}
@@ -435,18 +414,20 @@ export default function AboutPage() {
             padding: "6rem 2rem",
           }}
         >
-          <h2
-            style={{
-              fontSize: "clamp(2rem, 4vw, 3.5rem)",
-              fontWeight: 300,
-              letterSpacing: "0.02em",
-            }}
-          >
-            Calm. Balance. Bliss.
-          </h2>
-          <p style={{ marginTop: "1rem", opacity: 0.85, fontSize: "1.05rem" }}>
-            More than fragrance — a daily ritual of well-being.
-          </p>
+          <Reveal direction="up">
+            <h2
+              style={{
+                fontSize: "clamp(2rem, 4vw, 3.5rem)",
+                fontWeight: 300,
+                letterSpacing: "0.02em",
+              }}
+            >
+              Calm. Balance. Bliss.
+            </h2>
+            <p style={{ marginTop: "1rem", opacity: 0.85, fontSize: "1.05rem" }}>
+              More than fragrance — a daily ritual of well-being.
+            </p>
+          </Reveal>
         </section>
         {/* ── FOOTER ── */}
         <footer
@@ -489,22 +470,10 @@ export default function AboutPage() {
                 Connect
               </p>
               {[
-                {
-                 name: "Instagram",
-                 href: "https://shorturl.at/AfAPc",
-                },
-                {
-                name: "Facebook",
-                href: "https://shorturl.at/BJPYF",
-                },
-                {
-                name: "TikTok",
-                href: "https://www.tiktok.com/@tharabliss?_r=1&_t=ZS-975GjfaqjAe",
-                },
-                {
-                name: "Shopee",
-                href: "https://shorturl.at/2Eg4w",
-                },
+                { name: "Instagram", href: "https://shorturl.at/AfAPc" },
+                { name: "Facebook", href: "https://shorturl.at/BJPYF" },
+                { name: "TikTok", href: "https://www.tiktok.com/@tharabliss?_r=1&_t=ZS-975GjfaqjAe" },
+                { name: "Shopee", href: "https://shorturl.at/2Eg4w" },
               ].map((item) => (
                 <a
                   key={item.name}
@@ -535,7 +504,6 @@ export default function AboutPage() {
       {/* ── RESPONSIVE STYLES ── */}
       <style>{`
         @media (max-width: 768px) {
-          /* Hero: shorter, content not pinned to the very bottom */
           .about-hero {
             height: 75vh !important;
             min-height: 460px !important;
@@ -543,8 +511,6 @@ export default function AboutPage() {
           .about-hero-content {
             padding: 0 6vw 3rem !important;
           }
-
-          /* Split rows (Story / Scent / Craft): stack image above text */
           .split-row {
             grid-template-columns: 1fr !important;
             min-height: auto !important;
@@ -556,26 +522,18 @@ export default function AboutPage() {
           .split-text {
             padding: 3rem 6vw !important;
           }
-
-          /* Philosophy: tighter section padding */
           .philosophy-section {
             padding: 4rem 6vw !important;
           }
-
-          /* Looking Ahead banner */
           .ahead-section {
             min-height: 420px !important;
           }
           .ahead-content {
             padding: 4rem 6vw !important;
           }
-
-          /* Footer banner */
           .footer-banner {
             padding: 4rem 6vw !important;
           }
-
-          /* Footer columns stack */
           .footer-grid {
             grid-template-columns: 1fr !important;
             gap: 2.5rem !important;

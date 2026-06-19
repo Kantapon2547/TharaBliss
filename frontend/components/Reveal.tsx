@@ -1,0 +1,93 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { ReactNode } from "react";
+
+interface RevealProps {
+  children: ReactNode;
+  /** delay in seconds before the animation starts (useful for staggering siblings) */
+  delay?: number;
+  /** direction the element animates in from */
+  direction?: "up" | "down" | "left" | "right" | "none";
+  /** distance in px the element travels */
+  distance?: number;
+  /** pass through any wrapper styles (e.g. width: 100%) */
+  style?: React.CSSProperties;
+  className?: string;
+  /** re-trigger every time it scrolls into view (default: only once) */
+  repeat?: boolean;
+}
+
+const OFFSETS: Record<NonNullable<RevealProps["direction"]>, { x: number; y: number }> = {
+  up: { x: 0, y: 1 },
+  down: { x: 0, y: -1 },
+  left: { x: 1, y: 0 },
+  right: { x: -1, y: 0 },
+  none: { x: 0, y: 0 },
+};
+
+export default function Reveal({
+  children,
+  delay = 0,
+  direction = "up",
+  distance = 28,
+  style,
+  className,
+  repeat = false,
+}: RevealProps) {
+  const offset = OFFSETS[direction];
+
+  return (
+    <motion.div
+      initial={{
+        opacity: 0,
+        x: offset.x * distance,
+        y: offset.y * distance,
+      }}
+      whileInView={{
+        opacity: 1,
+        x: 0,
+        y: 0,
+      }}
+      viewport={{ once: !repeat, amount: 0.2 }}
+      transition={{
+        duration: 0.65,
+        delay,
+        ease: [0.21, 0.47, 0.32, 0.98],
+      }}
+      style={style}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/**
+ * RevealGroup — for staggering a list of children (e.g. 3 philosophy cards,
+ * a grid of product cards). Wrap each child in this instead of <Reveal>
+ * and they'll animate in sequence based on index.
+ */
+export function RevealStagger({
+  children,
+  baseDelay = 0,
+  step = 0.1,
+  direction = "up",
+  distance = 28,
+}: {
+  children: ReactNode[];
+  baseDelay?: number;
+  step?: number;
+  direction?: RevealProps["direction"];
+  distance?: number;
+}) {
+  return (
+    <>
+      {children.map((child, i) => (
+        <Reveal key={i} delay={baseDelay + i * step} direction={direction} distance={distance}>
+          {child}
+        </Reveal>
+      ))}
+    </>
+  );
+}
