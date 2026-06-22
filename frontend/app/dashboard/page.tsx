@@ -5,6 +5,8 @@ import Navbar from "../../components/Navbar";
 import { motion } from "framer-motion";
 import { getProducts } from "@/lib/api";
 import { SplitLines, FadeUp, SlideIn, FadeIn } from "@/components/Animations";
+import { FaInstagram, FaFacebook, FaTiktok, FaShoppingCart } from "react-icons/fa";
+import SocialIcons from "../../components/SocialLinks";
 
 const HERO = {
   img: "/images/banner/product_banner.jpg",
@@ -756,7 +758,7 @@ export default function HomePage() {
                   marginBottom: "1.2rem",
                 }}
               >
-                Navigate
+                Explore
               </p>
               {["Products", "About", "Journal", "Help-Center"].map((link) => (
                 <a
@@ -784,43 +786,9 @@ export default function HomePage() {
                   marginBottom: "1.2rem",
                 }}
               >
-                Connect
+                Follow Us
               </p>
-              {[
-                {
-                 name: "Instagram",
-                 href: "https://shorturl.at/AfAPc",
-                },
-                {
-                name: "Facebook",
-                href: "https://shorturl.at/BJPYF",
-                },
-                {
-                name: "TikTok",
-                href: "https://www.tiktok.com/@tharabliss?_r=1&_t=ZS-975GjfaqjAe",
-                },
-                {
-                name: "Shopee",
-                href: "https://shorturl.at/2Eg4w",
-                },
-              ].map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: "block",
-                    color: "rgba(251,245,221,0.7)",
-                    textDecoration: "none",
-                    fontSize: "0.9rem",
-                    marginBottom: "0.6rem",
-                    transition: "0.2s",
-                  }}
-                >
-                  {item.name}
-                </a>
-              ))}
+              <SocialIcons />
             </div>
           </div>
           <div

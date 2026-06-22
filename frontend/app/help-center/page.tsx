@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Navbar from "../../components/Navbar";
+import { FaInstagram, FaFacebook, FaTiktok, FaShoppingCart } from "react-icons/fa";
+import SocialIcons from "../../components/SocialLinks";
 
 const FAQS = [
   {
@@ -699,14 +701,14 @@ export default function HelpCenterPage() {
                 Thara Bliss
               </h3>
               <p style={{ color: "rgba(251,245,221,0.5)", lineHeight: 1.8, fontSize: "0.9rem", maxWidth: 280 }}>
-                Luxury Aromatic Products & Wellness Collection — crafted in Thailand for daily calm.
+                ไม่ใช่แค่ความหอม แต่คือการดูแลอารมณ์และจิตใจในทุกวัน — เลือกกลิ่นที่สะท้อนตัวตนและอยู่กับคุณในทุกช่วงเวลา
               </p>
             </div>
             <div>
               <p style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", opacity: 0.4, marginBottom: "1.2rem" }}>
                 Explore
               </p>
-              {["Shop", "About", "Journal", "Help"].map((link) => (
+              {["Products", "About", "Journal", "Help-Center"].map((link) => (
                 <a key={link} href={`/${link.toLowerCase()}`} style={{ display: "block", color: "rgba(251,245,221,0.7)", textDecoration: "none", fontSize: "0.9rem", marginBottom: "0.6rem" }}>
                   {link}
                 </a>
@@ -714,31 +716,9 @@ export default function HelpCenterPage() {
             </div>
             <div>
               <p style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", opacity: 0.4, marginBottom: "1.2rem" }}>
-                Connect
+                Follow Us
               </p>
-              {[
-                { name: "Instagram", href: "https://shorturl.at/AfAPc" },
-                { name: "Facebook", href: "https://shorturl.at/BJPYF" },
-                { name: "TikTok", href: "https://www.tiktok.com/@tharabliss?_r=1&_t=ZS-975GjfaqjAe" },
-                { name: "Shopee", href: "https://shorturl.at/2Eg4w" },
-              ].map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: "block",
-                    color: "rgba(251,245,221,0.7)",
-                    textDecoration: "none",
-                    fontSize: "0.9rem",
-                    marginBottom: "0.6rem",
-                    transition: "0.2s",
-                  }}
-                >
-                  {item.name}
-                </a>
-              ))}
+              <SocialIcons />
             </div>
           </div>
           <div

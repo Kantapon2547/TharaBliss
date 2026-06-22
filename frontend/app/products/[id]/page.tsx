@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "../../../components/Navbar";
+import SocialIcons from "../../../components/SocialLinks";
 import {
   getProduct,
   getSettings,
@@ -13,6 +14,8 @@ import {
   ProductSizeAndPrice,
   ProductAccordions,
 } from "../../../components/ProductInteractive";
+
+import { FaInstagram, FaFacebook, FaTiktok, FaShoppingCart } from "react-icons/fa";
 
 export const dynamic = "force-dynamic";
 
@@ -275,22 +278,106 @@ export default async function ProductDetail({
 
         {/* ── FOOTER STRIP ── */}
         <footer
-          className="product-footer-strip"
           style={{
             background: "#2F3A33",
             color: "#FBF5DD",
-            padding: "2.5rem 6vw",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: "1rem",
+            padding: "4rem 8vw 2.5rem",
           }}
         >
-          <p style={{ fontWeight: 300, fontSize: "1.1rem" }}>Thara Bliss</p>
-          <p style={{ color: "rgba(251,245,221,0.4)", fontSize: "12px" }}>
-            Calm. Balance. Bliss. · © 2026 Thara Bliss
-          </p>
+          <div
+            className="footer-grid"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "2fr 1fr 1fr",
+              gap: "3rem",
+              paddingBottom: "3rem",
+              borderBottom: "1px solid rgba(251,245,221,0.12)",
+              flexWrap: "wrap",
+            }}
+          >
+            {/* brand column */}
+            <div>
+              <h3
+                style={{
+                  fontSize: "1.5rem",
+                  fontWeight: 300,
+                  marginBottom: "0.75rem",
+                  color: "#FBF5DD",
+                }}
+              >
+                Thara Bliss
+              </h3>
+              <p
+                style={{
+                  color: "rgba(251,245,221,0.55)",
+                  lineHeight: 1.8,
+                  fontSize: "0.9rem",
+                  maxWidth: 280,
+                }}
+              >
+                ไม่ใช่แค่ความหอม แต่คือการดูแลอารมณ์และจิตใจในทุกวัน — เลือกกลิ่นที่สะท้อนตัวตนและอยู่กับคุณในทุกช่วงเวลา
+              </p>
+            </div>
+            <div>
+              <p
+                style={{
+                  fontSize: "11px",
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  opacity: 0.45,
+                  marginBottom: "1.2rem",
+                }}
+              >
+                Explore
+              </p>
+              {["Products", "About", "Journal", "Help-Center"].map((link) => (
+                <a
+                  key={link}
+                  href={`/${link.toLowerCase()}`}
+                  style={{
+                    display: "block",
+                    color: "rgba(251,245,221,0.75)",
+                    textDecoration: "none",
+                    fontSize: "0.9rem",
+                    marginBottom: "0.6rem",
+                  }}
+                >
+                  {link}
+                </a>
+              ))}
+            </div>
+            <div>
+              <p
+                style={{
+                  fontSize: "11px",
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  opacity: 0.45,
+                  marginBottom: "1.2rem",
+                }}>
+                Follow Us
+              </p>
+              <SocialIcons />
+            </div>
+          </div>
+          <div
+            className="footer-bottom"
+            style={{
+              paddingTop: "1.5rem",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: "0.5rem",
+            }}
+          >
+            <p style={{ color: "rgba(251,245,221,0.35)", fontSize: "12px" }}>
+              © 2026 Thara Bliss. All rights reserved.
+            </p>
+            <p style={{ color: "rgba(251,245,221,0.35)", fontSize: "12px" }}>
+              Calm. Balance. Bliss.
+            </p>
+          </div>
         </footer>
       </main>
     </>

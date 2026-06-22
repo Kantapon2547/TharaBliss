@@ -3,6 +3,10 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 console.log("API_URL =", API_URL);
 console.log("REQUEST =", `${API_URL}/api/products/`);
 
+if (!API_URL) {
+  throw new Error("NEXT_PUBLIC_API_URL is not defined");
+}
+
 export interface Product {
   id: number; name: string;
   description: string;

@@ -9,7 +9,8 @@ const NAV_LINKS = [
   { label: "Our Story", href: "/about" },
   { label: "Journal", href: "/journal" },
   { label: "Products", href: "/products" },
-  { label: "Help Center", href: "/help-center" },
+  { label: "Help Center", href: "/help-center"},
+
 ];
 
 export default function Navbar() {
@@ -76,8 +77,8 @@ export default function Navbar() {
                   color: "#2F3A33",
                   fontSize: 20,
                   fontWeight: 400,
-                  letterSpacing: "0.04em",
-                  lineHeight: 1,
+                  letterSpacing: "0.05em",
+                  lineHeight: 1.5,
                 }}
               >
                 Thara<em style={{ fontStyle: "italic", color: "#0F6E56" }}>Bliss</em>

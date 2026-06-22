@@ -1,6 +1,8 @@
 import Navbar from "../../components/Navbar";
 import ProductCarousel from "../../components/ProductCarousel";
 import { getProducts } from "@/lib/api";
+import { FaInstagram, FaFacebook, FaTiktok, FaShoppingCart } from "react-icons/fa";
+import SocialIcons from "../../components/SocialLinks";
 
 const CERTIFICATIONS = [
   { label: "Natural Essence", icon: "✦" },
@@ -456,8 +458,6 @@ export default async function DashboardPage() {
                 ไม่ใช่แค่ความหอม แต่คือการดูแลอารมณ์และจิตใจในทุกวัน — เลือกกลิ่นที่สะท้อนตัวตนและอยู่กับคุณในทุกช่วงเวลา
               </p>
             </div>
-
-            {/* nav column */}
             <div>
               <p
                 style={{
@@ -470,7 +470,7 @@ export default async function DashboardPage() {
               >
                 Explore
               </p>
-              {["Shop", "About", "Journal"].map((link) => (
+              {["Products", "About", "Journal", "Help-Center"].map((link) => (
                 <a
                   key={link}
                   href={`/${link.toLowerCase()}`}
@@ -486,8 +486,6 @@ export default async function DashboardPage() {
                 </a>
               ))}
             </div>
-
-            {/* contact column */}
             <div>
               <p
                 style={{
@@ -496,36 +494,12 @@ export default async function DashboardPage() {
                   textTransform: "uppercase",
                   opacity: 0.45,
                   marginBottom: "1.2rem",
-                }}
-              >
-                Connect
+                }}>
+                Follow Us
               </p>
-              {[
-                { name: "Instagram", href: "https://shorturl.at/AfAPc" },
-                { name: "Facebook", href: "https://shorturl.at/BJPYF" },
-                { name: "TikTok", href: "https://www.tiktok.com/@tharabliss?_r=1&_t=ZS-975GjfaqjAe" },
-                { name: "Shopee", href: "https://shorturl.at/2Eg4w" },
-              ].map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: "block",
-                    color: "rgba(251,245,221,0.7)",
-                    textDecoration: "none",
-                    fontSize: "0.9rem",
-                    marginBottom: "0.6rem",
-                    transition: "0.2s",
-                  }}
-                >
-                  {item.name}
-                </a>
-              ))}
+              <SocialIcons />
             </div>
           </div>
-
           <div
             className="footer-bottom"
             style={{

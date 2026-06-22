@@ -1,5 +1,7 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import { FaInstagram, FaFacebook, FaTiktok, FaShoppingCart } from "react-icons/fa";
+import SocialIcons from "../../components/SocialLinks";
 
 const articles = [
   {
@@ -412,30 +414,9 @@ export default function JournalPage() {
             </div>
             <div>
               <p style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", opacity: 0.4, marginBottom: "1.2rem" }}>
-                Connect
+                Follow Us
               </p>
-              {[
-                { name: "Instagram", href: "https://shorturl.at/AfAPc" },
-                { name: "Facebook",  href: "https://shorturl.at/BJPYF" },
-                { name: "TikTok",    href: "https://www.tiktok.com/@tharabliss" },
-                { name: "Shopee",    href: "https://shorturl.at/2Eg4w" },
-              ].map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: "block",
-                    color: "rgba(251,245,221,0.7)",
-                    textDecoration: "none",
-                    fontSize: "0.9rem",
-                    marginBottom: "0.6rem",
-                  }}
-                >
-                  {item.name}
-                </a>
-              ))}
+              <SocialIcons />
             </div>
           </div>
           <div style={{ paddingTop: "1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
