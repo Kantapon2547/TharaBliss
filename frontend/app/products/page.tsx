@@ -15,7 +15,8 @@ export default async function DashboardPage({
   searchParams: { tab?: string };
 }) {
   const products   = await getProducts();
-  const initialTab = searchParams.tab ?? "aroma-balm";
+  const params = await searchParams;
+  const initialTab = params.tab ?? "aroma-balm";
 
   return (
     <>
