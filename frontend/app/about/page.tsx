@@ -348,29 +348,21 @@ export default function AboutPage() {
 
         {/* ── LOOKING AHEAD — full-width image banner with text overlay ── */}
         <section className="ahead-section" style={{ position: "relative", minHeight: 520 }}>
-          <img
-            src={IMAGES.ahead}
-            alt="Calm home space with candles"
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "center 40%",
-            }}
-          />
+
           <div
             style={{
+
               position: "absolute",
               inset: 0,
-              background: "rgba(15,30,20,0.62)",
+              background: "#0F6E56",
             }}
           />
+
           <Reveal
             direction="up"
             className="ahead-content"
             style={{
+              background: "#0F6E56",
               position: "relative",
               zIndex: 1,
               maxWidth: "720px",
@@ -380,8 +372,28 @@ export default function AboutPage() {
               color: "#FBF5DD",
             }}
           >
+          <span
+            aria-hidden
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              fontSize: "clamp(8rem, 22vw, 20rem)",
+              fontWeight: 700,
+              opacity: 0.04,
+              whiteSpace: "nowrap",
+              color: "#FBF5DD",
+              pointerEvents: "none",
+              userSelect: "none",
+              letterSpacing: "0.05em",
+            }}
+          >
+            BLISS
+          </span>
             <p
               style={{
+                background: "#0F6E56",
                 letterSpacing: "0.18em",
                 textTransform: "uppercase",
                 fontSize: "11px",
@@ -393,6 +405,7 @@ export default function AboutPage() {
             </p>
             <h2
               style={{
+                background: "#0F6E56",
                 fontSize: "clamp(2rem, 4vw, 3.2rem)",
                 fontWeight: 300,
                 lineHeight: 1.25,
@@ -409,31 +422,6 @@ export default function AboutPage() {
         </section>
 
         {/* ── FOOTER BANNER ── */}
-        <section
-          className="footer-banner"
-          style={{
-            background: "#0F6E56",
-            color: "#FFFFFF",
-            textAlign: "center",
-            padding: "6rem 2rem",
-          }}
-        >
-          <Reveal direction="up">
-            <h2
-              style={{
-                fontSize: "clamp(2rem, 4vw, 3.5rem)",
-                fontWeight: 300,
-                letterSpacing: "0.02em",
-              }}
-            >
-              Calm. Balance. Bliss.
-            </h2>
-            <p style={{ marginTop: "1rem", opacity: 0.85, fontSize: "1.05rem" }}>
-              More than fragrance — a daily ritual of well-being.
-            </p>
-          </Reveal>
-        </section>
-        {/* ── FOOTER ── */}
         <footer
           style={{
             background: "#2F3A33",

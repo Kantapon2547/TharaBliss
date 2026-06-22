@@ -788,7 +788,57 @@ export default function HomePage() {
               >
                 Follow Us
               </p>
-              <SocialIcons />
+              {[
+                {
+                 icon: <FaInstagram size={18} />,
+                 name: "Instagram",
+                 href: "https://shorturl.at/AfAPc",
+                },
+                {
+                icon: <FaFacebook  size={18} />,
+                name: "Facebook",
+                href: "https://shorturl.at/BJPYF",
+                },
+                {
+                icon: <FaTiktok size={17} />,
+                name: "TikTok",
+                href: "https://www.tiktok.com/@tharabliss?_r=1&_t=ZS-975GjfaqjAe",
+                },
+                {
+                icon: <FaShoppingCart size={18} />,
+                name: "Shopee",
+                href: "https://shorturl.at/2Eg4w",
+                },
+              ].map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "inline-flex",
+                    marginRight: "12px",
+                    padding: "8px 0",
+                    color: "rgba(251,245,221,0.7)",
+                    textDecoration: "none",
+                    fontSize: "0.9rem",
+                    marginBottom: "0.6rem",
+                    transition: "0.2s",
+                  }}
+                  onMouseEnter={e => {
+                    (e.currentTarget as HTMLAnchorElement).style.background = "rgba(251,245,221,0.12)";
+                    (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(251,245,221,0.5)";
+                    (e.currentTarget as HTMLAnchorElement).style.color = "#FBF5DD";
+                  }}
+                  onMouseLeave={e => {
+                    (e.currentTarget as HTMLAnchorElement).style.background = "transparent";
+                    (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(251,245,221,0.2)";
+                    (e.currentTarget as HTMLAnchorElement).style.color = "rgba(251,245,221,0.7)";
+                  }}
+                >
+                  {item.icon}
+                </a>
+              ))}
             </div>
           </div>
           <div

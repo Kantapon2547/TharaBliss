@@ -349,30 +349,55 @@ export default function JournalPage() {
 
         {/* ── FOOTER BANNER ── */}
         <section
-          className="journal-footer-banner"
           style={{
+
             background: "#0F6E56",
             color: "#FBF5DD",
+            padding: "7rem 6vw",
             textAlign: "center",
-            padding: "5rem 2rem",
+            position: "relative",
+            overflow: "hidden",
           }}
         >
-          <p
+        <span
+            aria-hidden
             style={{
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              fontSize: "11px",
-              opacity: 0.65,
-              marginBottom: "1rem",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              fontSize: "clamp(8rem, 22vw, 20rem)",
+              fontWeight: 700,
+              opacity: 0.04,
+              whiteSpace: "nowrap",
+              color: "#FBF5DD",
+              pointerEvents: "none",
+              userSelect: "none",
+              letterSpacing: "0.05em",
             }}
           >
-            Thara Bliss
-          </p>
-          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 300, margin: 0 }}>
+            BLISS
+          </span>
+          <p
+            style={{
+              background: "#0F6E56",
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                fontSize: "11px",
+                opacity: 0.7,
+                marginBottom: "1.2rem",
+            }}
+          >
             Calm. Balance. Bliss.
+          </p>
+          <h2 style={{ background: "#0F6E56", fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 300, lineHeight: 1.25, marginBottom: "2rem", }}>
+            Thara Bliss Journal
           </h2>
-          <p style={{ marginTop: "1rem", opacity: 0.8 }}>
-            Aroma blam fragrance — a daily ritual of well-being.
+          <p style={{ opacity: 0.75, lineHeight: 1.8, marginBottom: "2.5rem"}}>
+            บางวัน... เราไม่ได้ต้องการอะไรมากไปกว่าช่วงเวลาสั้น ๆ ที่ได้หยุดหายใจลึก ๆ
+            และกลับมาอยู่กับตัวเองอีกครั้ง <br />
+            Thara Bliss Journal คือพื้นที่เล็ก ๆ ที่เราตั้งใจสร้างขึ้นเพื่อบันทึกเรื่องราวของกลิ่นหอมและความรู้สึกและ ritual ในชีวิตประจำวัน <br />0
+            ที่ช่วยให้ใจค่อย ๆ กลับสู่ความสงบอย่างเป็นธรรมชาติ
           </p>
         </section>
 
