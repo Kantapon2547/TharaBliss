@@ -3,6 +3,8 @@
 import { useState } from "react";
 import ProductCard from "./ProductCard";
 import { Product } from "@/lib/api";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const TABS = ["Aroma Balm", "Room Spray", "Special Gift"] as const;
 type Tab = typeof TABS[number];
@@ -11,6 +13,19 @@ export default function ProductCarousel({ products }: { products: Product[] }) {
   const [activeTab, setActiveTab] = useState<Tab>("Aroma Balm");
   const [giftOpen, setGiftOpen] = useState(false);
   const [sprayOpen, setSprayOpen] = useState(false);
+  const searchParams = useSearchParams();
+   const router = useRouter();
+
+   // Sync tab when navbar dropdown is clicked
+   useEffect(() => {
+     const tabMap: Record<string, Tab> = {
+       "aroma-balm":   "Aroma Balm",
+       "room-spray":   "Room Spray",
+       "special-gift": "Special Gift",
+     };
+     const tab = searchParams.get("tab");
+     if (tab && tabMap[tab]) setActiveTab(tabMap[tab]);
+   }, [searchParams]);
 
   const aromaItems = [
     ...products.map((p) => ({ type: "product" as const, data: p })),
@@ -32,7 +47,15 @@ export default function ProductCarousel({ products }: { products: Product[] }) {
           return (
             <button
               key={tab}
-              onClick={() => setActiveTab(tab)}
+              onClick={() => {setActiveTab(tab);
+              const urlMap: Record<Tab, string> = {
+                "Aroma Balm":   "aroma-balm",
+                "Room Spray":   "room-spray",
+                "Special Gift": "special-gift",
+              };
+              router.replace(`/products?tab=${urlMap[tab]}`, { scroll: false });
+              }}
+
               style={{
                 background: "none",
                 border: "none",
