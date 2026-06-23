@@ -58,6 +58,7 @@ export default function Navbar() {
         }}
       >
         <div
+          className="navbar-inner"
           style={{
             maxWidth: 1280,
             margin: "0 auto",
@@ -191,11 +192,12 @@ export default function Navbar() {
           </div>
 
           {/* RIGHT SIDE */}
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+          <div className="navbar-right" style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
             <Link
               href="https://www.facebook.com/share/1Bm1TTxF7p/"
               target="_blank"
               rel="noopener noreferrer"
+              className="contact-btn"
               style={{
                 background: "#0F6E56",
                 color: "#FBF5DD",
@@ -205,6 +207,7 @@ export default function Navbar() {
                 fontSize: "0.82rem",
                 letterSpacing: "0.1em",
                 textTransform: "uppercase",
+                whiteSpace: "nowrap",
               }}
             >
               Contact
@@ -291,23 +294,7 @@ export default function Navbar() {
               );
             })}
 
-            <Link
-              href="https://www.facebook.com/share/1Bm1TTxF7p/"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                marginTop: "0.5rem",
-                background: "#0F6E56",
-                color: "#FBF5DD",
-                textDecoration: "none",
-                padding: "0.9rem 1rem",
-                borderRadius: 12,
-                textAlign: "center",
-                fontSize: "0.9rem",
-              }}
-            >
-              Contact
-            </Link>
+
           </div>
         )}
       </nav>
@@ -316,6 +303,22 @@ export default function Navbar() {
         @media (max-width: 768px) {
           .desktop-nav { display: none !important; }
           .hamburger   { display: flex !important; }
+          .navbar-right { gap: 0.5rem !important; }
+          .contact-btn {
+            padding: 0.5rem 0.9rem !important;
+            font-size: 0.72rem !important;
+            letter-spacing: 0.05em !important;
+          }
+        }
+
+        @media (max-width: 420px) {
+          .contact-btn {
+            padding: 0.45rem 0.7rem !important;
+            font-size: 0.65rem !important;
+          }
+          .navbar-inner {
+            padding: 0 4vw !important;
+          }
         }
       `}</style>
     </>

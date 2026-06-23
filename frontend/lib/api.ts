@@ -39,6 +39,8 @@ export interface SiteSettings {
 
 export async function getProducts(): Promise<Product[]> {
   try {
+    // test loading state
+    await new Promise((resolve) => setTimeout(resolve, 3000));
     console.log("API_URL =", API_URL);
 
     const res = await fetch(`${API_URL}/api/products/`, {

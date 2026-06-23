@@ -89,11 +89,14 @@ export default async function ProductDetail({
             padding: 2rem 5vw 4rem !important;
             gap: 2rem !important;
           }
-          .product-footer-strip {
+          .footer-grid {
+            grid-template-columns: 1fr !important;
+            gap: 2rem !important;
+          }
+          .footer-bottom {
             flex-direction: column !important;
             align-items: flex-start !important;
             gap: 0.5rem !important;
-            padding: 2rem 6vw !important;
           }
         }
 
@@ -342,7 +345,7 @@ export default async function ProductDetail({
                     marginBottom: "0.6rem",
                   }}
                 >
-                  {link}
+                  {link.replace("-", " ")}
                 </a>
               ))}
             </div>

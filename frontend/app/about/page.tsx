@@ -488,9 +488,12 @@ export default function AboutPage() {
           .split-image {
             order: -1;
             height: 320px;
+            margin: 2rem 6vw 0;
+            width: auto;
+            border-radius: 16px;
           }
           .split-text {
-            padding: 3rem 6vw !important;
+            padding: 2rem 6vw 3rem !important;
           }
           .philosophy-section {
             padding: 4rem 6vw !important;
