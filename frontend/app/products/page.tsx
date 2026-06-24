@@ -2,6 +2,7 @@ import Navbar from "../../components/Navbar";
 import ProductCarousel from "../../components/ProductCarousel";
 import SocialIcons from "../../components/SocialLinks";
 import { getProducts } from "@/lib/api";
+import DecoratedBackground from "@/components/DecoratedBackground";
 
 const CERTIFICATIONS = [
   { label: "Natural Essence",      icon: "✦" },
@@ -20,6 +21,7 @@ export default async function DashboardPage({
 
   return (
     <>
+      <DecoratedBackground />
       <Navbar />
 
       <style>{`
@@ -43,11 +45,13 @@ export default async function DashboardPage({
 
       <main
         style={{
-          background: "#FAFAF7",
+          background: "transparent",
           minHeight: "100vh",
           fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
           color: "#2F3A33",
           overflowX: "hidden",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         {/* ── HERO ── */}

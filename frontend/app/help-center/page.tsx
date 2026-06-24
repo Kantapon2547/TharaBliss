@@ -4,6 +4,7 @@ import { useState } from "react";
 import Navbar from "../../components/Navbar";
 import { FaInstagram, FaFacebook, FaTiktok, FaShoppingCart } from "react-icons/fa";
 import SocialIcons from "../../components/SocialLinks";
+import DecoratedBackground from "@/components/DecoratedBackground";
 
 const FAQS = [
   {
@@ -179,6 +180,7 @@ function AccordionItem({ question, answer }: { question: string; answer: string 
 export default function HelpCenterPage() {
   return (
     <>
+      <DecoratedBackground />
       <Navbar />
 
       <style>{`
@@ -236,11 +238,13 @@ export default function HelpCenterPage() {
 
       <main
         style={{
-          background: "#FAFAF7",
+          background: "transparent",
           minHeight: "100vh",
           fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
           color: "#2F3A33",
           overflowX: "hidden",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         {/* ── HERO ── */}

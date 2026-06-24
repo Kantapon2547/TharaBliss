@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import { FaInstagram, FaFacebook, FaTiktok, FaShoppingCart } from "react-icons/fa";
 import SocialIcons from "../../components/SocialLinks";
+import DecoratedBackground from "@/components/DecoratedBackground";
 
 const articles = [
   {
@@ -61,14 +62,17 @@ export default function JournalPage() {
 
   return (
     <>
+      <DecoratedBackground />
       <Navbar />
       <main
         style={{
-          background: "#FAFAF7",
+          background: "transparent",
           minHeight: "100vh",
           fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
           color: "#2F3A33",
           overflowX: "hidden",
+          position: "relative",
+          zIndex: 1,
         }}
       >
 

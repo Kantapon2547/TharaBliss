@@ -7,6 +7,7 @@ import { getProducts } from "@/lib/api";
 import { SplitLines, FadeUp, SlideIn, FadeIn } from "@/components/Animations";
 import { FaInstagram, FaFacebook, FaTiktok, FaShoppingCart } from "react-icons/fa";
 import SocialIcons from "../../components/SocialLinks";
+import DecoratedBackground from "@/components/DecoratedBackground";
 
 const HERO = {
   img: "/images/banner/product_banner.jpg",
@@ -79,15 +80,18 @@ const fadeUp = {
 export default function HomePage() {
   return (
     <>
+      <DecoratedBackground />
       <Navbar />
 
       <main
         style={{
-          background: "#FAFAF7",
+          background: "transparent",
           minHeight: "100vh",
           color: "#2F3A33",
-          fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+          fontFamily: "'Verdana', Helvetica, Arial, sans-serif",
           overflowX: "hidden",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         {/* ── HERO ── */}

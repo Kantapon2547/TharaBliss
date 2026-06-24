@@ -5,16 +5,11 @@ import { ReactNode } from "react";
 
 interface RevealProps {
   children: ReactNode;
-  /** delay in seconds before the animation starts (useful for staggering siblings) */
   delay?: number;
-  /** direction the element animates in from */
   direction?: "up" | "down" | "left" | "right" | "none";
-  /** distance in px the element travels */
   distance?: number;
-  /** pass through any wrapper styles (e.g. width: 100%) */
   style?: React.CSSProperties;
   className?: string;
-  /** re-trigger every time it scrolls into view (default: only once) */
   repeat?: boolean;
 }
 

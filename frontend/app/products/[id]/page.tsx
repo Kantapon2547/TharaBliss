@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "../../../components/Navbar";
 import SocialIcons from "../../../components/SocialLinks";
+import DecoratedBackground from "@/components/DecoratedBackground";
 import {
   getProduct,
   getSettings,
@@ -30,17 +31,20 @@ export default async function ProductDetail({
   if (!product) {
     return (
       <>
+        <DecoratedBackground />
         <Navbar />
         <main
           style={{
             minHeight: "100vh",
-            background: "#FAFAF7",
+            background: "transparent",
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
             fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
             gap: "1.5rem",
+            position: "relative",
+            zIndex: 1,
           }}
         >
           <p style={{ fontSize: "3rem" }}>🌿</p>
@@ -80,6 +84,7 @@ export default async function ProductDetail({
 
   return (
     <>
+      <DecoratedBackground />
       <Navbar />
 
       <style>{`
@@ -114,10 +119,12 @@ export default async function ProductDetail({
 
       <main
         style={{
-          background: "#FAFAF7",
+          background: "transparent",
           minHeight: "100vh",
           fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
           color: "#2F3A33",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         {/* ── BREADCRUMB ── */}

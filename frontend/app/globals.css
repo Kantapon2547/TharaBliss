@@ -28,3 +28,53 @@ body {
 h1, h2, h3, h4 {
   font-family: var(--font-cormorant), serif;
 }
+
+/* ── CUSTOM DECORATIVE BACKGROUND KEYFRAMES & UTILITIES ── */
+@keyframes blob-float-1 {
+  0%, 100% {
+    transform: translate3d(0px, 0px, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(40px, -50px, 0) scale(1.15);
+  }
+  66% {
+    transform: translate3d(-20px, 30px, 0) scale(0.9);
+  }
+}
+
+@keyframes blob-float-2 {
+  0%, 100% {
+    transform: translate3d(0px, 0px, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-50px, 40px, 0) scale(1.1);
+  }
+}
+
+@keyframes blob-float-3 {
+  0%, 100% {
+    transform: translate3d(0px, 0px, 0) scale(1);
+  }
+  40% {
+    transform: translate3d(30px, 50px, 0) scale(0.95);
+  }
+  70% {
+    transform: translate3d(-30px, -30px, 0) scale(1.05);
+  }
+}
+
+.animate-blob-1 {
+  animation: blob-float-1 25s infinite ease-in-out;
+}
+
+.animate-blob-2 {
+  animation: blob-float-2 30s infinite ease-in-out;
+}
+
+.animate-blob-3 {
+  animation: blob-float-3 27s infinite ease-in-out;
+}
+
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}

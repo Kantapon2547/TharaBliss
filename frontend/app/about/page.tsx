@@ -4,6 +4,7 @@ import Navbar from "../../components/Navbar";
 import Reveal from "../../components/Reveal";
 import { FaInstagram, FaFacebook, FaTiktok, FaShoppingCart } from "react-icons/fa";
 import SocialIcons from "../../components/SocialLinks";
+import DecoratedBackground from "@/components/DecoratedBackground";
 
 
 const IMAGES = {
@@ -35,14 +36,17 @@ const philosophyItems = [
 export default function AboutPage() {
   return (
     <>
+      <DecoratedBackground />
       <Navbar />
       <main
         style={{
-          background: "#FAFAF7",
+          background: "transparent",
           minHeight: "100vh",
           fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
           color: "#2F3A33",
           overflowX: "hidden",
+          position: "relative",
+          zIndex: 1,
         }}
       >
         {/* ── HERO ── full-bleed with overlaid text */}

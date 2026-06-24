@@ -49,7 +49,7 @@ export default function PageLoader({
       >
         <div style={{ width: 700 }}>
           <DotLottieReact
-            src="https://lottie.host/44862bb9-c25f-428c-be3c-68e076707481/SVXKHt3RhS.lottie"
+            src="https://lottie.host/94ba614a-8ff8-481d-a015-d7aca7f048da/exX70giGZT.lottie"
             autoplay
             loop
           />
