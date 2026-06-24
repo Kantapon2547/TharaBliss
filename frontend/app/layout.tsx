@@ -1,21 +1,21 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Jost } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import BackToTop from "@/components/BackToTop";
 import PageLoader from '@/components/PageLoader';
 import FloatingDecoration from '@/components/FloatingDecoration';
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  weight: ["400", "600", "700"],
 });
 
-const jost = Jost({
-  variable: "--font-jost",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
 });
+
 
 export const metadata: Metadata = {
   title: "Thara Bliss — Aroma Balm Collection",
@@ -36,13 +36,13 @@ export default function RootLayout({
   return (
     <html
       lang="th"
-      className={`${cormorant.variable} ${jost.variable} h-full antialiased`}
+      className={`${playfair.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-       <FloatingDecoration />
-       <PageLoader>
-        {children}
-      </PageLoader>
+        <FloatingDecoration />
+        <PageLoader>
+          {children}
+        </PageLoader>
         <BackToTop />
       </body>
     </html>

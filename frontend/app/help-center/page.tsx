@@ -45,7 +45,7 @@ const QUICK_LINKS = [
     description: "สั่งซื้อและการชำระเงินขั้นตอนง่าย ๆ เพื่อความสบายใจ",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+        <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 0 1-8 0" />
       </svg>
     ),
   },
@@ -54,7 +54,7 @@ const QUICK_LINKS = [
     description: "การจัดส่งและการดูแลเราดูแลทุกขั้นตอน จนถึงมือคุณ",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+        <rect x="1" y="3" width="15" height="13" /><polygon points="16 8 20 8 23 11 23 16 16 16 16 8" /><circle cx="5.5" cy="18.5" r="2.5" /><circle cx="18.5" cy="18.5" r="2.5" />
       </svg>
     ),
   },
@@ -63,7 +63,7 @@ const QUICK_LINKS = [
     description: "กลิ่นและคอลเลกชั่นแรงบันดาลใจ ส่วนผสม และวิธีใช้",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
       </svg>
     ),
   },
@@ -72,7 +72,7 @@ const QUICK_LINKS = [
     description: "สำหรับพื้นที่และของขวัญเติมความสงบให้บ้าน ที่ทำงาน หรือคนพิเศษ 🌿🎁",
     icon: (
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+        <circle cx="12" cy="12" r="3" /><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14" />
       </svg>
     ),
   },
@@ -306,7 +306,7 @@ export default function HelpCenterPage() {
                 strokeLinecap="round"
                 style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)" }}
               >
-                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
               </svg>
               <input
                 type="text"
@@ -335,25 +335,38 @@ export default function HelpCenterPage() {
               gap: "1rem",
             }}
           >
-            {["คำสั่งซื้อ & การชำระเงิน →", "การจัดส่ง & ติดตามพัสดุ →", "ข้อมูลผลิตภัณฑ์ →", "บริการของเรา →"].map((label) => (
-              <div
-                key={label}
-                style={{
-                  background: "#FFFFFF",
-                  border: "1px solid #EFEAE1",
-                  borderRadius: 12,
-                  padding: "1rem 1.5rem",
-                  color: "#2F3A33",
-                  fontSize: "0.9rem",
-                  cursor: "pointer",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <span>{label}</span>
-              </div>
-            ))}
+            {[
+              { label: "คำสั่งซื้อ & การชำระเงิน →" },
+              { label: "การจัดส่ง & ติดตามพัสดุ →" },
+              { label: "ข้อมูลผลิตภัณฑ์ →", href: "https://cosmetica.fda.moph.go.th/CMT_SEARCH_FRONT_NEW/DetailNotify?regnos=1316800042881&checkpage=2" },
+              { label: "บริการของเรา →" },
+            ].map(({ label, href }) => {
+              const content = (
+                <div
+                  style={{
+                    background: "#FFFFFF",
+                    border: "1px solid #EFEAE1",
+                    borderRadius: 12,
+                    padding: "1rem 1.5rem",
+                    color: "#2F3A33",
+                    fontSize: "0.9rem",
+                    cursor: "pointer",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <span>{label}</span>
+                </div>
+              );
+              return href ? (
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+                  {content}
+                </a>
+              ) : (
+                <div key={label}>{content}</div>
+              );
+            })}
           </div>
         </section>
 

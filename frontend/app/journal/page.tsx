@@ -5,459 +5,459 @@ import SocialIcons from "../../components/SocialLinks";
 import DecoratedBackground from "@/components/DecoratedBackground";
 
 const articles = [
-  {
-    title: "Why Scent Matters More Than You Think",
-    subtitle: "ทำไมกลิ่นหอมจึงส่งผลต่อความรู้สึกของเรา",
-    text: "กลิ่นเป็นประสาทสัมผัสเพียงอย่างเดียวที่เชื่อมโยงกับส่วนของสมองที่เกี่ยวข้องกับอารมณ์และความทรงจำโดยตรง นั่นคือเหตุผลที่บางกลิ่นสามารถทำให้เรารู้สึกผ่อนคลาย อบอุ่น หรือคิดถึงช่วงเวลาบางช่วงได้ทันที",
-    tag: "Science of Scent",
-    image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=1200&q=80&fit=crop",
-    featured: true,
-  },
-  {
-    title: "The Art of Slowing Down",
-    subtitle: "ศิลปะแห่งการใช้ชีวิตให้ช้าลง",
-    text: "บางครั้งความสุขอาจเริ่มต้นจากเรื่องง่าย ๆ การจิบชาอุ่น ๆ การอ่านหนังสือเล่มโปรด หรือการสูดลมหายใจลึก ๆ พร้อมกลิ่นหอมที่คุณชื่นชอบ การใช้ชีวิตอย่างช้าลงไม่ได้หมายถึงการทำอะไรน้อยลง แต่คือการรับรู้ช่วงเวลาตรงหน้าได้มากขึ้น",
-    tag: "Mindfulness",
-    image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80&fit=crop",
-  },
-  {
-    title: "How to Create a Relaxing Atmosphere at Home",
-    subtitle: "เปลี่ยนบ้านให้เป็นพื้นที่แห่งความผ่อนคลาย",
-    text: "เริ่มต้นจากแสงธรรมชาติที่นุ่มนวล เสียงเพลงเบา ๆ มุมพักผ่อนที่เป็นระเบียบ และกลิ่นหอมที่ช่วยสร้างบรรยากาศให้บ้านรู้สึกอบอุ่นและน่าอยู่มากยิ่งขึ้น",
-    tag: "Home & Space",
-    image: "https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&q=80&fit=crop",
-  },
-  {
-    title: "Morning Rituals for a Better Day",
-    subtitle: "เริ่มต้นวันใหม่ด้วยความสงบ",
-    text: "ก่อนหยิบโทรศัพท์ขึ้นมา ลองให้เวลากับตัวเองสัก 5 นาที หายใจลึก ๆ ยืดร่างกายเบา ๆ และเลือกกลิ่นหอมที่ช่วยปลุกความสดชื่นให้กับเช้าวันใหม่",
-    tag: "Rituals",
-    image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80&fit=crop",
-  },
-  {
-    title: "Behind The Brand",
-    subtitle: "จุดเริ่มต้นของ Thara Bliss",
-    text: "เมื่อกลิ่นหอมกลายเป็นส่วนหนึ่งของชีวิตประจำวัน Thara Bliss เกิดจากความเชื่อว่าการดูแลตัวเองไม่จำเป็นต้องซับซ้อน เราสร้างสรรค์กลิ่นหอมที่อ่อนโยนเพื่ออยู่กับคุณในช่วงเวลาธรรมดาแต่มีความหมาย—ทุกวัน",
-    tag: "Our Story",
-    image: "/images/banner/test.jpg",
-  },
+    {
+        title: "Why Scent Matters More Than You Think",
+        subtitle: "ทำไมกลิ่นหอมจึงส่งผลต่อความรู้สึกของเรา",
+        text: "กลิ่นเป็นประสาทสัมผัสเพียงอย่างเดียวที่เชื่อมโยงกับส่วนของสมองที่เกี่ยวข้องกับอารมณ์และความทรงจำโดยตรง นั่นคือเหตุผลที่บางกลิ่นสามารถทำให้เรารู้สึกผ่อนคลาย อบอุ่น หรือคิดถึงช่วงเวลาบางช่วงได้ทันที",
+        tag: "Science of Scent",
+        image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=1200&q=80&fit=crop",
+        featured: true,
+    },
+    {
+        title: "The Art of Slowing Down",
+        subtitle: "ศิลปะแห่งการใช้ชีวิตให้ช้าลง",
+        text: "บางครั้งความสุขอาจเริ่มต้นจากเรื่องง่าย ๆ การจิบชาอุ่น ๆ การอ่านหนังสือเล่มโปรด หรือการสูดลมหายใจลึก ๆ พร้อมกลิ่นหอมที่คุณชื่นชอบ การใช้ชีวิตอย่างช้าลงไม่ได้หมายถึงการทำอะไรน้อยลง แต่คือการรับรู้ช่วงเวลาตรงหน้าได้มากขึ้น",
+        tag: "Mindfulness",
+        image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80&fit=crop",
+    },
+    {
+        title: "How to Create a Relaxing Atmosphere at Home",
+        subtitle: "เปลี่ยนบ้านให้เป็นพื้นที่แห่งความผ่อนคลาย",
+        text: "เริ่มต้นจากแสงธรรมชาติที่นุ่มนวล เสียงเพลงเบา ๆ มุมพักผ่อนที่เป็นระเบียบ และกลิ่นหอมที่ช่วยสร้างบรรยากาศให้บ้านรู้สึกอบอุ่นและน่าอยู่มากยิ่งขึ้น",
+        tag: "Home & Space",
+        image: "https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=800&q=80&fit=crop",
+    },
+    {
+        title: "Morning Rituals for a Better Day",
+        subtitle: "เริ่มต้นวันใหม่ด้วยความสงบ",
+        text: "ก่อนหยิบโทรศัพท์ขึ้นมา ลองให้เวลากับตัวเองสัก 5 นาที หายใจลึก ๆ ยืดร่างกายเบา ๆ และเลือกกลิ่นหอมที่ช่วยปลุกความสดชื่นให้กับเช้าวันใหม่",
+        tag: "Rituals",
+        image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80&fit=crop",
+    },
+    {
+        title: "Behind The Brand",
+        subtitle: "จุดเริ่มต้นของ Thara Bliss",
+        text: "เมื่อกลิ่นหอมกลายเป็นส่วนหนึ่งของชีวิตประจำวัน Thara Bliss เกิดจากความเชื่อว่าการดูแลตัวเองไม่จำเป็นต้องซับซ้อน เราสร้างสรรค์กลิ่นหอมที่อ่อนโยนเพื่ออยู่กับคุณในช่วงเวลาธรรมดาแต่มีความหมาย—ทุกวัน",
+        tag: "Our Story",
+        image: "/images/banner/test.jpg",
+    },
 ];
 
 const TAG_STYLE = {
-  display: "inline-block",
-  background: "#EAF3EC",
-  color: "#0F6E56",
-  fontSize: "10px",
-  letterSpacing: "0.15em",
-  textTransform: "uppercase" as const,
-  padding: "4px 10px",
-  borderRadius: "20px",
-  marginBottom: "1rem",
+    display: "inline-block",
+    background: "#EAF3EC",
+    color: "#0F6E56",
+    fontSize: "10px",
+    letterSpacing: "0.15em",
+    textTransform: "uppercase" as const,
+    padding: "4px 10px",
+    borderRadius: "20px",
+    marginBottom: "1rem",
 };
 
 export default function JournalPage() {
-  const [featured, ...rest] = articles;
-  const wide = rest[0];
-  const grid = rest.slice(1);
+    const [featured, ...rest] = articles;
+    const wide = rest[0];
+    const grid = rest.slice(1);
 
-  return (
-    <>
-      <DecoratedBackground />
-      <Navbar />
-      <main
-        style={{
-          background: "transparent",
-          minHeight: "100vh",
-          fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
-          color: "#2F3A33",
-          overflowX: "hidden",
-          position: "relative",
-          zIndex: 1,
-        }}
-      >
-
-        {/* ── HERO ── full-width bg image + gradient overlay */}
-        <section
-          className="journal-hero"
-          style={{
-            position: "relative",
-            minHeight: "72vh",
-            display: "flex",
-            alignItems: "flex-end",
-            overflow: "hidden",
-          }}
-        >
-          {/* Background image */}
-          <img
-            src="/images/services/stories.jpg"
-            alt="Thara Bliss Journal — fragrance atelier"
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "center",
-            }}
-          />
-
-          {/* Gradient overlay: dark bottom for legibility, near-transparent top */}
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "linear-gradient(to top, rgba(10,22,14,0.85) 0%, rgba(10,22,14,0.35) 52%, rgba(10,22,14,0.08) 100%)",
-            }}
-          />
-
-          {/* Text content pinned to bottom */}
-          <div
-            className="journal-hero-content"
-            style={{
-              position: "relative",
-              zIndex: 1,
-              width: "100%",
-              padding: "5rem 6vw 4.5rem",
-              display: "flex",
-              alignItems: "flex-end",
-              gap: "3rem",
-              flexWrap: "wrap",
-            }}
-          >
-            <div style={{ flex: 1, minWidth: 280 }}>
-              <p
+    return (
+        <>
+            <DecoratedBackground />
+            <Navbar />
+            <main
                 style={{
-                  color: "#9FCBAD",
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  fontSize: "11px",
-                  marginBottom: "1.2rem",
+                    background: "transparent",
+                    minHeight: "100vh",
+                    fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+                    color: "#2F3A33",
+                    overflowX: "hidden",
+                    position: "relative",
+                    zIndex: 1,
                 }}
-              >
-                Thara Bliss Journal
-              </p>
-              <h1
-                style={{
-                  fontSize: "clamp(2.4rem, 6vw, 5rem)",
-                  fontWeight: 300,
-                  lineHeight: 1.05,
-                  margin: 0,
-                  color: "#FBF5DD",
-                }}
-              >
-                Stories,&nbsp;
-                <em style={{ fontStyle: "italic", color: "#FBF5DD" }}>Scents</em>
-                <br />& Moments.
-              </h1>
-            </div>
-
-            <p
-              className="journal-hero-subtitle"
-              style={{
-                flex: "0 0 340px",
-                color: "rgba(251,245,221,0.72)",
-                lineHeight: 1.85,
-                fontSize: "1.0rem",
-                paddingBottom: "0.25rem",
-              }}
             >
-              คอลเลกชันกลิ่นของ Thara Bliss ถูกพัฒนาขึ้นอย่างตั้งใจใน 3
-              แนวกลิ่นหลัก ซึ่งสะท้อนอารมณ์และการใช้งานที่แตกต่างกัน
-              เพื่อให้สามารถเลือกใช้ได้อย่างเหมาะสมกับแต่ละช่วงเวลาและพื้นที่
-            </p>
-          </div>
-        </section>
 
-        {/* thin sage divider */}
-        <div style={{ height: 3, background: "#0F6E56" }} />
-
-        <div className="journal-container" style={{ maxWidth: 1280, margin: "0 auto", padding: "4rem 6vw 6rem" }}>
-
-          {/* ── FEATURED ARTICLE ── */}
-          <article
-            className="featured-article"
-            style={{
-              position: "relative",
-              borderRadius: 20,
-              overflow: "hidden",
-              marginBottom: "2.5rem",
-              minHeight: 500,
-              display: "flex",
-              alignItems: "flex-end",
-            }}
-          >
-            <img
-              src={featured.image}
-              alt={featured.title}
-              style={{
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                objectPosition: "center 30%",
-              }}
-            />
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                background:
-                  "linear-gradient(to top, rgba(10,22,14,0.88) 0%, rgba(10,22,14,0.3) 55%, transparent 100%)",
-              }}
-            />
-            <div
-              className="featured-article-content"
-              style={{
-                position: "relative",
-                zIndex: 1,
-                padding: "3rem",
-                maxWidth: 680,
-              }}
-            >
-              <span style={{ ...TAG_STYLE, background: "rgba(251,245,221,0.18)", color: "#FBF5DD" }}>
-                {featured.tag}
-              </span>
-              <h2
-                style={{
-                  fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
-                  fontWeight: 300,
-                  color: "#FBF5DD",
-                  lineHeight: 1.2,
-                  marginBottom: "1rem",
-                }}
-              >
-                {featured.title}
-              </h2>
-              <p
-                style={{
-                  color: "rgba(251,245,221,0.75)",
-                  fontSize: "0.85rem",
-                  marginBottom: "1rem",
-                  fontStyle: "italic",
-                }}
-              >
-                {featured.subtitle}
-              </p>
-              <p style={{ color: "rgba(251,245,221,0.85)", lineHeight: 1.85, maxWidth: 520 }}>
-                {featured.text}
-              </p>
-            </div>
-          </article>
-
-          {/* ── WIDE ARTICLE ── */}
-          <article
-            className="wide-article"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              borderRadius: 20,
-              overflow: "hidden",
-              marginBottom: "2.5rem",
-              background: "#FFFFFF",
-              border: "1px solid #EFEAE1",
-              minHeight: 340,
-            }}
-          >
-            <div className="wide-article-image" style={{ overflow: "hidden" }}>
-              <img
-                src={wide.image}
-                alt={wide.title}
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              />
-            </div>
-            <div
-              className="wide-article-text"
-              style={{
-                padding: "3rem",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-              }}
-            >
-              <span style={TAG_STYLE}>{wide.tag}</span>
-              <h2
-                style={{
-                  fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
-                  fontWeight: 300,
-                  lineHeight: 1.25,
-                  marginBottom: "0.75rem",
-                }}
-              >
-                {wide.title}
-              </h2>
-              <p style={{ color: "#0F6E56", fontSize: "0.85rem", marginBottom: "1rem", fontStyle: "italic" }}>
-                {wide.subtitle}
-              </p>
-              <p style={{ lineHeight: 1.9, color: "#555", fontSize: "0.95rem" }}>{wide.text}</p>
-            </div>
-          </article>
-
-          {/* ── GRID OF 3 ── */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-              gap: "1.5rem",
-            }}
-          >
-            {grid.map((article) => (
-              <article
-                key={article.title}
-                style={{
-                  background: "#FFFFFF",
-                  borderRadius: 20,
-                  overflow: "hidden",
-                  border: "1px solid #EFEAE1",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                <div style={{ height: 220, overflow: "hidden", flexShrink: 0 }}>
-                  <img
-                    src={article.image}
-                    alt={article.title}
+                {/* ── HERO ── full-width bg image + gradient overlay */}
+                <section
+                    className="journal-hero"
                     style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      display: "block",
-                      transition: "transform 0.4s ease",
+                        position: "relative",
+                        minHeight: "72vh",
+                        display: "flex",
+                        alignItems: "flex-end",
+                        overflow: "hidden",
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.04)")}
-                    onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
-                  />
+                >
+                    {/* Background image */}
+                    <img
+                        src="/images/services/stories.jpg"
+                        alt="Thara Bliss Journal — fragrance atelier"
+                        style={{
+                            position: "absolute",
+                            inset: 0,
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                            objectPosition: "center",
+                        }}
+                    />
+
+                    {/* Gradient overlay: dark bottom for legibility, near-transparent top */}
+                    <div
+                        style={{
+                            position: "absolute",
+                            inset: 0,
+                            background:
+                                "linear-gradient(to top, rgba(10,22,14,0.85) 0%, rgba(10,22,14,0.35) 52%, rgba(10,22,14,0.08) 100%)",
+                        }}
+                    />
+
+                    {/* Text content pinned to bottom */}
+                    <div
+                        className="journal-hero-content"
+                        style={{
+                            position: "relative",
+                            zIndex: 1,
+                            width: "100%",
+                            padding: "5rem 6vw 4.5rem",
+                            display: "flex",
+                            alignItems: "flex-end",
+                            gap: "3rem",
+                            flexWrap: "wrap",
+                        }}
+                    >
+                        <div style={{ flex: 1, minWidth: 280 }}>
+                            <p
+                                style={{
+                                    color: "#9FCBAD",
+                                    letterSpacing: "0.2em",
+                                    textTransform: "uppercase",
+                                    fontSize: "11px",
+                                    marginBottom: "1.2rem",
+                                }}
+                            >
+                                Thara Bliss Journal
+                            </p>
+                            <h1
+                                style={{
+                                    fontSize: "clamp(2.4rem, 6vw, 5rem)",
+                                    fontWeight: 300,
+                                    lineHeight: 1.05,
+                                    margin: 0,
+                                    color: "#FBF5DD",
+                                }}
+                            >
+                                Stories,&nbsp;
+                                <em style={{ fontStyle: "italic", color: "#FBF5DD" }}>Scents</em>
+                                <br />& Moments.
+                            </h1>
+                        </div>
+
+                        <p
+                            className="journal-hero-subtitle"
+                            style={{
+                                flex: "0 0 340px",
+                                color: "rgba(251,245,221,0.72)",
+                                lineHeight: 1.85,
+                                fontSize: "1.0rem",
+                                paddingBottom: "0.25rem",
+                            }}
+                        >
+                            คอลเลกชันกลิ่นของ Thara Bliss ถูกพัฒนาขึ้นอย่างตั้งใจใน 3
+                            แนวกลิ่นหลัก ซึ่งสะท้อนอารมณ์และการใช้งานที่แตกต่างกัน
+                            เพื่อให้สามารถเลือกใช้ได้อย่างเหมาะสมกับแต่ละช่วงเวลาและพื้นที่
+                        </p>
+                    </div>
+                </section>
+
+                {/* thin sage divider */}
+                <div style={{ height: 3, background: "#0F6E56" }} />
+
+                <div className="journal-container" style={{ maxWidth: 1280, margin: "0 auto", padding: "4rem 6vw 6rem" }}>
+
+                    {/* ── FEATURED ARTICLE ── */}
+                    <article
+                        className="featured-article"
+                        style={{
+                            position: "relative",
+                            borderRadius: 20,
+                            overflow: "hidden",
+                            marginBottom: "2.5rem",
+                            minHeight: 500,
+                            display: "flex",
+                            alignItems: "flex-end",
+                        }}
+                    >
+                        <img
+                            src={featured.image}
+                            alt={featured.title}
+                            style={{
+                                position: "absolute",
+                                inset: 0,
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                                objectPosition: "center 30%",
+                            }}
+                        />
+                        <div
+                            style={{
+                                position: "absolute",
+                                inset: 0,
+                                background:
+                                    "linear-gradient(to top, rgba(10,22,14,0.88) 0%, rgba(10,22,14,0.3) 55%, transparent 100%)",
+                            }}
+                        />
+                        <div
+                            className="featured-article-content"
+                            style={{
+                                position: "relative",
+                                zIndex: 1,
+                                padding: "3rem",
+                                maxWidth: 680,
+                            }}
+                        >
+                            <span style={{ ...TAG_STYLE, background: "rgba(251,245,221,0.18)", color: "#FBF5DD" }}>
+                                {featured.tag}
+                            </span>
+                            <h2
+                                style={{
+                                    fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)",
+                                    fontWeight: 300,
+                                    color: "#FBF5DD",
+                                    lineHeight: 1.2,
+                                    marginBottom: "1rem",
+                                }}
+                            >
+                                {featured.title}
+                            </h2>
+                            <p
+                                style={{
+                                    color: "rgba(251,245,221,0.75)",
+                                    fontSize: "0.85rem",
+                                    marginBottom: "1rem",
+                                    fontStyle: "italic",
+                                }}
+                            >
+                                {featured.subtitle}
+                            </p>
+                            <p style={{ color: "rgba(251,245,221,0.85)", lineHeight: 1.85, maxWidth: 520 }}>
+                                {featured.text}
+                            </p>
+                        </div>
+                    </article>
+
+                    {/* ── WIDE ARTICLE ── */}
+                    <article
+                        className="wide-article"
+                        style={{
+                            display: "grid",
+                            gridTemplateColumns: "1fr 1fr",
+                            borderRadius: 20,
+                            overflow: "hidden",
+                            marginBottom: "2.5rem",
+                            background: "#FFFFFF",
+                            border: "1px solid #EFEAE1",
+                            minHeight: 340,
+                        }}
+                    >
+                        <div className="wide-article-image" style={{ overflow: "hidden" }}>
+                            <img
+                                src={wide.image}
+                                alt={wide.title}
+                                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                            />
+                        </div>
+                        <div
+                            className="wide-article-text"
+                            style={{
+                                padding: "3rem",
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                            }}
+                        >
+                            <span style={TAG_STYLE}>{wide.tag}</span>
+                            <h2
+                                style={{
+                                    fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
+                                    fontWeight: 300,
+                                    lineHeight: 1.25,
+                                    marginBottom: "0.75rem",
+                                }}
+                            >
+                                {wide.title}
+                            </h2>
+                            <p style={{ color: "#0F6E56", fontSize: "0.85rem", marginBottom: "1rem", fontStyle: "italic" }}>
+                                {wide.subtitle}
+                            </p>
+                            <p style={{ lineHeight: 1.9, color: "#555", fontSize: "0.95rem" }}>{wide.text}</p>
+                        </div>
+                    </article>
+
+                    {/* ── GRID OF 3 ── */}
+                    <div
+                        style={{
+                            display: "grid",
+                            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+                            gap: "1.5rem",
+                        }}
+                    >
+                        {grid.map((article) => (
+                            <article
+                                key={article.title}
+                                style={{
+                                    background: "#FFFFFF",
+                                    borderRadius: 20,
+                                    overflow: "hidden",
+                                    border: "1px solid #EFEAE1",
+                                    display: "flex",
+                                    flexDirection: "column",
+                                }}
+                            >
+                                <div style={{ height: 220, overflow: "hidden", flexShrink: 0 }}>
+                                    <img
+                                        src={article.image}
+                                        alt={article.title}
+                                        style={{
+                                            width: "100%",
+                                            height: "100%",
+                                            objectFit: "cover",
+                                            display: "block",
+                                            transition: "transform 0.4s ease",
+                                        }}
+                                        onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.04)")}
+                                        onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+                                    />
+                                </div>
+                                <div style={{ padding: "1.75rem", flex: 1 }}>
+                                    <span style={TAG_STYLE}>{article.tag}</span>
+                                    <h2
+                                        style={{
+                                            fontSize: "1.25rem",
+                                            fontWeight: 400,
+                                            lineHeight: 1.3,
+                                            marginBottom: "0.5rem",
+                                        }}
+                                    >
+                                        {article.title}
+                                    </h2>
+                                    <p style={{ color: "#0F6E56", fontSize: "0.82rem", marginBottom: "0.75rem", fontStyle: "italic" }}>
+                                        {article.subtitle}
+                                    </p>
+                                    <p style={{ lineHeight: 1.85, color: "#666", fontSize: "0.9rem" }}>{article.text}</p>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
                 </div>
-                <div style={{ padding: "1.75rem", flex: 1 }}>
-                  <span style={TAG_STYLE}>{article.tag}</span>
-                  <h2
+
+                {/* ── FOOTER BANNER ── */}
+                <section
                     style={{
-                      fontSize: "1.25rem",
-                      fontWeight: 400,
-                      lineHeight: 1.3,
-                      marginBottom: "0.5rem",
+
+                        background: "#0F6E56",
+                        color: "#FBF5DD",
+                        padding: "7rem 6vw",
+                        textAlign: "center",
+                        position: "relative",
+                        overflow: "hidden",
                     }}
-                  >
-                    {article.title}
-                  </h2>
-                  <p style={{ color: "#0F6E56", fontSize: "0.82rem", marginBottom: "0.75rem", fontStyle: "italic" }}>
-                    {article.subtitle}
-                  </p>
-                  <p style={{ lineHeight: 1.85, color: "#666", fontSize: "0.9rem" }}>{article.text}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
+                >
+                    <span
+                        aria-hidden
+                        style={{
+                            position: "absolute",
+                            top: "50%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%)",
+                            fontSize: "clamp(8rem, 22vw, 20rem)",
+                            fontWeight: 700,
+                            opacity: 0.04,
+                            whiteSpace: "nowrap",
+                            color: "#FBF5DD",
+                            pointerEvents: "none",
+                            userSelect: "none",
+                            letterSpacing: "0.05em",
+                        }}
+                    >
+                        BLISS
+                    </span>
+                    <p
+                        style={{
+                            background: "#0F6E56",
+                            letterSpacing: "0.18em",
+                            textTransform: "uppercase",
+                            fontSize: "11px",
+                            opacity: 0.7,
+                            marginBottom: "1.2rem",
+                        }}
+                    >
+                        Calm. Balance. Bliss.
+                    </p>
+                    <h2 style={{ background: "#0F6E56", fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 300, lineHeight: 1.25, marginBottom: "2rem", }}>
+                        Thara Bliss Journal
+                    </h2>
+                    <p style={{ opacity: 0.75, lineHeight: 1.8, marginBottom: "2.5rem" }}>
+                        บางวัน... เราไม่ได้ต้องการอะไรมากไปกว่าช่วงเวลาสั้น ๆ ที่ได้หยุดหายใจลึก ๆ
+                        และกลับมาอยู่กับตัวเองอีกครั้ง <br />
+                        Thara Bliss Journal คือพื้นที่เล็ก ๆ ที่เราตั้งใจสร้างขึ้นเพื่อบันทึกเรื่องราวของกลิ่นหอมและความรู้สึกและ ritual ในชีวิตประจำวัน <br />0
+                        ที่ช่วยให้ใจค่อย ๆ กลับสู่ความสงบอย่างเป็นธรรมชาติ
+                    </p>
+                </section>
 
-        {/* ── FOOTER BANNER ── */}
-        <section
-          style={{
+                {/* ── FOOTER ── */}
+                <footer
+                    style={{
+                        background: "#2F3A33",
+                        color: "#FBF5DD",
+                        padding: "4rem 8vw 2.5rem",
+                    }}
+                >
+                    <div
+                        className="footer-grid"
+                        style={{
+                            display: "grid",
+                            gridTemplateColumns: "2fr 1fr 1fr",
+                            gap: "3rem",
+                            paddingBottom: "3rem",
+                            borderBottom: "1px solid rgba(251,245,221,0.1)",
+                        }}
+                    >
+                        <div>
+                            <h3 style={{ fontSize: "1.5rem", fontWeight: 300, marginBottom: "0.75rem" }}>
+                                Thara Bliss
+                            </h3>
+                            <p style={{ color: "rgba(251,245,221,0.5)", lineHeight: 1.8, fontSize: "0.9rem", maxWidth: 280 }}>
+                                ไม่ใช่แค่ความหอม แต่คือการดูแลอารมณ์และจิตใจในทุกวัน — เลือกกลิ่นที่สะท้อนตัวตนและอยู่กับคุณในทุกช่วงเวลา
+                            </p>
+                        </div>
+                        <div>
+                            <p style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", opacity: 0.4, marginBottom: "1.2rem" }}>
+                                Explore
+                            </p>
+                            {["Products", "About", "Journal", "Help-Center"].map((link) => (
+                                <a key={link} href={`/${link.toLowerCase()}`} style={{ display: "block", color: "rgba(251,245,221,0.7)", textDecoration: "none", fontSize: "0.9rem", marginBottom: "0.6rem" }}>
+                                    {link}
+                                </a>
+                            ))}
+                        </div>
+                        <div>
+                            <p style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", opacity: 0.4, marginBottom: "1.2rem" }}>
+                                Follow Us
+                            </p>
+                            <SocialIcons />
+                        </div>
+                    </div>
+                    <div style={{ paddingTop: "1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
+                        <p style={{ color: "rgba(251,245,221,0.3)", fontSize: "12px" }}>© 2026 Thara Bliss. All rights reserved.</p>
+                        <p style={{ color: "rgba(251,245,221,0.3)", fontSize: "12px" }}>Calm. Balance. Bliss.</p>
+                    </div>
+                </footer>
 
-            background: "#0F6E56",
-            color: "#FBF5DD",
-            padding: "7rem 6vw",
-            textAlign: "center",
-            position: "relative",
-            overflow: "hidden",
-          }}
-        >
-        <span
-            aria-hidden
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              fontSize: "clamp(8rem, 22vw, 20rem)",
-              fontWeight: 700,
-              opacity: 0.04,
-              whiteSpace: "nowrap",
-              color: "#FBF5DD",
-              pointerEvents: "none",
-              userSelect: "none",
-              letterSpacing: "0.05em",
-            }}
-          >
-            BLISS
-          </span>
-          <p
-            style={{
-              background: "#0F6E56",
-                letterSpacing: "0.18em",
-                textTransform: "uppercase",
-                fontSize: "11px",
-                opacity: 0.7,
-                marginBottom: "1.2rem",
-            }}
-          >
-            Calm. Balance. Bliss.
-          </p>
-          <h2 style={{ background: "#0F6E56", fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 300, lineHeight: 1.25, marginBottom: "2rem", }}>
-            Thara Bliss Journal
-          </h2>
-          <p style={{ opacity: 0.75, lineHeight: 1.8, marginBottom: "2.5rem"}}>
-            บางวัน... เราไม่ได้ต้องการอะไรมากไปกว่าช่วงเวลาสั้น ๆ ที่ได้หยุดหายใจลึก ๆ
-            และกลับมาอยู่กับตัวเองอีกครั้ง <br />
-            Thara Bliss Journal คือพื้นที่เล็ก ๆ ที่เราตั้งใจสร้างขึ้นเพื่อบันทึกเรื่องราวของกลิ่นหอมและความรู้สึกและ ritual ในชีวิตประจำวัน <br />0
-            ที่ช่วยให้ใจค่อย ๆ กลับสู่ความสงบอย่างเป็นธรรมชาติ
-          </p>
-        </section>
+            </main>
 
-        {/* ── FOOTER ── */}
-        <footer
-          style={{
-            background: "#2F3A33",
-            color: "#FBF5DD",
-            padding: "4rem 8vw 2.5rem",
-          }}
-        >
-          <div
-            className="footer-grid"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "2fr 1fr 1fr",
-              gap: "3rem",
-              paddingBottom: "3rem",
-              borderBottom: "1px solid rgba(251,245,221,0.1)",
-            }}
-          >
-            <div>
-              <h3 style={{ fontSize: "1.5rem", fontWeight: 300, marginBottom: "0.75rem" }}>
-                Thara Bliss
-              </h3>
-              <p style={{ color: "rgba(251,245,221,0.5)", lineHeight: 1.8, fontSize: "0.9rem", maxWidth: 280 }}>
-                ไม่ใช่แค่ความหอม แต่คือการดูแลอารมณ์และจิตใจในทุกวัน — เลือกกลิ่นที่สะท้อนตัวตนและอยู่กับคุณในทุกช่วงเวลา
-              </p>
-            </div>
-            <div>
-              <p style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", opacity: 0.4, marginBottom: "1.2rem" }}>
-                Explore
-              </p>
-              {["Products", "About", "Journal", "Help-Center"].map((link) => (
-                <a key={link} href={`/${link.toLowerCase()}`} style={{ display: "block", color: "rgba(251,245,221,0.7)", textDecoration: "none", fontSize: "0.9rem", marginBottom: "0.6rem" }}>
-                  {link}
-                </a>
-              ))}
-            </div>
-            <div>
-              <p style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", opacity: 0.4, marginBottom: "1.2rem" }}>
-                Follow Us
-              </p>
-              <SocialIcons />
-            </div>
-          </div>
-          <div style={{ paddingTop: "1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
-            <p style={{ color: "rgba(251,245,221,0.3)", fontSize: "12px" }}>© 2026 Thara Bliss. All rights reserved.</p>
-            <p style={{ color: "rgba(251,245,221,0.3)", fontSize: "12px" }}>Calm. Balance. Bliss.</p>
-          </div>
-        </footer>
-
-      </main>
-
-      {/* ── RESPONSIVE STYLES ── */}
-      <style>{`
+            {/* ── RESPONSIVE STYLES ── */}
+            <style>{`
         @media (max-width: 768px) {
           /* Hero: shorter, content doesn't sit side-by-side */
           .journal-hero {
@@ -525,6 +525,6 @@ export default function JournalPage() {
           }
         }
       `}</style>
-    </>
-  );
+        </>
+    );
 }

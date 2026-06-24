@@ -376,25 +376,25 @@ export default function AboutPage() {
               color: "#FBF5DD",
             }}
           >
-          <span
-            aria-hidden
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              fontSize: "clamp(8rem, 22vw, 20rem)",
-              fontWeight: 700,
-              opacity: 0.04,
-              whiteSpace: "nowrap",
-              color: "#FBF5DD",
-              pointerEvents: "none",
-              userSelect: "none",
-              letterSpacing: "0.05em",
-            }}
-          >
-            BLISS
-          </span>
+            <span
+              aria-hidden
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                fontSize: "clamp(8rem, 22vw, 20rem)",
+                fontWeight: 700,
+                opacity: 0.04,
+                whiteSpace: "nowrap",
+                color: "#FBF5DD",
+                pointerEvents: "none",
+                userSelect: "none",
+                letterSpacing: "0.05em",
+              }}
+            >
+              BLISS
+            </span>
             <p
               style={{
                 background: "#0F6E56",
