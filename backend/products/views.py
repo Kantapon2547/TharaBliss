@@ -1,6 +1,15 @@
 from rest_framework import generics
-from .models import Product, SiteSettings
-from .serializers import ProductSerializer, SiteSettingsSerializer
+from .models import Product, SiteSettings, ProductAnnouncement
+from .serializers import ProductSerializer, SiteSettingsSerializer, ProductAnnouncementSerializer
+from rest_framework.generics import ListAPIView
+from rest_framework.permissions import AllowAny
+
+class AnnouncementListView(ListAPIView):
+    serializer_class = ProductAnnouncementSerializer
+    permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        return ProductAnnouncement.objects.filter(is_active=True).select_related('product')[:3]
 
 
 class ProductListAPIView(generics.ListAPIView):

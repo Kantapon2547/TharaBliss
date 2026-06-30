@@ -58,3 +58,23 @@ class SiteSettings(models.Model):
 
     def __str__(self):
         return "Site Settings"
+
+
+class ProductAnnouncement(models.Model):
+    product = models.ForeignKey(
+        'Product',
+        on_delete=models.CASCADE,
+        related_name='announcements'
+    )
+    message = models.CharField(
+        max_length=300,
+        default="✨ สินค้าใหม่มาแล้ว! มาดูกัน 👉"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.product.name} — {self.created_at:%Y-%m-%d %H:%M}"

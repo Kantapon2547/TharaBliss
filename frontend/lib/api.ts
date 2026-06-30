@@ -37,6 +37,15 @@ export interface SiteSettings {
   tiktok_url: string | null;
 }
 
+export interface Announcement {
+  id: number;
+  message: string;
+  product_name: string;
+  product_id: number;
+  product_image_url: string;
+  created_at: string;
+}
+
 export async function getProducts(): Promise<Product[]> {
   try {
     // test loading state
@@ -97,5 +106,22 @@ export async function getSettings(): Promise<SiteSettings | null> {
   } catch (error) {
     console.error(error);
     return null;
+  }
+}
+
+export async function getAnnouncements(): Promise<Announcement[]> {
+  try {
+    const res = await fetch(`${API_URL}/api/announcements/`, {
+      cache: "no-store",
+    });
+
+    if (!res.ok) {
+      return [];
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error("ANNOUNCEMENTS FETCH ERROR:", error);
+    return [];
   }
 }

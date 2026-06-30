@@ -168,4 +168,4 @@ Both services are deployed on Vercel.
 - **Frontend** — standard Next.js Vercel deployment; set `NEXT_PUBLIC_API_URL` in Vercel environment variables.
 - **Backend** — deployed via `vercel.json` using `@vercel/python` pointed at `mysite/wsgi.py`; set `DATABASE_URL` and Cloudinary credentials in Vercel environment variables.
 
-CORS is configured to allow requests from `https://thara-bliss.vercel.app`.
+CORS is configured to allow requests from `https://thara-bliss.vercel.app`.

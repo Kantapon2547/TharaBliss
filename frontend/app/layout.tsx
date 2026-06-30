@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import BackToTop from "@/components/BackToTop";
 import PageLoader from '@/components/PageLoader';
 import FloatingDecoration from '@/components/FloatingDecoration';
+import ChatbotWidget from '@/components/ChatbotWidget';
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -42,7 +43,9 @@ export default function RootLayout({
         <FloatingDecoration />
         <PageLoader>
           {children}
+          <ChatbotWidget />
         </PageLoader>
+
         <BackToTop />
       </body>
     </html>
