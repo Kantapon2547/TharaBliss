@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
-import BackToTop from "@/components/BackToTop";
 import PageLoader from '@/components/PageLoader';
-import FloatingDecoration from '@/components/FloatingDecoration';
 import ChatbotWidget from '@/components/ChatbotWidget';
 import "./globals.css";
 
@@ -40,13 +38,10 @@ export default function RootLayout({
       className={`${playfair.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <FloatingDecoration />
         <PageLoader>
           {children}
           <ChatbotWidget />
         </PageLoader>
-
-        <BackToTop />
       </body>
     </html>
   );

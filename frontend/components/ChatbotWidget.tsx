@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { getAnnouncements, Announcement } from "@/lib/api";
+import { matchFaq, QUICK_REPLIES } from "@/lib/faqData";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
   MainContainer,
@@ -9,16 +10,26 @@ import {
   MessageList,
   Message,
   MessageGroup,
+  MessageInput,
 } from "@chatscope/chat-ui-kit-react";
 
 const POLL_INTERVAL = 30_000;
 const STORAGE_KEY = "thara_last_seen_announcement_id";
 
+interface ChatMessage {
+  id: string;
+  sender: "user" | "bot";
+  text: string;
+}
+
 export default function ChatbotWidget() {
   const [open, setOpen] = useState(false);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  const [showSuggestionPopup, setShowSuggestionPopup] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const suggestionRef = useRef<HTMLDivElement | null>(null);
 
   const fetchAnnouncements = async () => {
     try {
@@ -40,6 +51,16 @@ export default function ChatbotWidget() {
     };
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (suggestionRef.current && !suggestionRef.current.contains(e.target as Node)) {
+        setShowSuggestionPopup(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const handleOpen = () => {
     setOpen(true);
     if (announcements.length > 0) {
@@ -50,6 +71,33 @@ export default function ChatbotWidget() {
   };
 
   const handleClose = () => setOpen(false);
+
+  const sendMessage = (text: string) => {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+
+    const userMsg: ChatMessage = {
+      id: `u-${Date.now()}`,
+      sender: "user",
+      text: trimmed,
+    };
+
+    const answer = matchFaq(trimmed);
+    const botMsg: ChatMessage = {
+      id: `b-${Date.now()}`,
+      sender: "bot",
+      text: answer,
+    };
+
+    setChatMessages((prev) => [...prev, userMsg, botMsg]);
+  };
+
+  const handleSend = (text: string) => sendMessage(text);
+
+  const handleQuickReply = (triggerText: string) => {
+    sendMessage(triggerText);
+    setShowSuggestionPopup(false);
+  };
 
   return (
     <>
@@ -67,7 +115,7 @@ export default function ChatbotWidget() {
         }
         .thara-chat-panel {
           width: 340px;
-          height: 480px;
+          height: 540px;
           border-radius: 20px;
           overflow: hidden;
           box-shadow: 0 8px 40px rgba(0,0,0,0.15);
@@ -121,11 +169,30 @@ export default function ChatbotWidget() {
           font-size: 0.85rem !important;
           line-height: 1.6 !important;
         }
+        .thara-chat-panel .cs-message--outgoing .cs-message__content {
+          background: #0F6E56 !important;
+          color: #FBF5DD !important;
+          border: none !important;
+          border-radius: 12px 0 12px 12px !important;
+        }
         .thara-chat-panel .cs-message-group__avatar .cs-avatar {
           background: #0F6E56 !important;
         }
         .thara-chat-panel .cs-message-list__scroll-wrapper {
           padding: 0 !important;
+        }
+        .thara-chat-panel .cs-message-input {
+          background: #FFFFFF !important;
+          border-top: 1px solid #EFEAE1 !important;
+          padding-left: 48px !important;
+        }
+        .thara-chat-panel .cs-message-input__content-editor-wrapper,
+        .thara-chat-panel .cs-message-input__content-editor {
+          background: #F5F2EB !important;
+          color: #2F3A33 !important;
+        }
+        .thara-chat-panel .cs-button--send svg path {
+          fill: #0F6E56 !important;
         }
 
         @keyframes pulse-ring {
@@ -221,15 +288,65 @@ export default function ChatbotWidget() {
         .thara-announce-card-link:hover {
           color: #0a5240;
         }
-        .thara-chat-footer {
+
+        /* ── SUGGESTION ICON + POPUP (overlay, outside ChatContainer) ── */
+        .thara-suggestion-overlay {
+          position: absolute;
+          left: 10px;
+          bottom: 10px;
+          z-index: 20;
+        }
+        .thara-suggestion-icon-btn {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          background: #0F6E56;
+          border: none;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: transform 0.15s;
+        }
+        .thara-suggestion-icon-btn:hover {
+          transform: scale(1.08);
+        }
+        .thara-suggestion-popup {
+          position: absolute;
+          left: 0;
+          bottom: 40px;
+          width: 250px;
+          max-height: 260px;
+          overflow-y: auto;
           background: #FFFFFF;
-          border-top: 1px solid #EFEAE1;
-          padding: 0.5rem 1rem;
-          text-align: center;
-          font-size: 10px;
-          color: #bbb;
-          letter-spacing: 0.06em;
-          flex-shrink: 0;
+          border: 1px solid #EFEAE1;
+          border-radius: 14px;
+          box-shadow: 0 6px 24px rgba(0,0,0,0.14);
+          padding: 0.6rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.45rem;
+          animation: pop-up 0.18s ease;
+        }
+        @keyframes pop-up {
+          from { opacity: 0; transform: translateY(8px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .thara-suggestion-popup-item {
+          background: #F5F2EB;
+          border: 1px solid #EFEAE1;
+          color: #2F3A33;
+          font-size: 0.82rem;
+          padding: 0.55rem 0.8rem;
+          border-radius: 10px;
+          cursor: pointer;
+          text-align: left;
+          transition: background 0.15s, border-color 0.15s;
+        }
+        .thara-suggestion-popup-item:hover {
+          background: #EAF3EC;
+          border-color: #0F6E56;
+          color: #0F6E56;
         }
       `}</style>
 
@@ -244,7 +361,7 @@ export default function ChatbotWidget() {
                   Thara Bliss 🌿
                 </p>
                 <p style={{ margin: 0, fontSize: "11px", opacity: 0.7, marginTop: 2 }}>
-                  What&apos;s New
+                  Refresh Your Senses. Relax Your Mind
                 </p>
               </div>
               <button
@@ -252,11 +369,11 @@ export default function ChatbotWidget() {
                 onClick={handleClose}
                 aria-label="Close"
               >
-                ×
+                🅧
               </button>
             </div>
 
-            <div style={{ flex: 1, minHeight: 0 }}>
+            <div style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column", position: "relative" }}>
               <MainContainer>
                 <ChatContainer>
                   <MessageList>
@@ -265,7 +382,7 @@ export default function ChatbotWidget() {
                       <MessageGroup.Messages>
                         <Message
                           model={{
-                            message: "สวัสดีค่ะ! 👋 นี่คือสินค้าใหม่และประกาศล่าสุดจาก Thara Bliss",
+                            message: "สวัสดีค่ะ! 👋 มีอะไรให้ช่วยไหมคะ กดปุ่ม 💬 ด้านล่างเพื่อดูคำถามแนะนำ หรือพิมพ์คำถามได้เลยค่ะ",
                             sentTime: "just now",
                             sender: "Thara Bliss",
                             direction: "incoming",
@@ -275,23 +392,7 @@ export default function ChatbotWidget() {
                       </MessageGroup.Messages>
                     </MessageGroup>
 
-                    {announcements.length === 0 && (
-                      <MessageGroup direction="incoming" sender="Thara Bliss" avatarPosition="cl">
-                        <MessageGroup.Messages>
-                          <Message
-                            model={{
-                              message: "ยังไม่มีประกาศใหม่ในขณะนี้ค่ะ 🌿",
-                              sentTime: "just now",
-                              sender: "Thara Bliss",
-                              direction: "incoming",
-                              position: "single",
-                            }}
-                          />
-                        </MessageGroup.Messages>
-                      </MessageGroup>
-                    )}
-
-                    {announcements.map((a) => (
+                    {announcements.length > 0 && announcements.map((a) => (
                       <MessageGroup
                         key={a.id}
                         direction="incoming"
@@ -330,21 +431,73 @@ export default function ChatbotWidget() {
                       </MessageGroup>
                     ))}
 
+                    {chatMessages.map((m) => (
+                      <MessageGroup
+                        key={m.id}
+                        direction={m.sender === "user" ? "outgoing" : "incoming"}
+                        sender={m.sender === "user" ? "You" : "Thara Bliss"}
+                        avatarPosition={m.sender === "user" ? "cr" : "cl"}
+                      >
+                        <MessageGroup.Messages>
+                          <Message
+                            model={{
+                              message: m.text,
+                              sentTime: "just now",
+                              sender: m.sender === "user" ? "You" : "Thara Bliss",
+                              direction: m.sender === "user" ? "outgoing" : "incoming",
+                              position: "single",
+                            }}
+                          />
+                        </MessageGroup.Messages>
+                      </MessageGroup>
+                    ))}
+
                   </MessageList>
+
+                  <MessageInput
+                    placeholder="พิมพ์คำถามของคุณที่นี่..."
+                    onSend={handleSend}
+                    attachButton={false}
+                  />
                 </ChatContainer>
               </MainContainer>
+
+              {/* Suggestion icon + popup — overlay sibling, not nested inside ChatContainer */}
+              <div className="thara-suggestion-overlay" ref={suggestionRef}>
+                {showSuggestionPopup && (
+                  <div className="thara-suggestion-popup">
+                    {QUICK_REPLIES.map((qr) => (
+                      <button
+                        key={qr.label}
+                        className="thara-suggestion-popup-item"
+                        onClick={() => handleQuickReply(qr.triggerText)}
+                      >
+                        {qr.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                <button
+                  className="thara-suggestion-icon-btn"
+                  onClick={() => setShowSuggestionPopup((prev) => !prev)}
+                  aria-label="Show suggested questions"
+                  type="button"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBF5DD" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/>
+                  </svg>
+                </button>
+              </div>
             </div>
 
-            <div className="thara-chat-footer">
-              Calm. Balance. Bliss. — Thara Bliss
-            </div>
           </div>
         )}
 
         <button
           className={`thara-bubble ${!open ? "thara-bubble-pulse" : ""}`}
           onClick={open ? handleClose : handleOpen}
-          aria-label="Open announcements"
+          aria-label="Open chat"
         >
           {open ? (
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FBF5DD" strokeWidth="2" strokeLinecap="round">
