@@ -23,14 +23,37 @@ interface ChatMessage {
   image?: string;
 }
 
+
 export default function ChatbotWidget() {
   const [open, setOpen] = useState(false);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [showSuggestionPopup, setShowSuggestionPopup] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const suggestionRef = useRef<HTMLDivElement | null>(null);
+
+  // Load chat history from localStorage on mount
+  useEffect(() => {
+    const savedHistory = localStorage.getItem("thara_chat_history");
+    if (savedHistory) {
+      try {
+        setChatMessages(JSON.parse(savedHistory));
+      } catch (e) {
+        console.error("Error loading chat history:", e);
+      }
+    }
+    setIsLoaded(true);
+  }, []);
+
+  // Save chat history to localStorage when changed
+  useEffect(() => {
+    if (isLoaded) {
+      localStorage.setItem("thara_chat_history", JSON.stringify(chatMessages));
+    }
+  }, [chatMessages, isLoaded]);
+
 
   const fetchAnnouncements = async () => {
     try {
@@ -72,6 +95,13 @@ export default function ChatbotWidget() {
   };
 
   const handleClose = () => setOpen(false);
+
+  const handleClearHistory = () => {
+    if (window.confirm("คุณต้องการลบประวัติการสนทนาทั้งหมดใช่หรือไม่? / Do you want to clear all chat history?")) {
+      setChatMessages([]);
+      localStorage.removeItem("thara_chat_history");
+    }
+  };
 
   const sendMessage = (text: string) => {
     const trimmed = text.trim();
@@ -155,7 +185,7 @@ export default function ChatbotWidget() {
           align-items: center;
           flex-shrink: 0;
         }
-        .thara-chat-header-close {
+        .thara-chat-header-btn {
           background: rgba(255,255,255,0.15);
           border: none;
           border-radius: 50%;
@@ -163,12 +193,18 @@ export default function ChatbotWidget() {
           height: 28px;
           cursor: pointer;
           color: #FBF5DD;
-          font-size: 18px;
           display: flex;
           align-items: center;
           justify-content: center;
-          line-height: 1;
+          transition: background 0.15s, transform 0.1s;
         }
+        .thara-chat-header-btn:hover {
+          background: rgba(255,255,255,0.25);
+        }
+        .thara-chat-header-btn:active {
+          transform: scale(0.95);
+        }
+
         .thara-chat-panel .cs-main-container {
           border: none !important;
         }
@@ -366,6 +402,7 @@ export default function ChatbotWidget() {
           border-color: #0F6E56;
           color: #0F6E56;
         }
+
       `}</style>
 
       <div className="thara-chat-wrapper">
@@ -382,13 +419,33 @@ export default function ChatbotWidget() {
                   Refresh Your Senses. Relax Your Mind
                 </p>
               </div>
-              <button
-                className="thara-chat-header-close"
-                onClick={handleClose}
-                aria-label="Close"
-              >
-                🅧
-              </button>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                {/* Clear History Button */}
+                <button
+                  className="thara-chat-header-btn"
+                  onClick={handleClearHistory}
+                  title="ล้างประวัติการสนทนา / Clear Chat History"
+                  aria-label="Clear Chat History"
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+                    <path d="M16 3h5v5" />
+                    <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+                    <path d="M8 21H3v-5" />
+                  </svg>
+                </button>
+
+                {/* Close Button */}
+                <button
+                  className="thara-chat-header-btn"
+                  onClick={handleClose}
+                  aria-label="Close"
+                >
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 6 6 18M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
             </div>
 
             <div style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column", position: "relative" }}>

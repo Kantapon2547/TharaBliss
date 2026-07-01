@@ -58,11 +58,6 @@ export default function Reveal({
   );
 }
 
-/**
- * RevealGroup — for staggering a list of children (e.g. 3 philosophy cards,
- * a grid of product cards). Wrap each child in this instead of <Reveal>
- * and they'll animate in sequence based on index.
- */
 export function RevealStagger({
   children,
   baseDelay = 0,

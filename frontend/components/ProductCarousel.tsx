@@ -277,7 +277,7 @@ export default function ProductCarousel({ products, initialTab = "aroma-balm" }:
                 />
               </div>
 
-              {/* info card — beside the image */}
+              {/* info card  */}
               <div
                 style={{
                   background: "#FAFAF7",
@@ -341,7 +341,7 @@ export default function ProductCarousel({ products, initialTab = "aroma-balm" }:
         </div>
       )}
 
-      {/* ── SPECIAL GIFT — collapsed tab, click to expand ── */}
+      {/* ── SPECIAL GIFT ── */}
       {activeTab === "Special Gift" && (
         <div style={{ width: "100%", maxWidth: "100%" }}>
           <button

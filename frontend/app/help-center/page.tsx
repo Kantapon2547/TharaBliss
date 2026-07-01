@@ -5,6 +5,7 @@ import Navbar from "../../components/Navbar";
 import { FaInstagram, FaFacebook, FaTiktok, FaShoppingCart } from "react-icons/fa";
 import SocialIcons from "../../components/SocialLinks";
 import DecoratedBackground from "@/components/DecoratedBackground";
+import { SCENT_GUIDE, QUIZ_QUESTIONS, scoredToScent, ScentResult } from "@/lib/quizData";
 
 const FAQS = [
   {
@@ -78,32 +79,7 @@ const QUICK_LINKS = [
   },
 ];
 
-const SCENT_GUIDE = [
-  {
-    name: "Thara Mist 🌿",
-    mood: "Calm",
-    color: "#EAF3EC",
-    accent: "#0F6E56",
-    description: "กลิ่นอ่อนโยนที่โอบล้อมความรู้สึกช่วยให้จิตใจสงบ ผ่อนคลายและปล่อยวางจากความวุ่นวายระหว่างวัน",
-    best: "ทำงานพักผ่อน · เวลาที่อยากอยู่กับตัวเอง",
-  },
-  {
-    name: "Poised Pear & Freesia ✨",
-    mood: "Elegant",
-    color: "#FBF5DD",
-    accent: "#8B6F2E",
-    description: "ความหอมละมุนของลูกแพร์และดอกไม้ขาวให้ความรู้สึกสุภาพ นุ่มลึก และมีเสน่ห์อย่างเป็นธรรมชาติ",
-    best: "ทำงาน · พบปะผู้คน · โอกาสพิเศษ",
-  },
-  {
-    name: "Aqua No.1 💧",
-    mood: "Fresh",
-    color: "#E6F1FB",
-    accent: "#185FA5",
-    description: "กลิ่นสะอาด สดชื่น โปร่งเบาปลุกความรู้สึกกระปรี้กระเปร่า ให้วันธรรมดาดูสดใสขึ้นทันที",
-    best: "เช้า · ออกกำลังกาย · วันสบายๆ",
-  },
-];
+// SCENT_GUIDE is now imported from @/lib/quizData
 
 function AccordionItem({ question, answer }: { question: string; answer: string }) {
   const [open, setOpen] = useState(false);
@@ -171,6 +147,306 @@ function AccordionItem({ question, answer }: { question: string; answer: string 
           }}
         >
           <p style={{ margin: "1rem 0 0" }}>{answer}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// QUIZ_QUESTIONS is now imported from @/lib/quizData
+
+function ScentQuiz() {
+  const [step, setStep] = useState(0); // 0: Start, 1-3: Questions, 4: Result
+  const [answers, setAnswers] = useState<Array<"calm" | "elegant" | "fresh">>([]);
+  const [result, setResult] = useState<ScentResult | null>(null);
+
+  const handleStart = () => {
+    setStep(1);
+    setAnswers([]);
+    setResult(null);
+  };
+
+  const handleSelectOption = (value: "calm" | "elegant" | "fresh") => {
+    const nextAnswers = [...answers, value];
+    setAnswers(nextAnswers);
+
+    if (step < QUIZ_QUESTIONS.length) {
+      setStep(step + 1);
+    } else {
+      setResult(scoredToScent(nextAnswers));
+      setStep(4);
+    }
+  };
+
+  const handleReset = () => {
+    setStep(0);
+    setAnswers([]);
+    setResult(null);
+  };
+
+  return (
+    <div
+      style={{
+        maxWidth: 680,
+        margin: "0 auto 3.5rem",
+        background: "#FBF5DD",
+        borderRadius: 24,
+        border: "1px solid #EFEAE1",
+        boxShadow: "0 10px 40px rgba(15, 110, 86, 0.05)",
+        padding: "3rem 2.5rem",
+        textAlign: "center",
+        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
+      }}
+    >
+      {step === 0 && (
+        <div>
+          <span
+            style={{
+              color: "#0F6E56",
+              fontSize: "11px",
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              fontWeight: 600,
+              display: "inline-block",
+              marginBottom: "1rem",
+            }}
+          >
+            Scent Finder Quiz
+          </span>
+          <h3
+            style={{
+              fontSize: "clamp(1.5rem, 2.5vw, 2.1rem)",
+              fontFamily: "var(--font-cormorant), serif",
+              fontWeight: 300,
+              color: "#2F3A33",
+              margin: "0 0 1rem",
+            }}
+          >
+            ค้นหากลิ่นอโรม่าที่บอกความเป็นคุณ 🌿
+          </h3>
+          <p style={{ color: "#555", lineHeight: 1.8, fontSize: "0.95rem", maxWidth: 480, margin: "0 auto 2.5rem" }}>
+            ตอบคำถามสั้นๆ 3 ข้อ เพื่อให้ Thara Bliss คัดสรรแนวกลิ่นอโรม่าที่ช่วยเติมเต็มความรู้สึกและการพักผ่อนที่เหมาะกับคุณที่สุดในเวลานี้
+          </p>
+          <button
+            onClick={handleStart}
+            style={{
+              background: "#0F6E56",
+              color: "#FBF5DD",
+              border: "none",
+              borderRadius: 30,
+              padding: "0.9rem 2.5rem",
+              fontSize: "0.95rem",
+              fontWeight: 500,
+              cursor: "pointer",
+              boxShadow: "0 4px 15px rgba(15, 110, 86, 0.2)",
+              transition: "transform 0.2s, background-color 0.2s",
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.backgroundColor = "#0C5A46";
+              e.currentTarget.style.transform = "scale(1.02)";
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.backgroundColor = "#0F6E56";
+              e.currentTarget.style.transform = "scale(1)";
+            }}
+          >
+            เริ่มทำแบบทดสอบ
+          </button>
+        </div>
+      )}
+
+      {step > 0 && step <= QUIZ_QUESTIONS.length && (
+        <div>
+          {/* Progress Indicator */}
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+            <span style={{ fontSize: "12px", color: "#888", fontWeight: 500 }}>
+              คำถามที่ {step} จาก {QUIZ_QUESTIONS.length}
+            </span>
+            <div style={{ width: "100px", height: "4px", background: "rgba(15, 110, 86, 0.1)", borderRadius: 2, marginLeft: "10px", position: "relative" }}>
+              <div
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  top: 0,
+                  height: "100%",
+                  width: `${(step / QUIZ_QUESTIONS.length) * 100}%`,
+                  background: "#0F6E56",
+                  borderRadius: 2,
+                  transition: "width 0.3s ease",
+                }}
+              />
+            </div>
+          </div>
+
+          <h3
+            style={{
+              fontSize: "clamp(1.25rem, 2.2vw, 1.6rem)",
+              fontFamily: "var(--font-cormorant), serif",
+              fontWeight: 400,
+              color: "#2F3A33",
+              lineHeight: 1.4,
+              marginBottom: "2rem",
+              textAlign: "left",
+            }}
+          >
+            {QUIZ_QUESTIONS[step - 1].question}
+          </h3>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+            {QUIZ_QUESTIONS[step - 1].options.map((opt, idx) => (
+              <button
+                key={idx}
+                onClick={() => handleSelectOption(opt.value)}
+                style={{
+                  background: "#FFFFFF",
+                  border: "1px solid #EFEAE1",
+                  borderRadius: 16,
+                  padding: "1.2rem 1.5rem",
+                  fontSize: "0.92rem",
+                  textAlign: "left",
+                  color: "#2F3A33",
+                  cursor: "pointer",
+                  transition: "transform 0.15s, border-color 0.15s, box-shadow 0.15s",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.02)",
+                  lineHeight: 1.5,
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.borderColor = "#0F6E56";
+                  e.currentTarget.style.boxShadow = "0 6px 15px rgba(15, 110, 86, 0.08)";
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.transform = "translateY(0)";
+                  e.currentTarget.style.borderColor = "#EFEAE1";
+                  e.currentTarget.style.boxShadow = "0 2px 8px rgba(0,0,0,0.02)";
+                }}
+              >
+                {opt.text}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {step === 4 && result && (
+        <div style={{ animation: "fadeIn 0.4s ease" }}>
+          <span
+            style={{
+              color: "#0F6E56",
+              fontSize: "11px",
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              fontWeight: 600,
+              display: "inline-block",
+              marginBottom: "0.75rem",
+            }}
+          >
+            Your Perfect Match
+          </span>
+          <p style={{ color: "#888", fontSize: "0.9rem", margin: "0 0 1.25rem" }}>
+            จากการวิเคราะห์คำตอบ กลิ่นหอมที่เหมาะกับบรรยากาศและความรู้สึกของคุณคือ...
+          </p>
+
+          {/* Scent Result Card */}
+          <div
+            style={{
+              background: result.color,
+              border: `1px solid #EFEAE1`,
+              borderRadius: 20,
+              padding: "2rem",
+              marginBottom: "2rem",
+              textAlign: "center",
+            }}
+          >
+            <span
+              style={{
+                display: "inline-block",
+                background: "rgba(255, 255, 255, 0.7)",
+                color: result.accent,
+                fontSize: "10px",
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                padding: "3px 12px",
+                borderRadius: 20,
+                marginBottom: "0.75rem",
+                fontWeight: 600,
+              }}
+            >
+              {result.mood}
+            </span>
+            <h4
+              style={{
+                fontSize: "1.7rem",
+                fontFamily: "var(--font-cormorant), serif",
+                color: "#2F3A33",
+                margin: "0 0 1rem",
+                fontWeight: 400,
+              }}
+            >
+              {result.name}
+            </h4>
+            <p style={{ color: "#2F3A33", fontSize: "0.95rem", lineHeight: 1.8, margin: "0 auto 1.5rem", maxWidth: 480 }}>
+              {result.description}
+            </p>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", background: "rgba(255, 255, 255, 0.4)", padding: "6px 14px", borderRadius: 12 }}>
+              <span style={{ fontSize: "11px", color: "#666", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                เหมาะสำหรับ:
+              </span>
+              <span style={{ fontSize: "0.85rem", color: result.accent, fontWeight: 500 }}>
+                {result.best}
+              </span>
+            </div>
+          </div>
+
+          <div style={{ display: "flex", gap: "1rem", justifyContent: "center", alignItems: "center" }}>
+            <button
+              onClick={handleReset}
+              style={{
+                background: "transparent",
+                color: "#0F6E56",
+                border: "1px solid #0F6E56",
+                borderRadius: 30,
+                padding: "0.8rem 1.8rem",
+                fontSize: "0.9rem",
+                fontWeight: 500,
+                cursor: "pointer",
+                transition: "background 0.2s, color 0.2s",
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = "rgba(15, 110, 86, 0.05)";
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = "transparent";
+              }}
+            >
+              ทำแบบทดสอบใหม่
+            </button>
+            <a
+              href="/products"
+              style={{
+                background: "#0F6E56",
+                color: "#FBF5DD",
+                borderRadius: 30,
+                padding: "0.8rem 2.2rem",
+                fontSize: "0.9rem",
+                fontWeight: 500,
+                textDecoration: "none",
+                display: "inline-block",
+                boxShadow: "0 4px 12px rgba(15, 110, 86, 0.15)",
+                transition: "background-color 0.2s, transform 0.2s",
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = "#0C5A46";
+                e.currentTarget.style.transform = "translateY(-1px)";
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = "#0F6E56";
+                e.currentTarget.style.transform = "translateY(0)";
+              }}
+            >
+              ดูสินค้าทั้งหมด
+            </a>
+          </div>
         </div>
       )}
     </div>
@@ -336,10 +612,10 @@ export default function HelpCenterPage() {
             }}
           >
             {[
-              { label: "คำสั่งซื้อ & การชำระเงิน →" },
-              { label: "การจัดส่ง & ติดตามพัสดุ →" },
+              { label: "คำสั่งซื้อ & การชำระเงิน →", href: "https://www.facebook.com/people/Thara-Bliss-official/61579045994213/" },
+              { label: "การจัดส่ง & ติดตามพัสดุ →", href: "https://www.facebook.com/people/Thara-Bliss-official/61579045994213/" },
               { label: "ข้อมูลผลิตภัณฑ์ →", href: "https://cosmetica.fda.moph.go.th/CMT_SEARCH_FRONT_NEW/DetailNotify?regnos=1316800042881&checkpage=2" },
-              { label: "บริการของเรา →" },
+              { label: "บริการของเรา →", href: "https://www.thailandpostmart.com/product/1013490004355" },
             ].map(({ label, href }) => {
               const content = (
                 <div
@@ -507,33 +783,40 @@ export default function HelpCenterPage() {
               textTransform: "uppercase",
               fontSize: "11px",
               marginBottom: "0.75rem",
+              textAlign: "center",
             }}
           >
             Fragrance Guide
           </p>
-          <div
+          <h2
             style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-end",
-              marginBottom: "2.5rem",
-              flexWrap: "wrap",
-              gap: "1rem",
+              fontSize: "clamp(1.8rem, 3vw, 2.5rem)",
+              fontWeight: 300,
+              margin: "0 0 0.5rem",
+              textAlign: "center",
             }}
           >
-            <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", fontWeight: 300, margin: 0 }}>
-              คู่มือเลือกกลิ่น
-            </h2>
-            <p style={{ color: "#888", fontSize: "0.9rem" }}>
-              เลือกกลิ่นที่ใช่ให้ทุกช่วงเวลาของคุณพิเศษขึ้น
-            </p>
-          </div>
+            คู่มือเลือกกลิ่น
+          </h2>
+          <p
+            style={{
+              color: "#888",
+              fontSize: "0.95rem",
+              textAlign: "center",
+              marginBottom: "3rem",
+            }}
+          >
+            เลือกกลิ่นที่ใช่ให้ทุกช่วงเวลาของคุณพิเศษขึ้น
+          </p>
+
+          <ScentQuiz />
 
           <div
             style={{
               height: 1,
               background: "#EFEAE1",
-              marginBottom: "2.5rem",
+              marginTop: "4rem",
+              marginBottom: "3rem",
             }}
           />
 
