@@ -1,6 +1,7 @@
 export interface FaqEntry {
   keywords: string[];
   answer: string;
+  image?: string;
 }
 
 export const FAQ_DATA: FaqEntry[] = [
@@ -25,9 +26,9 @@ export const FAQ_DATA: FaqEntry[] = [
       "ส่วนผสมหลักคือน้ำมันหอมระเหยธรรมชาติผสมเนื้อบาล์มอ่อนโยน รายละเอียดส่วนผสมแบบเต็มดูได้ในหน้าสินค้าแต่ละชิ้นค่ะ",
   },
   {
-    keywords: ["จัดส่ง", "ส่งกี่วัน", "ระยะเวลาส่ง", "delivery"],
+    keywords: ["วิธีใช้", "วิธีการใช้ผลิตภัณฑ์"],
     answer:
-      "คำสั่งซื้อจะเตรียมภายใน 1–3 วันทำการ และจัดส่งถึงคุณภายในประมาณ 3–7 วันทำการค่ะ ขึ้นอยู่กับพื้นที่ปลายทาง 📦",
+      "หมุนและทาลงผิวเช่น บริเวณข้อมือมือ, คอ, หลังใบหู หรือตามข้อพับเพื่อให้กลิ่นหอมค่อยๆ กระจายตัว",
   },
   {
     keywords: ["ของขวัญ", "ของชำร่วย", "gift"],
@@ -42,21 +43,22 @@ export const FAQ_DATA: FaqEntry[] = [
   {
     keywords: ["ติดต่อ", "สอบถาม", "ไลน์", "line", "contact"],
     answer:
-      "ติดต่อทีม Thara Bliss ได้ทางอีเมล hello@tharabliss.com หรือ LINE Official ค่ะ ยินดีดูแลทุกคำถามเลยค่ะ 💬",
+      "หากต้องการสอบถามข้อมูลเพิ่มเติม สามารถติดต่อทีมงานผ่านทางอีเมล tharabliss2025@gmail.com หรือทางเพจ Facebook และ Instagram ของทาง Thara Bliss Official ได้เลยค่ะ",
+    image: "/images/contact/qr_code.jpg"
   },
 ];
 
 const DEFAULT_ANSWER =
   "ขออภัยค่ะ ทีมงานยังไม่มีคำตอบสำหรับคำถามนี้ในระบบ 🙏 กรุณาติดต่อทีม Thara Bliss ผ่านอีเมลหรือ LINE Official เพื่อสอบถามเพิ่มเติมนะคะ";
 
-export function matchFaq(question: string): string {
+export function matchFaq(question: string): FaqEntry {
   const normalized = question.toLowerCase().trim();
   for (const entry of FAQ_DATA) {
     if (entry.keywords.some((kw) => normalized.includes(kw.toLowerCase()))) {
-      return entry.answer;
+      return entry;
     }
   }
-  return DEFAULT_ANSWER;
+  return {keywords: [], answer: DEFAULT_ANSWER};
 }
 
 // ── Quick-reply suggestion buttons shown to guide the customer ──
@@ -66,7 +68,7 @@ export interface QuickReply {
 }
 
 export const QUICK_REPLIES: QuickReply[] = [
-  { label: "ยาหม่องอโรม่าคืออะไร  ต่างจากยาหม่อง ยาดม ยังไง", triggerText: "ต่างจากยาหม่อง ยาดม ยังไง"},
+  { label: "ยาหม่องอโรม่าคืออะไร", triggerText: "ต่างจากยาหม่อง ยาดม ยังไง" },
   { label: "วิธีใช้", triggerText: "วิธีใช้ยังไง" },
   { label: "ส่วนผสม", triggerText: "มีส่วนผสมอะไรบ้าง" },
 ];

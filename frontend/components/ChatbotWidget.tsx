@@ -20,6 +20,7 @@ interface ChatMessage {
   id: string;
   sender: "user" | "bot";
   text: string;
+  image?: string;
 }
 
 export default function ChatbotWidget() {
@@ -82,14 +83,31 @@ export default function ChatbotWidget() {
       text: trimmed,
     };
 
-    const answer = matchFaq(trimmed);
-    const botMsg: ChatMessage = {
-      id: `b-${Date.now()}`,
-      sender: "bot",
-      text: answer,
-    };
+    const faq = matchFaq(trimmed);
+    const botMessages: ChatMessage[] = [];
 
-    setChatMessages((prev) => [...prev, userMsg, botMsg]);
+    if (faq.image) {
+      const now = Date.now();
+      botMessages.push({
+        id: `b-t-${now}`,
+        sender: "bot",
+        text: faq.answer,
+      });
+      botMessages.push({
+        id: `b-i-${now + 1}`,
+        sender: "bot",
+        text: "",
+        image: faq.image,
+      });
+    } else {
+      botMessages.push({
+        id: `b-${Date.now()}`,
+        sender: "bot",
+        text: faq.answer,
+      });
+    }
+
+    setChatMessages((prev) => [...prev, userMsg, ...botMessages]);
   };
 
   const handleSend = (text: string) => sendMessage(text);
@@ -439,15 +457,40 @@ export default function ChatbotWidget() {
                         avatarPosition={m.sender === "user" ? "cr" : "cl"}
                       >
                         <MessageGroup.Messages>
-                          <Message
-                            model={{
-                              message: m.text,
-                              sentTime: "just now",
-                              sender: m.sender === "user" ? "You" : "Thara Bliss",
-                              direction: m.sender === "user" ? "outgoing" : "incoming",
+                          {m.image ? (
+                            <Message
+                              model={{
+                              type: "custom",
+                              direction: "incoming",
                               position: "single",
-                            }}
-                          />
+                          }}
+                        >
+                          <Message.CustomContent>
+                            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                              {m.text && <p style={{ margin: 0, marginBottom: 8 }}>{m.text}</p>}
+                              <img
+                                src={m.image}
+                                alt="QR Code"
+                                style={{
+                                  width: 180,
+                                  borderRadius: 8,
+                                  display: "block",
+                                }}
+                              />
+                            </div>
+                          </Message.CustomContent>
+                        </Message>
+                      ) : (
+                        <Message
+                          model={{
+                            message: m.text,
+                            sentTime: "just now",
+                            sender: m.sender === "user" ? "You" : "Thara Bliss",
+                            direction: m.sender === "user" ? "outgoing" : "incoming",
+                            position: "single",
+                          }}
+                        />
+                          )}
                         </MessageGroup.Messages>
                       </MessageGroup>
                     ))}

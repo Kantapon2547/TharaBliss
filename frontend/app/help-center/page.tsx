@@ -659,7 +659,7 @@ export default function HelpCenterPage() {
             style={{ display: "flex", flexDirection: "column", gap: "1rem", maxWidth: 340 }}
           >
             <a
-              href="mailto:hello@tharabliss.com"
+              href="mailto:tharabliss2025@gmail.com"
               style={{
                 display: "block",
                 background: "#FBF5DD",
