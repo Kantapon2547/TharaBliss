@@ -10,6 +10,7 @@ import DecoratedBackground from "@/components/DecoratedBackground";
 const ITEM_OPTIONS = [
   { id: "aroma-balm", label: "Aroma Balm", desc: "บาล์มน้ำหอมสำหรับทา" },
   { id: "room-spray", label: "Room Spray", desc: "สเปรย์ปรับอากาศ" },
+  { id: "corporate-souvenier", label: "Corporate Souvenier", desc: "ของที่ระลึกสำหรับองค์กร" },
 ];
 
 const CUSTOM_ITEM_ID = "custom-item";
@@ -168,10 +169,15 @@ export default function SpecialGiftRequestPage() {
           </div>
           <div className="tg-page" style={{ position: "relative", zIndex: 1 }}>
             <div className="tg-success">
-              <div className="tg-success-icon">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FBF5DD" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M20 6 9 17l-5-5" />
-                </svg>
+              <div className="tg-success-icon-wrap">
+                <span className="tg-spark tg-spark-1" aria-hidden="true" />
+                <span className="tg-spark tg-spark-2" aria-hidden="true" />
+                <span className="tg-spark tg-spark-3" aria-hidden="true" />
+                <div className="tg-success-icon">
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FBF5DD" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </div>
               </div>
               <h1>ได้รับคำขอของคุณแล้ว</h1>
               <p>
@@ -204,9 +210,14 @@ export default function SpecialGiftRequestPage() {
         </div>
         <div className="tg-page" style={{ position: "relative", zIndex: 1 }}>
           <div className="tg-header">
+            <div className="tg-header-ornament" aria-hidden="true">
+              <span className="tg-header-dot" />
+              <span className="tg-header-dot" />
+              <span className="tg-header-dot" />
+            </div>
             <div className="tg-header-row">
               <div>
-                <p className="tg-eyebrow">Special Gift Request</p>
+                <p className="tg-eyebrow">✦ Special Gift Request</p>
                 <h1>Create a Special Gift</h1>
               </div>
               <div className="tg-header-actions">
@@ -497,6 +508,23 @@ function StyleBlock() {
         margin: 0 0 2.5rem;
       }
 
+      .tg-header-ornament {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 0.9rem;
+      }
+      .tg-header-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #0F6E56;
+        opacity: 0.35;
+      }
+      .tg-header-dot:nth-child(1) { opacity: 0.9; width: 22px; border-radius: 3px; }
+      .tg-header-dot:nth-child(2) { background: #C7B08A; opacity: 0.7; }
+      .tg-header-dot:nth-child(3) { background: #7C8B6F; opacity: 0.5; }
+
       .tg-form { display: flex; flex-direction: column; gap: 2rem; }
       .tg-section {
         background: #FFFFFF;
@@ -511,6 +539,20 @@ function StyleBlock() {
         font-weight: 500;
         margin: 0 0 1.1rem;
         color: #2F3A33;
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        position: relative;
+        z-index: 1;
+      }
+      .tg-section h2::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #0F6E56;
+        box-shadow: 0 0 0 4px #DDEFD9;
+        flex-shrink: 0;
       }
 
       .tg-grid-2 {
@@ -579,6 +621,24 @@ function StyleBlock() {
         opacity:.45;
         pointer-events:none;
       }
+      .tg-section::after{
+        content:"";
+        position:absolute;
+        width:90px;
+        height:90px;
+        left:-40px;
+        bottom:-40px;
+        border-radius:50%;
+        background:radial-gradient(circle,#F3EAD4 0%,transparent 70%);
+        opacity:.5;
+        pointer-events:none;
+      }
+      .tg-section:nth-of-type(2)::before { background:radial-gradient(circle,#F3EAD4 0%,transparent 70%); }
+      .tg-section:nth-of-type(3)::before { background:radial-gradient(circle,#EAF3EC 0%,transparent 70%); }
+      .tg-section:nth-of-type(3)::after { background:radial-gradient(circle,#F6E4DE 0%,transparent 70%); }
+      .tg-section:nth-of-type(4)::before { background:radial-gradient(circle,#F0E6F2 0%,transparent 70%); }
+      .tg-section:nth-of-type(5)::before { background:radial-gradient(circle,#DDEFD9 0%,transparent 70%); }
+      .tg-section:nth-of-type(5)::after { background:radial-gradient(circle,#F3EAD4 0%,transparent 70%); }
 
       .tg-char-count {
         text-align: right;
@@ -700,14 +760,31 @@ function StyleBlock() {
         padding: 1rem;
         cursor: pointer;
         text-align: left;
-        transition: border-color 0.15s, background 0.15s;
+        transition: border-color 0.15s, background 0.15s, transform 0.15s;
+        position: relative;
+        overflow: hidden;
       }
-      .tg-wrap-card:hover { border-color: #B9D8CC; }
+      .tg-wrap-card::after {
+        content: "";
+        position: absolute;
+        top: -14px;
+        right: -14px;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 1.5px dashed var(--accent);
+        opacity: 0.35;
+      }
+      .tg-wrap-card:hover {
+        border-color: #B9D8CC;
+        transform: translateY(-2px);
+      }
       .tg-wrap-card.is-active {
         border-color: var(--accent);
         background: #fff;
-        box-shadow: 0 0 0 1px var(--accent);
+        box-shadow: 0 0 0 1px var(--accent), 0 10px 24px rgba(0,0,0,.06);
       }
+      .tg-wrap-card.is-active::after { opacity: 0.6; }
       .tg-wrap-dot {
         width: 16px;
         height: 16px;
@@ -765,6 +842,10 @@ function StyleBlock() {
         align-items: center;
         gap: 0.5rem;
       }
+      .tg-success-icon-wrap {
+        position: relative;
+        margin-bottom: 0.5rem;
+      }
       .tg-success-icon {
         width: 56px;
         height: 56px;
@@ -773,8 +854,16 @@ function StyleBlock() {
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 0.5rem;
+        box-shadow: 0 8px 20px rgba(15,110,86,.25);
       }
+      .tg-spark {
+        position: absolute;
+        border-radius: 50%;
+        background: #C7B08A;
+      }
+      .tg-spark-1 { width: 8px; height: 8px; top: -6px; left: -10px; background: #C7B08A; }
+      .tg-spark-2 { width: 5px; height: 5px; bottom: -4px; right: -12px; background: #7C8B6F; }
+      .tg-spark-3 { width: 6px; height: 6px; top: 4px; right: -18px; background: #DDEFD9; }
       .tg-success h1 {
         font-size: 1.6rem;
         font-weight: 400;
