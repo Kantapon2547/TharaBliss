@@ -8,14 +8,15 @@ import SocialIcons from "../../components/SocialLinks";
 import DecoratedBackground from "@/components/DecoratedBackground";
 
 const ITEM_OPTIONS = [
-  { id: "aroma-balm", label: "Aroma Balm", desc: "บาล์มน้ำหอมสำหรับทา" },
-  { id: "room-spray", label: "Room Spray", desc: "สเปรย์ปรับอากาศ" },
-  { id: "corporate-souvenier", label: "Corporate Souvenier", desc: "ของที่ระลึกสำหรับองค์กร" },
+  { id: "aroma-balm", label: "Aroma Balm", desc: "Solid balm for pulse points" },
+  { id: "room-spray", label: "Room Spray", desc: "Linen & air mist" },
+  { id: "candle", label: "Scented Candle", desc: "Soy wax, 40hr burn" },
+  { id: "bath-salts", label: "Bath Salts", desc: "Mineral soak, 250g" },
 ];
 
 const CUSTOM_ITEM_ID = "custom-item";
 const CUSTOM_BUDGET_ID = "custom-budget";
-const CUSTOM_ITEM_LIMIT = 150;
+const CUSTOM_ITEM_LIMIT = 100;
 
 const OCCASIONS = [
   "วันเกิด",
@@ -105,7 +106,7 @@ export default function SpecialGiftRequestPage() {
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
       next.email = "อีเมลไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง";
     }
-    if (!form.recipientName.trim()) next.recipientName = "กรุนากรอกชื่อผู้รับของขวัญ";
+    if (!form.recipientName.trim()) next.recipientName = "กรุณากรอกชื่อผู้รับของขวัญ";
     if (!form.occasion) next.occasion = "กรุณาเลือกโอกาสพิเศษ";
     if (form.items.length === 0) next.items = "กรุณาเลือกอย่างน้อย 1 รายการ";
     if (form.items.includes(CUSTOM_ITEM_ID) && !form.customItemText.trim()) {
@@ -169,17 +170,12 @@ export default function SpecialGiftRequestPage() {
           </div>
           <div className="tg-page" style={{ position: "relative", zIndex: 1 }}>
             <div className="tg-success">
-              <div className="tg-success-icon-wrap">
-                <span className="tg-spark tg-spark-1" aria-hidden="true" />
-                <span className="tg-spark tg-spark-2" aria-hidden="true" />
-                <span className="tg-spark tg-spark-3" aria-hidden="true" />
-                <div className="tg-success-icon">
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FBF5DD" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M20 6 9 17l-5-5" />
-                  </svg>
-                </div>
+              <div className="tg-success-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FBF5DD" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
               </div>
-              <h1>ได้รับคำขอของคุณแล้ว</h1>
+              <h1>Request received</h1>
               <p>
                 ขอบคุณค่ะ {form.name.split(" ")[0] || "คุณลูกค้า"} — เราได้รับคำขอสร้างของขวัญพิเศษ
                 สำหรับ {form.recipientName || "ผู้รับของคุณ"} เรียบร้อยแล้ว ทีมงานของเราจะติดต่อกลับไปที่{" "}
@@ -217,7 +213,7 @@ export default function SpecialGiftRequestPage() {
             </div>
             <div className="tg-header-row">
               <div>
-                <p className="tg-eyebrow">✦ Special Gift Request</p>
+                <p className="tg-eyebrow">Special Gift</p>
                 <h1>Create a Special Gift</h1>
               </div>
               <div className="tg-header-actions">
@@ -585,60 +581,6 @@ function StyleBlock() {
         border-color: #0F6E56;
         background: #fff;
       }
-
-      .tg-custom-reveal {
-        margin-top: 0.9rem;
-        padding-top: 0.9rem;
-        border-top: 1px dashed #EFEAE1;
-        position: relative;
-        z-index: 1;
-      }
-        
-      .tg-item-card{
-        transition:.25s;
-        }
-
-      .tg-item-card:hover{
-        transform:translateY(-4px);
-        box-shadow:0 12px 24px rgba(0,0,0,.08);
-      }
-
-      .tg-item-card.is-checked{
-        transform:translateY(-3px);
-        box-shadow:0 15px 30px rgba(15,110,86,.18);
-        border-color:#0F6E56;
-      }
-
-      .tg-section::before{
-        content:"";
-        position:absolute;
-        width:160px;
-        height:160px;
-        right:-60px;
-        top:-60px;
-        border-radius:50%;
-        background:radial-gradient(circle,#DDEFD9 0%,transparent 70%);
-        opacity:.45;
-        pointer-events:none;
-      }
-      .tg-section::after{
-        content:"";
-        position:absolute;
-        width:90px;
-        height:90px;
-        left:-40px;
-        bottom:-40px;
-        border-radius:50%;
-        background:radial-gradient(circle,#F3EAD4 0%,transparent 70%);
-        opacity:.5;
-        pointer-events:none;
-      }
-      .tg-section:nth-of-type(2)::before { background:radial-gradient(circle,#F3EAD4 0%,transparent 70%); }
-      .tg-section:nth-of-type(3)::before { background:radial-gradient(circle,#EAF3EC 0%,transparent 70%); }
-      .tg-section:nth-of-type(3)::after { background:radial-gradient(circle,#F6E4DE 0%,transparent 70%); }
-      .tg-section:nth-of-type(4)::before { background:radial-gradient(circle,#F0E6F2 0%,transparent 70%); }
-      .tg-section:nth-of-type(5)::before { background:radial-gradient(circle,#DDEFD9 0%,transparent 70%); }
-      .tg-section:nth-of-type(5)::after { background:radial-gradient(circle,#F3EAD4 0%,transparent 70%); }
 
       .tg-char-count {
         text-align: right;
