@@ -8,33 +8,34 @@ import SocialIcons from "../../components/SocialLinks";
 import DecoratedBackground from "@/components/DecoratedBackground";
 
 const ITEM_OPTIONS = [
-  { id: "aroma-balm", label: "Aroma Balm", desc: "Solid balm for pulse points" },
-  { id: "room-spray", label: "Room Spray", desc: "Linen & air mist" },
-  { id: "candle", label: "Scented Candle", desc: "Soy wax, 40hr burn" },
-  { id: "bath-salts", label: "Bath Salts", desc: "Mineral soak, 250g" },
+  { id: "aroma-balm", label: "Aroma Balm", desc: "บาล์มน้ำหอมสำหรับทา" },
+  { id: "room-spray", label: "Room Spray", desc: "สเปรย์ปรับอากาศ" },
 ];
 
+const CUSTOM_ITEM_ID = "custom-item";
+const CUSTOM_BUDGET_ID = "custom-budget";
+const CUSTOM_ITEM_LIMIT = 150;
+
 const OCCASIONS = [
-  "Birthday",
-  "Anniversary",
-  "Wedding",
-  "Thank You",
-  "Get Well Soon",
-  "Just Because",
-  "Other",
+  "วันเกิด",
+  "วันครบรอบ",
+  "งานแต่งงาน",
+  "คำขอบคุณ",
+  "โอกาสพิเศษ",
+  "อื่นๆ",
 ];
 
 const BUDGETS = [
-  { id: "under-500", label: "Under ฿500" },
+  { id: "under-500", label: "ต่ำกว่า ฿500" },
   { id: "500-1000", label: "฿500 – ฿1,000" },
   { id: "1000-2000", label: "฿1,000 – ฿2,000" },
-  { id: "2000-plus", label: "฿2,000+" },
+  { id: "2000-plus", label: "฿2,000 ขึ้นไป" },
 ];
 
 const WRAP_STYLES = [
-  { id: "classic", label: "Classic", desc: "Kraft box, twine bow", accent: "#C7B08A" },
-  { id: "premium", label: "Premium", desc: "Linen box, wax seal", accent: "#0F6E56" },
-  { id: "eco", label: "Eco", desc: "Recycled box, dried florals", accent: "#7C8B6F" },
+  { id: "classic", label: "สไตล์คลาสสิก", desc: "กล่องคราฟท์ ผูกโบว์เชือกปอ", accent: "#C7B08A" },
+  { id: "premium", label: "สไตล์พรีเมี่ยม", desc: "กล่องผ้าลินิน ปิดผนึกด้วยขี้ผึ้ง", accent: "#0F6E56" },
+  { id: "eco", label: "สไตล์อีโค่", desc: "กล่องรีไซเคิล ตกแต่งด้วยดอกไม้แห้ง", accent: "#7C8B6F" },
 ];
 
 interface FormState {
@@ -45,7 +46,9 @@ interface FormState {
   occasion: string;
   deliveryDate: string;
   items: string[];
+  customItemText: string;
   budget: string;
+  customBudgetText: string;
   wrapStyle: string;
   message: string;
 }
@@ -58,7 +61,9 @@ const INITIAL_STATE: FormState = {
   occasion: "",
   deliveryDate: "",
   items: [],
+  customItemText: "",
   budget: "",
+  customBudgetText: "",
   wrapStyle: "",
   message: "",
 };
@@ -87,20 +92,29 @@ export default function SpecialGiftRequestPage() {
     if (errors.items) setErrors((prev) => ({ ...prev, items: undefined }));
   };
 
+  const isCustomItemSelected = form.items.includes(CUSTOM_ITEM_ID);
+  const isCustomBudgetSelected = form.budget === CUSTOM_BUDGET_ID;
+
   const validate = (): boolean => {
     const next: Partial<Record<keyof FormState, string>> = {};
 
-    if (!form.name.trim()) next.name = "Please enter your name.";
+    if (!form.name.trim()) next.name = "กรุณากรอกชื่อของคุณ";
     if (!form.email.trim()) {
-      next.email = "Please enter your email.";
+      next.email = "กรุณากรอกอีเมลของคุณ";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      next.email = "That email doesn't look right.";
+      next.email = "อีเมลไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง";
     }
-    if (!form.recipientName.trim()) next.recipientName = "Who is this gift for?";
-    if (!form.occasion) next.occasion = "Please choose an occasion.";
-    if (form.items.length === 0) next.items = "Pick at least one item.";
-    if (!form.budget) next.budget = "Please choose a budget range.";
-    if (!form.wrapStyle) next.wrapStyle = "Please choose a wrap style.";
+    if (!form.recipientName.trim()) next.recipientName = "กรุนากรอกชื่อผู้รับของขวัญ";
+    if (!form.occasion) next.occasion = "กรุณาเลือกโอกาสพิเศษ";
+    if (form.items.length === 0) next.items = "กรุณาเลือกอย่างน้อย 1 รายการ";
+    if (form.items.includes(CUSTOM_ITEM_ID) && !form.customItemText.trim()) {
+      next.customItemText = "กรุณาระบุของขวัญที่ต้องการ";
+    }
+    if (!form.budget) next.budget = "กรุณาเลือกช่วงงบประมาณ";
+    if (form.budget === CUSTOM_BUDGET_ID && !form.customBudgetText.trim()) {
+      next.customBudgetText = "กรุณาระบุงบประมาณที่ต้องการ";
+    }
+    if (!form.wrapStyle) next.wrapStyle = "กรุณาเลือกรูปแบบการห่อของขวัญ";
 
     setErrors(next);
     return Object.keys(next).length === 0;
@@ -112,10 +126,23 @@ export default function SpecialGiftRequestPage() {
 
     setStatus("submitting");
     try {
+      const payload = {
+        ...form,
+        // Resolve the human-readable values so the backend/email doesn't
+        // need to know about the "custom" sentinel ids.
+        items: form.items.map((id) =>
+          id === CUSTOM_ITEM_ID ? `อื่นๆ: ${form.customItemText.trim()}` : id
+        ),
+        budget:
+          form.budget === CUSTOM_BUDGET_ID
+            ? `อื่นๆ: ${form.customBudgetText.trim()}`
+            : form.budget,
+      };
+
       const res = await fetch("/api/request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error("Request failed");
       setStatus("success");
@@ -146,73 +173,23 @@ export default function SpecialGiftRequestPage() {
                   <path d="M20 6 9 17l-5-5" />
                 </svg>
               </div>
-              <h1>Request received</h1>
+              <h1>ได้รับคำขอของคุณแล้ว</h1>
               <p>
-                Thank you, {form.name.split(" ")[0] || "friend"} — we've got your special gift
-                request for {form.recipientName || "your recipient"}. Our team will reach out at{" "}
-                <strong>{form.email}</strong> within 1–2 business days to confirm details and pricing.
+                ขอบคุณค่ะ {form.name.split(" ")[0] || "คุณลูกค้า"} — เราได้รับคำขอสร้างของขวัญพิเศษ
+                สำหรับ {form.recipientName || "ผู้รับของคุณ"} เรียบร้อยแล้ว ทีมงานของเราจะติดต่อกลับไปที่{" "}
+                <strong>{form.email}</strong> ภายใน 1–2 วันทำการ เพื่อยืนยันรายละเอียดและราคาค่ะ
               </p>
               <div className="tg-success-actions">
                 <button className="tg-btn tg-btn-primary" onClick={handleReset}>
-                  Create another request
+                  สร้างคำขอใหม่อีกครั้ง
                 </button>
                 <Link href="/products" className="tg-btn tg-btn-ghost">
-                  Back to Products
+                  กลับไปหน้าสินค้า
                 </Link>
               </div>
             </div>
           </div>
         </div>
-
-        {/* ── FOOTER ── */}
-        <footer
-          style={{
-            background: "#2F3A33",
-            color: "#FBF5DD",
-            padding: "4rem 8vw 2.5rem",
-          }}
-        >
-          <div
-            className="footer-grid"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "2fr 1fr 1fr",
-              gap: "3rem",
-              paddingBottom: "3rem",
-              borderBottom: "1px solid rgba(251,245,221,0.1)",
-            }}
-          >
-            <div>
-              <h3 style={{ fontSize: "1.5rem", fontWeight: 300, marginBottom: "0.75rem" }}>
-                Thara Bliss
-              </h3>
-              <p style={{ color: "rgba(251,245,221,0.5)", lineHeight: 1.8, fontSize: "0.9rem", maxWidth: 280 }}>
-                ไม่ใช่แค่ความหอม แต่คือการดูแลอารมณ์และจิตใจในทุกวัน — เลือกกลิ่นที่สะท้อนตัวตนและอยู่กับคุณในทุกช่วงเวลา
-              </p>
-            </div>
-            <div>
-              <p style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", opacity: 0.4, marginBottom: "1.2rem" }}>
-                Explore
-              </p>
-              {["Products", "About", "Journal", "Help-Center"].map((link) => (
-                <a key={link} href={`/${link.toLowerCase()}`} style={{ display: "block", color: "rgba(251,245,221,0.7)", textDecoration: "none", fontSize: "0.9rem", marginBottom: "0.6rem" }}>
-                  {link}
-                </a>
-              ))}
-            </div>
-            <div>
-              <p style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", opacity: 0.4, marginBottom: "1.2rem" }}>
-                Follow Us
-              </p>
-              <SocialIcons />
-            </div>
-          </div>
-          <div style={{ paddingTop: "1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
-            <p style={{ color: "rgba(251,245,221,0.3)", fontSize: "12px" }}>© 2026 Thara Bliss. All rights reserved.</p>
-            <p style={{ color: "rgba(251,245,221,0.3)", fontSize: "12px" }}>Calm. Balance. Bliss.</p>
-          </div>
-        </footer>
-
         <StyleBlock />
       </>
     );
@@ -229,7 +206,7 @@ export default function SpecialGiftRequestPage() {
           <div className="tg-header">
             <div className="tg-header-row">
               <div>
-                <p className="tg-eyebrow">Special Gift</p>
+                <p className="tg-eyebrow">Special Gift Request</p>
                 <h1>Create a Special Gift</h1>
               </div>
               <div className="tg-header-actions">
@@ -245,25 +222,25 @@ export default function SpecialGiftRequestPage() {
               </div>
             </div>
             <p className="tg-subtext">
-              Build a one-of-a-kind gift from Thara Bliss — pick the items, the wrap, and add a
-              personal note. We'll take care of the rest.
+              ออกแบบของขวัญสุดพิเศษสำหรับคนพิเศษหรือโอกาสพิเศษที่มีเพียงชิ้นเดียวจาก Thara Bliss — เลือกของขวัญที่ต้องการ เลือกรูปแบบการห่อของขวัญ
+              และเขียนข้อความสำหรับผู้รับ
             </p>
           </div>
 
           <form className="tg-form" onSubmit={handleSubmit} noValidate>
         {/* SECTION: Your details */}
         <section className="tg-section">
-          <h2>Your details</h2>
+          <h2>ข้อมูลของคุณ</h2>
           <div className="tg-grid-2">
-            <Field label="Your name" error={errors.name}>
+            <Field label="ชื่อของคุณ" error={errors.name}>
               <input
                 type="text"
                 value={form.name}
                 onChange={(e) => update("name", e.target.value)}
-                placeholder="Jane Doe"
+                placeholder="Your name"
               />
             </Field>
-            <Field label="Email" error={errors.email}>
+            <Field label="อีเมล" error={errors.email}>
               <input
                 type="email"
                 value={form.email}
@@ -272,7 +249,7 @@ export default function SpecialGiftRequestPage() {
               />
             </Field>
           </div>
-          <Field label="Phone (optional)">
+          <Field label="เบอร์โทรศัพท์ (ไม่บังคับ)">
             <input
               type="tel"
               value={form.phone}
@@ -284,9 +261,9 @@ export default function SpecialGiftRequestPage() {
 
         {/* SECTION: Recipient & occasion */}
         <section className="tg-section">
-          <h2>Who's it for?</h2>
+          <h2>ของขวัญนี้สำหรับใคร?</h2>
           <div className="tg-grid-2">
-            <Field label="Recipient's name" error={errors.recipientName}>
+            <Field label="ชื่อผู้รับของขวัญ" error={errors.recipientName}>
               <input
                 type="text"
                 value={form.recipientName}
@@ -294,7 +271,7 @@ export default function SpecialGiftRequestPage() {
                 placeholder="Who's receiving this?"
               />
             </Field>
-            <Field label="Occasion" error={errors.occasion}>
+            <Field label="โอกาสพิเศษ" error={errors.occasion}>
               <select value={form.occasion} onChange={(e) => update("occasion", e.target.value)}>
                 <option value="">Select an occasion</option>
                 {OCCASIONS.map((o) => (
@@ -303,7 +280,7 @@ export default function SpecialGiftRequestPage() {
               </select>
             </Field>
           </div>
-          <Field label="Preferred delivery date (optional)">
+          <Field label="วันที่ต้องการจัดส่ง (ไม่บังคับ)">
             <input
               type="date"
               value={form.deliveryDate}
@@ -314,7 +291,7 @@ export default function SpecialGiftRequestPage() {
 
         {/* SECTION: Build the gift */}
         <section className="tg-section">
-          <h2>Choose your items</h2>
+          <h2>เลือกประเภทของขวัญ</h2>
           {errors.items && <p className="tg-error-text">{errors.items}</p>}
           <div className="tg-item-grid">
             {ITEM_OPTIONS.map((item) => {
@@ -341,12 +318,47 @@ export default function SpecialGiftRequestPage() {
                 </button>
               );
             })}
+
+            {/* Custom / "type your own" item option */}
+            <button
+              type="button"
+              className={`tg-item-card ${isCustomItemSelected ? "is-checked" : ""}`}
+              onClick={() => toggleItem(CUSTOM_ITEM_ID)}
+              aria-pressed={isCustomItemSelected}
+            >
+              <span className="tg-item-check">
+                {isCustomItemSelected && (
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FBF5DD" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                )}
+              </span>
+              <span>
+                <span className="tg-item-label">อื่นๆ (ระบุเอง)</span>
+                <span className="tg-item-desc">พิมพ์ของขวัญที่คุณต้องการ</span>
+              </span>
+            </button>
           </div>
+
+          {isCustomItemSelected && (
+            <div className="tg-custom-reveal">
+              <Field label="ระบุของขวัญที่ต้องการ" error={errors.customItemText}>
+                <input
+                  type="text"
+                  value={form.customItemText}
+                  maxLength={CUSTOM_ITEM_LIMIT}
+                  onChange={(e) => update("customItemText", e.target.value)}
+                  placeholder="เช่น เทียนหอมกลิ่นลาเวนเดอร์, ชุดของขวัญรวม..."
+                />
+              </Field>
+              <p className="tg-char-count">{form.customItemText.length}/{CUSTOM_ITEM_LIMIT}</p>
+            </div>
+          )}
         </section>
 
         {/* SECTION: Budget */}
         <section className="tg-section">
-          <h2>Budget range</h2>
+          <h2>Budget</h2>
           {errors.budget && <p className="tg-error-text">{errors.budget}</p>}
           <div className="tg-pill-row">
             {BUDGETS.map((b) => (
@@ -359,12 +371,32 @@ export default function SpecialGiftRequestPage() {
                 {b.label}
               </button>
             ))}
+            <button
+              type="button"
+              className={`tg-pill ${isCustomBudgetSelected ? "is-active" : ""}`}
+              onClick={() => update("budget", CUSTOM_BUDGET_ID)}
+            >
+              อื่นๆ (ระบุเอง)
+            </button>
           </div>
+
+          {isCustomBudgetSelected && (
+            <div className="tg-custom-reveal">
+              <Field label="ระบุงบประมาณที่ต้องการ" error={errors.customBudgetText}>
+                <input
+                  type="text"
+                  value={form.customBudgetText}
+                  onChange={(e) => update("customBudgetText", e.target.value)}
+                  placeholder="เช่น ประมาณ ฿1,500 หรือ ไม่เกิน ฿3,000"
+                />
+              </Field>
+            </div>
+          )}
         </section>
 
         {/* SECTION: Wrap style */}
         <section className="tg-section">
-          <h2>Wrap style</h2>
+          <h2>รูปแบบการห่อของขวัญ</h2>
           {errors.wrapStyle && <p className="tg-error-text">{errors.wrapStyle}</p>}
           <div className="tg-wrap-grid">
             {WRAP_STYLES.map((w) => (
@@ -385,13 +417,13 @@ export default function SpecialGiftRequestPage() {
 
         {/* SECTION: Personal message */}
         <section className="tg-section">
-          <h2>Personal message (optional)</h2>
+          <h2>ข้อความส่วนตัว (ไม่บังคับ)</h2>
           <Field label="">
             <textarea
               value={form.message}
               maxLength={MESSAGE_LIMIT}
               onChange={(e) => update("message", e.target.value)}
-              placeholder="Write a short note to include with the gift..."
+              placeholder="เขียนข้อความสั้นๆ แนบไปกับของขวัญ..."
               rows={4}
             />
           </Field>
@@ -400,66 +432,16 @@ export default function SpecialGiftRequestPage() {
 
         {status === "error" && (
           <p className="tg-error-text tg-error-banner">
-            Something went wrong sending your request. Please try again, or reach us directly.
+            เกิดข้อผิดพลาดในการส่งคำขอ กรุณาลองใหม่อีกครั้ง หรือติดต่อเราโดยตรง
           </p>
         )}
 
         <button type="submit" className="tg-btn tg-btn-primary tg-submit" disabled={status === "submitting"}>
-          {status === "submitting" ? "Sending..." : "Submit Request"}
+          {status === "submitting" ? "กำลังส่ง..." : "ส่งคำขอ"}
         </button>
           </form>
         </div>
       </div>
-
-      {/* ── FOOTER ── */}
-      <footer
-        style={{
-          background: "#2F3A33",
-          color: "#FBF5DD",
-          padding: "4rem 8vw 2.5rem",
-        }}
-      >
-        <div
-          className="footer-grid"
-          style={{
-            display: "grid",
-            gridTemplateColumns: "2fr 1fr 1fr",
-            gap: "3rem",
-            paddingBottom: "3rem",
-            borderBottom: "1px solid rgba(251,245,221,0.1)",
-          }}
-        >
-          <div>
-            <h3 style={{ fontSize: "1.5rem", fontWeight: 300, marginBottom: "0.75rem" }}>
-              Thara Bliss
-            </h3>
-            <p style={{ color: "rgba(251,245,221,0.5)", lineHeight: 1.8, fontSize: "0.9rem", maxWidth: 280 }}>
-              ไม่ใช่แค่ความหอม แต่คือการดูแลอารมณ์และจิตใจในทุกวัน — เลือกกลิ่นที่สะท้อนตัวตนและอยู่กับคุณในทุกช่วงเวลา
-            </p>
-          </div>
-          <div>
-            <p style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", opacity: 0.4, marginBottom: "1.2rem" }}>
-              Explore
-            </p>
-            {["Products", "About", "Journal", "Help-Center"].map((link) => (
-              <a key={link} href={`/${link.toLowerCase()}`} style={{ display: "block", color: "rgba(251,245,221,0.7)", textDecoration: "none", fontSize: "0.9rem", marginBottom: "0.6rem" }}>
-                {link}
-              </a>
-            ))}
-          </div>
-          <div>
-            <p style={{ fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", opacity: 0.4, marginBottom: "1.2rem" }}>
-              Follow Us
-            </p>
-            <SocialIcons />
-          </div>
-        </div>
-        <div style={{ paddingTop: "1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
-          <p style={{ color: "rgba(251,245,221,0.3)", fontSize: "12px" }}>© 2026 Thara Bliss. All rights reserved.</p>
-          <p style={{ color: "rgba(251,245,221,0.3)", fontSize: "12px" }}>Calm. Balance. Bliss.</p>
-        </div>
-      </footer>
-
       <StyleBlock />
     </>
   );
@@ -521,6 +503,8 @@ function StyleBlock() {
         border: 1px solid #EFEAE1;
         border-radius: 18px;
         padding: 1.75rem;
+        position: relative;
+        overflow: hidden;
       }
       .tg-section h2 {
         font-size: 1.05rem;
@@ -560,6 +544,42 @@ function StyleBlock() {
         background: #fff;
       }
 
+      .tg-custom-reveal {
+        margin-top: 0.9rem;
+        padding-top: 0.9rem;
+        border-top: 1px dashed #EFEAE1;
+        position: relative;
+        z-index: 1;
+      }
+        
+      .tg-item-card{
+        transition:.25s;
+        }
+
+      .tg-item-card:hover{
+        transform:translateY(-4px);
+        box-shadow:0 12px 24px rgba(0,0,0,.08);
+      }
+
+      .tg-item-card.is-checked{
+        transform:translateY(-3px);
+        box-shadow:0 15px 30px rgba(15,110,86,.18);
+        border-color:#0F6E56;
+      }
+
+      .tg-section::before{
+        content:"";
+        position:absolute;
+        width:160px;
+        height:160px;
+        right:-60px;
+        top:-60px;
+        border-radius:50%;
+        background:radial-gradient(circle,#DDEFD9 0%,transparent 70%);
+        opacity:.45;
+        pointer-events:none;
+      }
+
       .tg-char-count {
         text-align: right;
         font-size: 0.72rem;
@@ -584,6 +604,8 @@ function StyleBlock() {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 0.75rem;
+        position: relative;
+        z-index: 1;
       }
       .tg-item-card {
         display: flex;
@@ -632,7 +654,13 @@ function StyleBlock() {
       }
 
       /* Budget pills */
-      .tg-pill-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+      .tg-pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        position: relative;
+        z-index: 1;
+      }
       .tg-pill {
         font-family: inherit;
         font-size: 0.85rem;
@@ -656,6 +684,8 @@ function StyleBlock() {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 0.75rem;
+        position: relative;
+        z-index: 1;
       }
       .tg-wrap-card {
         --accent: #0F6E56;
