@@ -101,7 +101,7 @@ export default function HomePage() {
         >
           <Image
             src={HERO.img}
-            alt="Thara Bliss — Find Your Signature Scent."
+            alt="Thara Bliss — Find Your Signature Scent"
             fill
             priority
             style={{ objectFit: "cover", objectPosition: "center" }}
@@ -794,24 +794,24 @@ export default function HomePage() {
               </p>
               {[
                 {
-                 icon: <FaInstagram size={18} />,
-                 name: "Instagram",
-                 href: "https://shorturl.at/AfAPc",
+                  icon: <FaInstagram size={18} />,
+                  name: "Instagram",
+                  href: "https://shorturl.at/AfAPc",
                 },
                 {
-                icon: <FaFacebook  size={18} />,
-                name: "Facebook",
-                href: "https://shorturl.at/BJPYF",
+                  icon: <FaFacebook size={18} />,
+                  name: "Facebook",
+                  href: "https://shorturl.at/BJPYF",
                 },
                 {
-                icon: <FaTiktok size={17} />,
-                name: "TikTok",
-                href: "https://www.tiktok.com/@tharabliss?_r=1&_t=ZS-975GjfaqjAe",
+                  icon: <FaTiktok size={17} />,
+                  name: "TikTok",
+                  href: "https://www.tiktok.com/@tharabliss?_r=1&_t=ZS-975GjfaqjAe",
                 },
                 {
-                icon: <FaShoppingCart size={18} />,
-                name: "Shopee",
-                href: "https://shorturl.at/2Eg4w",
+                  icon: <FaShoppingCart size={18} />,
+                  name: "Shopee",
+                  href: "https://shorturl.at/2Eg4w",
                 },
               ].map((item) => (
                 <a

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { getAnnouncements, Announcement } from "@/lib/api";
 import { matchFaq, QUICK_REPLIES } from "@/lib/faqData";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
@@ -15,6 +15,11 @@ import {
 
 const POLL_INTERVAL = 30_000;
 const STORAGE_KEY = "thara_last_seen_announcement_id";
+const SIZE_KEY = "thara_widget_size";
+
+const DEFAULT_SIZE = { width: 340, height: 540 };
+const MIN_SIZE = { width: 280, height: 360 };
+const MAX_SIZE = { width: 520, height: 760 };
 
 interface ChatMessage {
   id: string;
@@ -23,6 +28,14 @@ interface ChatMessage {
   image?: string;
 }
 
+interface Size {
+  width: number;
+  height: number;
+}
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
+}
 
 export default function ChatbotWidget() {
   const [open, setOpen] = useState(false);
@@ -31,29 +44,47 @@ export default function ChatbotWidget() {
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [showSuggestionPopup, setShowSuggestionPopup] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  // Resizable panel size
+  const [size, setSize] = useState<Size>(DEFAULT_SIZE);
+  const [isResizing, setIsResizing] = useState(false);
+
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const suggestionRef = useRef<HTMLDivElement | null>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
 
-  // Load chat history from localStorage on mount
+  const resizeState = useRef({ startX: 0, startY: 0, startWidth: 0, startHeight: 0 });
+
+  // ── Load persisted chat history and panel size ──
   useEffect(() => {
-    const savedHistory = localStorage.getItem("thara_chat_history");
-    if (savedHistory) {
-      try {
-        setChatMessages(JSON.parse(savedHistory));
-      } catch (e) {
-        console.error("Error loading chat history:", e);
-      }
+    try {
+      const savedHistory = localStorage.getItem("thara_chat_history");
+      if (savedHistory) setChatMessages(JSON.parse(savedHistory));
+    } catch (e) {
+      console.error("Error loading chat history:", e);
     }
+
+    try {
+      const savedSize = localStorage.getItem(SIZE_KEY);
+      if (savedSize) {
+        const parsed = JSON.parse(savedSize) as Size;
+        setSize({
+          width: clamp(parsed.width, MIN_SIZE.width, MAX_SIZE.width),
+          height: clamp(parsed.height, MIN_SIZE.height, MAX_SIZE.height),
+        });
+      }
+    } catch (e) {
+      console.error("Error loading widget size:", e);
+    }
+
     setIsLoaded(true);
   }, []);
 
-  // Save chat history to localStorage when changed
   useEffect(() => {
     if (isLoaded) {
       localStorage.setItem("thara_chat_history", JSON.stringify(chatMessages));
     }
   }, [chatMessages, isLoaded]);
-
 
   const fetchAnnouncements = async () => {
     try {
@@ -85,6 +116,55 @@ export default function ChatbotWidget() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // ── Drag-to-resize panel (handle sits at the panel's top-left corner) ──
+  const handleResizePointerMove = useCallback((e: PointerEvent) => {
+    const dx = resizeState.current.startX - e.clientX; // dragging left grows width
+    const dy = resizeState.current.startY - e.clientY; // dragging up grows height
+
+    const width = clamp(resizeState.current.startWidth + dx, MIN_SIZE.width, MAX_SIZE.width);
+    const height = clamp(resizeState.current.startHeight + dy, MIN_SIZE.height, MAX_SIZE.height);
+    setSize({ width, height });
+  }, []);
+
+  const handleResizePointerUp = useCallback(() => {
+    window.removeEventListener("pointermove", handleResizePointerMove);
+    window.removeEventListener("pointerup", handleResizePointerUp);
+    document.body.style.userSelect = "";
+    setIsResizing(false);
+
+    setSize((prev) => {
+      try {
+        localStorage.setItem(SIZE_KEY, JSON.stringify(prev));
+      } catch (e) {
+        console.error("Error saving widget size:", e);
+      }
+      return prev;
+    });
+  }, [handleResizePointerMove]);
+
+  const handleResizePointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+    resizeState.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      startWidth: size.width,
+      startHeight: size.height,
+    };
+    setIsResizing(true);
+    document.body.style.userSelect = "none";
+    window.addEventListener("pointermove", handleResizePointerMove);
+    window.addEventListener("pointerup", handleResizePointerUp);
+  };
+
+  const resetSize = () => {
+    setSize(DEFAULT_SIZE);
+    try {
+      localStorage.setItem(SIZE_KEY, JSON.stringify(DEFAULT_SIZE));
+    } catch (e) {
+      console.error("Error saving widget size:", e);
+    }
+  };
+
   const handleOpen = () => {
     setOpen(true);
     if (announcements.length > 0) {
@@ -95,6 +175,10 @@ export default function ChatbotWidget() {
   };
 
   const handleClose = () => setOpen(false);
+
+  const handleBubbleClick = () => {
+    if (open) handleClose(); else handleOpen();
+  };
 
   const handleClearHistory = () => {
     if (window.confirm("คุณต้องการลบประวัติการสนทนาทั้งหมดใช่หรือไม่? / Do you want to clear all chat history?")) {
@@ -118,23 +202,10 @@ export default function ChatbotWidget() {
 
     if (faq.image) {
       const now = Date.now();
-      botMessages.push({
-        id: `b-t-${now}`,
-        sender: "bot",
-        text: faq.answer,
-      });
-      botMessages.push({
-        id: `b-i-${now + 1}`,
-        sender: "bot",
-        text: "",
-        image: faq.image,
-      });
+      botMessages.push({ id: `b-t-${now}`, sender: "bot", text: faq.answer });
+      botMessages.push({ id: `b-i-${now + 1}`, sender: "bot", text: "", image: faq.image });
     } else {
-      botMessages.push({
-        id: `b-${Date.now()}`,
-        sender: "bot",
-        text: faq.answer,
-      });
+      botMessages.push({ id: `b-${Date.now()}`, sender: "bot", text: faq.answer });
     }
 
     setChatMessages((prev) => [...prev, userMsg, ...botMessages]);
@@ -162,8 +233,6 @@ export default function ChatbotWidget() {
           font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
         .thara-chat-panel {
-          width: 340px;
-          height: 540px;
           border-radius: 20px;
           overflow: hidden;
           box-shadow: 0 8px 40px rgba(0,0,0,0.15);
@@ -171,6 +240,10 @@ export default function ChatbotWidget() {
           display: flex;
           flex-direction: column;
           animation: slide-up 0.25s ease;
+          position: relative;
+        }
+        .thara-chat-panel.is-resizing {
+          transition: none !important;
         }
         @keyframes slide-up {
           from { opacity: 0; transform: translateY(16px); }
@@ -275,7 +348,7 @@ export default function ChatbotWidget() {
           align-items: center;
           justify-content: center;
           box-shadow: 0 4px 20px rgba(15,110,86,0.35);
-          transition: transform 0.2s;
+          transition: transform 0.2s, box-shadow 0.2s;
         }
         .thara-bubble:hover {
           transform: scale(1.08);
@@ -403,12 +476,48 @@ export default function ChatbotWidget() {
           color: #0F6E56;
         }
 
+        /* ── RESIZE HANDLE ── */
+        .thara-resize-handle {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 20px;
+          height: 20px;
+          cursor: nwse-resize;
+          z-index: 30;
+          display: flex;
+          align-items: flex-start;
+          justify-content: flex-start;
+          padding: 4px;
+          touch-action: none;
+        }
+        .thara-resize-handle svg path {
+          stroke: rgba(251,245,221,0.75);
+          transition: stroke 0.15s;
+        }
+        .thara-resize-handle:hover svg path {
+          stroke: #FBF5DD;
+        }
       `}</style>
 
-      <div className="thara-chat-wrapper">
+      <div className="thara-chat-wrapper" ref={wrapperRef}>
 
         {open && (
-          <div className="thara-chat-panel">
+          <div
+            className={`thara-chat-panel ${isResizing ? "is-resizing" : ""}`}
+            style={{ width: size.width, height: size.height }}
+          >
+            {/* Resize handle — drag to change panel size */}
+            <div
+              className="thara-resize-handle"
+              onPointerDown={handleResizePointerDown}
+              onDoubleClick={resetSize}
+              title="Drag to resize · double-click to reset"
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M10 2L2 10M10 6L6 10" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            </div>
 
             <div className="thara-chat-header">
               <div>
@@ -596,7 +705,7 @@ export default function ChatbotWidget() {
 
         <button
           className={`thara-bubble ${!open ? "thara-bubble-pulse" : ""}`}
-          onClick={open ? handleClose : handleOpen}
+          onClick={handleBubbleClick}
           aria-label="Open chat"
         >
           {open ? (
