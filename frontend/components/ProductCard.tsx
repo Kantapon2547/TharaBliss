@@ -27,7 +27,7 @@ export default function ProductCard({ product }: { product: Product }) {
           <motion.div
             whileHover={{ scale: 1.04 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            style={{ width: "100%", height: "100%" }}
+            style={{ width: "100%", height: "100%", position: "relative" }}
           >
             <Image
               src={product.image}
