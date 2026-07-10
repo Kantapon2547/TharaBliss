@@ -1,0 +1,44 @@
+---
+import JournalPage from "@/components/journal";
+---
+
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>
+      Thara Bliss Journal — Stories, Scents & Moments
+    </title>
+
+    <meta
+      name="description"
+      content="Thara Bliss Journal — เรื่องราวเกี่ยวกับกลิ่นหอม การดูแลตัวเอง และช่วงเวลาแห่งความสงบในชีวิตประจำวัน"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        min-height: 100%;
+        overflow-x: hidden;
+      }
+
+      body {
+        margin: 0;
+        background: transparent;
+      }
+    </style>
+  </head>
+
+  <body>
+    <JournalPage client:only="react" />
+  </body>
+</html>
