@@ -3,6 +3,8 @@ import Link from "next/link";
 import Navbar from "../../../components/Navbar";
 import SocialIcons from "../../../components/SocialLinks";
 import DecoratedBackground from "@/components/DecoratedBackground";
+import ProductQRCode from "@/components/ProductQRCode";
+
 import {
     getProduct,
     getSettings,
@@ -276,6 +278,8 @@ export default async function ProductDetail({
                                     </button>
                                 </Link>
                             )}
+                            {/* ADD THIS: */}
+                            <ProductQRCode productId={id} productName={product.name} />
                         </div>
 
                         {/* Divider */}
