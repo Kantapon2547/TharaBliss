@@ -3,6 +3,7 @@ import ProductCarousel from "../../components/products/ProductCarousel";
 import SocialIcons from "../../components/layout/SocialLinks";
 import { getProducts } from "@/lib/api";
 import DecoratedBackground from "@/components/layout/DecoratedBackground";
+import ProductQRCode from "@/components/products/ProductQRCode";
 
 const CERTIFICATIONS = [
   { label: "Natural Essence", icon: "✦" },
@@ -259,7 +260,12 @@ export default async function DashboardPage({
                 Follow Us
               </p>
               <SocialIcons />
+              <br />
+              <ProductQRCode />
+              
             </div>
+
+          
           </div>
 
           <div

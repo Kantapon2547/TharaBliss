@@ -4,19 +4,17 @@ import { useRef, useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import { toPng } from "html-to-image";
 
-export default function ProductQRCode({
-    productId,
-    productName,
-}: {
-    productId: string;
-    productName: string;
-}) {
+// Single shared destination for the whole catalog —
+// change this if you'd rather point elsewhere.
+const CATALOG_PATH = "/products";
+
+export default function CatalogQRCode() {
     const [open, setOpen] = useState(false);
     const cardRef = useRef<HTMLDivElement>(null);
 
-    const productUrl =
+    const catalogUrl =
         typeof window !== "undefined"
-            ? `${window.location.origin}/products/${productId}`
+            ? `${window.location.origin}${CATALOG_PATH}`
             : "";
 
     const handleDownload = async () => {
@@ -28,9 +26,7 @@ export default function ProductQRCode({
         });
 
         const link = document.createElement("a");
-        link.download = `${productName
-            .replace(/\s+/g, "-")
-            .toLowerCase()}-qr-card.png`;
+        link.download = "thara-bliss-qr-card.png";
 
         link.href = image;
         link.click();
@@ -43,10 +39,10 @@ export default function ProductQRCode({
                 style={{
                     width: "100%",
                     padding: "12px 1.5rem",
-                    border: "1px solid #0F6E56",
+                    border: "1px solid rgba(251,245,221,0.6)", // light cream border, matches footer links
                     borderRadius: 10,
                     background: "transparent",
-                    color: "#0F6E56",
+                    color: "#FBF5DD", // light cream text, visible on dark footer
                     cursor: "pointer",
                     fontSize: "0.9rem",
                     fontWeight: 500,
@@ -181,7 +177,7 @@ export default function ProductQRCode({
                                     fontWeight: 600,
                                 }}
                             >
-                                Scan to view
+                                Scan to explore
                             </p>
 
                             <h3
@@ -192,7 +188,7 @@ export default function ProductQRCode({
                                     margin: "0 0 1.25rem",
                                 }}
                             >
-                                {productName}
+                                All Our Scents
                             </h3>
 
                             <div
@@ -205,9 +201,9 @@ export default function ProductQRCode({
                                     marginBottom: "1rem",
                                 }}
                             >
-                                {productUrl && (
+                                {catalogUrl && (
                                     <QRCodeCanvas
-                                        value={productUrl}
+                                        value={catalogUrl}
                                         size={180}
                                         fgColor="#2F3A33"
                                         bgColor="#F5F2EB"
@@ -224,7 +220,7 @@ export default function ProductQRCode({
                                     wordBreak: "break-all",
                                 }}
                             >
-                                {productUrl}
+                                
                             </p>
 
                             <p
