@@ -1,10 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import Navbar from "../../../components/Navbar";
-import SocialIcons from "../../../components/SocialLinks";
-import DecoratedBackground from "@/components/DecoratedBackground";
-import ProductQRCode from "@/components/ProductQRCode";
-
+import Navbar from "../../../components/layout/Navbar";
+import SocialIcons from "../../../components/layout/SocialLinks";
+import DecoratedBackground from "@/components/layout/DecoratedBackground";
+import ProductQRCode from "@/components/products/ProductQRCode";
 import {
     getProduct,
     getSettings,
@@ -16,7 +15,7 @@ import {
     ProductImagePanel,
     ProductSizeAndPrice,
     ProductAccordions,
-} from "../../../components/ProductInteractive";
+} from "../../../components/products/ProductInteractive";
 
 import { FaInstagram, FaFacebook, FaTiktok, FaShoppingCart } from "react-icons/fa";
 
@@ -280,6 +279,7 @@ export default async function ProductDetail({
                             )}
                             {/* ADD THIS: */}
                             <ProductQRCode productId={id} productName={product.name} />
+                            
                         </div>
 
                         {/* Divider */}

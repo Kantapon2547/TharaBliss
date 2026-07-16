@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
-import PageLoader from '@/components/PageLoader';
-import ChatbotWidget from '@/components/ChatbotWidget';
+import PageLoader from '@/components/layout/PageLoader';
+import ChatbotWidget from '@/components/chatbot/ChatbotWidget';
 import "./globals.css";
 
 const playfair = Playfair_Display({

@@ -1,8 +1,8 @@
 "use client";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/layout/Navbar";
 import { FaInstagram, FaFacebook, FaTiktok, FaShoppingCart } from "react-icons/fa";
-import SocialIcons from "../../components/SocialLinks";
-import DecoratedBackground from "@/components/DecoratedBackground";
+import SocialIcons from "../../components/layout/SocialLinks";
+import DecoratedBackground from "@/components/layout/DecoratedBackground";
 
 const articles = [
     {

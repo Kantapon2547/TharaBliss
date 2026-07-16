@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/layout/Navbar";
 import { FaInstagram, FaFacebook, FaTiktok, FaShoppingCart } from "react-icons/fa";
-import SocialIcons from "../../components/SocialLinks";
-import DecoratedBackground from "@/components/DecoratedBackground";
+import SocialIcons from "../../components/layout/SocialLinks";
+import DecoratedBackground from "@/components/layout/DecoratedBackground";
 import { SCENT_GUIDE, QUIZ_QUESTIONS, scoredToScent, ScentResult } from "@/lib/quizData";
 
 const FAQS = [

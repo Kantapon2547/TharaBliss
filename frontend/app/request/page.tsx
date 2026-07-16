@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/layout/Navbar";
 import { FaInstagram, FaFacebook, FaTiktok, FaShoppingCart } from "react-icons/fa";
-import SocialIcons from "../../components/SocialLinks";
-import DecoratedBackground from "@/components/DecoratedBackground";
+import SocialIcons from "../../components/layout/SocialLinks";
+import DecoratedBackground from "@/components/layout/DecoratedBackground";
 
 const ITEM_OPTIONS = [
   { id: "aroma-balm", label: "Aroma Balm", desc: "Solid balm for pulse points" },
@@ -235,217 +235,217 @@ export default function SpecialGiftRequestPage() {
           </div>
 
           <form className="tg-form" onSubmit={handleSubmit} noValidate>
-        {/* SECTION: Your details */}
-        <section className="tg-section">
-          <h2>ข้อมูลของคุณ</h2>
-          <div className="tg-grid-2">
-            <Field label="ชื่อของคุณ" error={errors.name}>
-              <input
-                type="text"
-                value={form.name}
-                onChange={(e) => update("name", e.target.value)}
-                placeholder="Your name"
-              />
-            </Field>
-            <Field label="อีเมล" error={errors.email}>
-              <input
-                type="email"
-                value={form.email}
-                onChange={(e) => update("email", e.target.value)}
-                placeholder="jane@email.com"
-              />
-            </Field>
-          </div>
-          <Field label="เบอร์โทรศัพท์ (ไม่บังคับ)">
-            <input
-              type="tel"
-              value={form.phone}
-              onChange={(e) => update("phone", e.target.value)}
-              placeholder="08x-xxx-xxxx"
-            />
-          </Field>
-        </section>
+            {/* SECTION: Your details */}
+            <section className="tg-section">
+              <h2>ข้อมูลของคุณ</h2>
+              <div className="tg-grid-2">
+                <Field label="ชื่อของคุณ" error={errors.name}>
+                  <input
+                    type="text"
+                    value={form.name}
+                    onChange={(e) => update("name", e.target.value)}
+                    placeholder="Your name"
+                  />
+                </Field>
+                <Field label="อีเมล" error={errors.email}>
+                  <input
+                    type="email"
+                    value={form.email}
+                    onChange={(e) => update("email", e.target.value)}
+                    placeholder="jane@email.com"
+                  />
+                </Field>
+              </div>
+              <Field label="เบอร์โทรศัพท์ (ไม่บังคับ)">
+                <input
+                  type="tel"
+                  value={form.phone}
+                  onChange={(e) => update("phone", e.target.value)}
+                  placeholder="08x-xxx-xxxx"
+                />
+              </Field>
+            </section>
 
-        {/* SECTION: Recipient & occasion */}
-        <section className="tg-section">
-          <h2>ของขวัญนี้สำหรับใคร?</h2>
-          <div className="tg-grid-2">
-            <Field label="ชื่อผู้รับของขวัญ" error={errors.recipientName}>
-              <input
-                type="text"
-                value={form.recipientName}
-                onChange={(e) => update("recipientName", e.target.value)}
-                placeholder="Who's receiving this?"
-              />
-            </Field>
-            <Field label="โอกาสพิเศษ" error={errors.occasion}>
-              <select value={form.occasion} onChange={(e) => update("occasion", e.target.value)}>
-                <option value="">Select an occasion</option>
-                {OCCASIONS.map((o) => (
-                  <option key={o} value={o}>{o}</option>
-                ))}
-              </select>
-            </Field>
-          </div>
-          <Field label="วันที่ต้องการจัดส่ง (ไม่บังคับ)">
-            <input
-              type="date"
-              value={form.deliveryDate}
-              onChange={(e) => update("deliveryDate", e.target.value)}
-            />
-          </Field>
-        </section>
+            {/* SECTION: Recipient & occasion */}
+            <section className="tg-section">
+              <h2>ของขวัญนี้สำหรับใคร?</h2>
+              <div className="tg-grid-2">
+                <Field label="ชื่อผู้รับของขวัญ" error={errors.recipientName}>
+                  <input
+                    type="text"
+                    value={form.recipientName}
+                    onChange={(e) => update("recipientName", e.target.value)}
+                    placeholder="Who's receiving this?"
+                  />
+                </Field>
+                <Field label="โอกาสพิเศษ" error={errors.occasion}>
+                  <select value={form.occasion} onChange={(e) => update("occasion", e.target.value)}>
+                    <option value="">Select an occasion</option>
+                    {OCCASIONS.map((o) => (
+                      <option key={o} value={o}>{o}</option>
+                    ))}
+                  </select>
+                </Field>
+              </div>
+              <Field label="วันที่ต้องการจัดส่ง (ไม่บังคับ)">
+                <input
+                  type="date"
+                  value={form.deliveryDate}
+                  onChange={(e) => update("deliveryDate", e.target.value)}
+                />
+              </Field>
+            </section>
 
-        {/* SECTION: Build the gift */}
-        <section className="tg-section">
-          <h2>เลือกประเภทของขวัญ</h2>
-          {errors.items && <p className="tg-error-text">{errors.items}</p>}
-          <div className="tg-item-grid">
-            {ITEM_OPTIONS.map((item) => {
-              const checked = form.items.includes(item.id);
-              return (
+            {/* SECTION: Build the gift */}
+            <section className="tg-section">
+              <h2>เลือกประเภทของขวัญ</h2>
+              {errors.items && <p className="tg-error-text">{errors.items}</p>}
+              <div className="tg-item-grid">
+                {ITEM_OPTIONS.map((item) => {
+                  const checked = form.items.includes(item.id);
+                  return (
+                    <button
+                      type="button"
+                      key={item.id}
+                      className={`tg-item-card ${checked ? "is-checked" : ""}`}
+                      onClick={() => toggleItem(item.id)}
+                      aria-pressed={checked}
+                    >
+                      <span className="tg-item-check">
+                        {checked && (
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FBF5DD" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M20 6 9 17l-5-5" />
+                          </svg>
+                        )}
+                      </span>
+                      <span>
+                        <span className="tg-item-label">{item.label}</span>
+                        <span className="tg-item-desc">{item.desc}</span>
+                      </span>
+                    </button>
+                  );
+                })}
+
+                {/* Custom / "type your own" item option */}
                 <button
                   type="button"
-                  key={item.id}
-                  className={`tg-item-card ${checked ? "is-checked" : ""}`}
-                  onClick={() => toggleItem(item.id)}
-                  aria-pressed={checked}
+                  className={`tg-item-card ${isCustomItemSelected ? "is-checked" : ""}`}
+                  onClick={() => toggleItem(CUSTOM_ITEM_ID)}
+                  aria-pressed={isCustomItemSelected}
                 >
                   <span className="tg-item-check">
-                    {checked && (
+                    {isCustomItemSelected && (
                       <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FBF5DD" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M20 6 9 17l-5-5" />
                       </svg>
                     )}
                   </span>
                   <span>
-                    <span className="tg-item-label">{item.label}</span>
-                    <span className="tg-item-desc">{item.desc}</span>
+                    <span className="tg-item-label">อื่นๆ (ระบุเอง)</span>
+                    <span className="tg-item-desc">พิมพ์ของขวัญที่คุณต้องการ</span>
                   </span>
                 </button>
-              );
-            })}
+              </div>
 
-            {/* Custom / "type your own" item option */}
-            <button
-              type="button"
-              className={`tg-item-card ${isCustomItemSelected ? "is-checked" : ""}`}
-              onClick={() => toggleItem(CUSTOM_ITEM_ID)}
-              aria-pressed={isCustomItemSelected}
-            >
-              <span className="tg-item-check">
-                {isCustomItemSelected && (
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FBF5DD" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M20 6 9 17l-5-5" />
-                  </svg>
-                )}
-              </span>
-              <span>
-                <span className="tg-item-label">อื่นๆ (ระบุเอง)</span>
-                <span className="tg-item-desc">พิมพ์ของขวัญที่คุณต้องการ</span>
-              </span>
-            </button>
-          </div>
+              {isCustomItemSelected && (
+                <div className="tg-custom-reveal">
+                  <Field label="ระบุของขวัญที่ต้องการ" error={errors.customItemText}>
+                    <input
+                      type="text"
+                      value={form.customItemText}
+                      maxLength={CUSTOM_ITEM_LIMIT}
+                      onChange={(e) => update("customItemText", e.target.value)}
+                      placeholder="เช่น เทียนหอมกลิ่นลาเวนเดอร์, ชุดของขวัญรวม..."
+                    />
+                  </Field>
+                  <p className="tg-char-count">{form.customItemText.length}/{CUSTOM_ITEM_LIMIT}</p>
+                </div>
+              )}
+            </section>
 
-          {isCustomItemSelected && (
-            <div className="tg-custom-reveal">
-              <Field label="ระบุของขวัญที่ต้องการ" error={errors.customItemText}>
-                <input
-                  type="text"
-                  value={form.customItemText}
-                  maxLength={CUSTOM_ITEM_LIMIT}
-                  onChange={(e) => update("customItemText", e.target.value)}
-                  placeholder="เช่น เทียนหอมกลิ่นลาเวนเดอร์, ชุดของขวัญรวม..."
+            {/* SECTION: Budget */}
+            <section className="tg-section">
+              <h2>Budget</h2>
+              {errors.budget && <p className="tg-error-text">{errors.budget}</p>}
+              <div className="tg-pill-row">
+                {BUDGETS.map((b) => (
+                  <button
+                    type="button"
+                    key={b.id}
+                    className={`tg-pill ${form.budget === b.id ? "is-active" : ""}`}
+                    onClick={() => update("budget", b.id)}
+                  >
+                    {b.label}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  className={`tg-pill ${isCustomBudgetSelected ? "is-active" : ""}`}
+                  onClick={() => update("budget", CUSTOM_BUDGET_ID)}
+                >
+                  อื่นๆ (ระบุเอง)
+                </button>
+              </div>
+
+              {isCustomBudgetSelected && (
+                <div className="tg-custom-reveal">
+                  <Field label="ระบุงบประมาณที่ต้องการ" error={errors.customBudgetText}>
+                    <input
+                      type="text"
+                      value={form.customBudgetText}
+                      onChange={(e) => update("customBudgetText", e.target.value)}
+                      placeholder="เช่น ประมาณ ฿1,500 หรือ ไม่เกิน ฿3,000"
+                    />
+                  </Field>
+                </div>
+              )}
+            </section>
+
+            {/* SECTION: Wrap style */}
+            <section className="tg-section">
+              <h2>รูปแบบการห่อของขวัญ</h2>
+              {errors.wrapStyle && <p className="tg-error-text">{errors.wrapStyle}</p>}
+              <div className="tg-wrap-grid">
+                {WRAP_STYLES.map((w) => (
+                  <button
+                    type="button"
+                    key={w.id}
+                    className={`tg-wrap-card ${form.wrapStyle === w.id ? "is-active" : ""}`}
+                    onClick={() => update("wrapStyle", w.id)}
+                    style={{ "--accent": w.accent } as React.CSSProperties}
+                  >
+                    <span className="tg-wrap-dot" />
+                    <span className="tg-wrap-label">{w.label}</span>
+                    <span className="tg-wrap-desc">{w.desc}</span>
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            {/* SECTION: Personal message */}
+            <section className="tg-section">
+              <h2>ข้อความส่วนตัว (ไม่บังคับ)</h2>
+              <Field label="">
+                <textarea
+                  value={form.message}
+                  maxLength={MESSAGE_LIMIT}
+                  onChange={(e) => update("message", e.target.value)}
+                  placeholder="เขียนข้อความสั้นๆ แนบไปกับของขวัญ..."
+                  rows={4}
                 />
               </Field>
-              <p className="tg-char-count">{form.customItemText.length}/{CUSTOM_ITEM_LIMIT}</p>
-            </div>
-          )}
-        </section>
+              <p className="tg-char-count">{form.message.length}/{MESSAGE_LIMIT}</p>
+            </section>
 
-        {/* SECTION: Budget */}
-        <section className="tg-section">
-          <h2>Budget</h2>
-          {errors.budget && <p className="tg-error-text">{errors.budget}</p>}
-          <div className="tg-pill-row">
-            {BUDGETS.map((b) => (
-              <button
-                type="button"
-                key={b.id}
-                className={`tg-pill ${form.budget === b.id ? "is-active" : ""}`}
-                onClick={() => update("budget", b.id)}
-              >
-                {b.label}
-              </button>
-            ))}
-            <button
-              type="button"
-              className={`tg-pill ${isCustomBudgetSelected ? "is-active" : ""}`}
-              onClick={() => update("budget", CUSTOM_BUDGET_ID)}
-            >
-              อื่นๆ (ระบุเอง)
+            {status === "error" && (
+              <p className="tg-error-text tg-error-banner">
+                เกิดข้อผิดพลาดในการส่งคำขอ กรุณาลองใหม่อีกครั้ง หรือติดต่อเราโดยตรง
+              </p>
+            )}
+
+            <button type="submit" className="tg-btn tg-btn-primary tg-submit" disabled={status === "submitting"}>
+              {status === "submitting" ? "กำลังส่ง..." : "ส่งคำขอ"}
             </button>
-          </div>
-
-          {isCustomBudgetSelected && (
-            <div className="tg-custom-reveal">
-              <Field label="ระบุงบประมาณที่ต้องการ" error={errors.customBudgetText}>
-                <input
-                  type="text"
-                  value={form.customBudgetText}
-                  onChange={(e) => update("customBudgetText", e.target.value)}
-                  placeholder="เช่น ประมาณ ฿1,500 หรือ ไม่เกิน ฿3,000"
-                />
-              </Field>
-            </div>
-          )}
-        </section>
-
-        {/* SECTION: Wrap style */}
-        <section className="tg-section">
-          <h2>รูปแบบการห่อของขวัญ</h2>
-          {errors.wrapStyle && <p className="tg-error-text">{errors.wrapStyle}</p>}
-          <div className="tg-wrap-grid">
-            {WRAP_STYLES.map((w) => (
-              <button
-                type="button"
-                key={w.id}
-                className={`tg-wrap-card ${form.wrapStyle === w.id ? "is-active" : ""}`}
-                onClick={() => update("wrapStyle", w.id)}
-                style={{ "--accent": w.accent } as React.CSSProperties}
-              >
-                <span className="tg-wrap-dot" />
-                <span className="tg-wrap-label">{w.label}</span>
-                <span className="tg-wrap-desc">{w.desc}</span>
-              </button>
-            ))}
-          </div>
-        </section>
-
-        {/* SECTION: Personal message */}
-        <section className="tg-section">
-          <h2>ข้อความส่วนตัว (ไม่บังคับ)</h2>
-          <Field label="">
-            <textarea
-              value={form.message}
-              maxLength={MESSAGE_LIMIT}
-              onChange={(e) => update("message", e.target.value)}
-              placeholder="เขียนข้อความสั้นๆ แนบไปกับของขวัญ..."
-              rows={4}
-            />
-          </Field>
-          <p className="tg-char-count">{form.message.length}/{MESSAGE_LIMIT}</p>
-        </section>
-
-        {status === "error" && (
-          <p className="tg-error-text tg-error-banner">
-            เกิดข้อผิดพลาดในการส่งคำขอ กรุณาลองใหม่อีกครั้ง หรือติดต่อเราโดยตรง
-          </p>
-        )}
-
-        <button type="submit" className="tg-btn tg-btn-primary tg-submit" disabled={status === "submitting"}>
-          {status === "submitting" ? "กำลังส่ง..." : "ส่งคำขอ"}
-        </button>
           </form>
         </div>
       </div>

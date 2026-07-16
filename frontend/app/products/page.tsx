@@ -1,12 +1,12 @@
-import Navbar from "../../components/Navbar";
-import ProductCarousel from "../../components/ProductCarousel";
-import SocialIcons from "../../components/SocialLinks";
+import Navbar from "../../components/layout/Navbar";
+import ProductCarousel from "../../components/products/ProductCarousel";
+import SocialIcons from "../../components/layout/SocialLinks";
 import { getProducts } from "@/lib/api";
-import DecoratedBackground from "@/components/DecoratedBackground";
+import DecoratedBackground from "@/components/layout/DecoratedBackground";
 
 const CERTIFICATIONS = [
-  { label: "Natural Essence",      icon: "✦" },
-  { label: "Inspired By Nature",   icon: "✦" },
+  { label: "Natural Essence", icon: "✦" },
+  { label: "Inspired By Nature", icon: "✦" },
   { label: "Crafted With Intention", icon: "✦" },
 ];
 
@@ -15,7 +15,7 @@ export default async function DashboardPage({
 }: {
   searchParams: { tab?: string };
 }) {
-  const products   = await getProducts();
+  const products = await getProducts();
   const params = await searchParams;
   const initialTab = params.tab ?? "aroma-balm";
 

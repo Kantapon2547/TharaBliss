@@ -1,13 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import Navbar from "../../components/Navbar";
+import Navbar from "../../components/layout/Navbar";
 import { motion } from "framer-motion";
 import { getProducts } from "@/lib/api";
-import { SplitLines, FadeUp, SlideIn, FadeIn } from "@/components/Animations";
+import { SplitLines, FadeUp, SlideIn, FadeIn } from "@/components/ui/Animations";
 import { FaInstagram, FaFacebook, FaTiktok, FaShoppingCart } from "react-icons/fa";
-import SocialIcons from "../../components/SocialLinks";
-import DecoratedBackground from "@/components/DecoratedBackground";
+import SocialIcons from "../../components/layout/SocialLinks";
+import DecoratedBackground from "@/components/layout/DecoratedBackground";
 
 const HERO = {
   img: "/images/banner/product_banner.jpg",
