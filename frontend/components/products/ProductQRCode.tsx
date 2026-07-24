@@ -230,18 +230,32 @@ export default function CatalogQRCode() {
                             >
                                 
                             </p>
+                            <p
+                                style={{
+                                    margin: "0 0 0.5rem",
+                                    fontSize: "0.5rem",
+                                    color: "#0F6E56",
+                                    opacity: 0.6,
+                                    letterSpacing: "0.04em",
+                                    textTransform: "uppercase",
+                                    whiteSpace: "nowrap",
+                                }}
+                            >
+                                Refresh your senses, Relax your mind
+                            </p>
 
                             <p
                                 style={{
                                     margin: 0,
                                     fontSize: "0.68rem",
                                     color: "#0F6E56",
-                                    opacity: 0.6,
+                                    opacity: 0.8,
                                     letterSpacing: "0.08em",
                                     textTransform: "uppercase",
+                                    whiteSpace: "nowrap",
                                 }}
                             >
-                                Refresh Your Senses · Relax Your Mind
+                                Contact us : Thara Bliss Official
                             </p>
                         </div>
 
