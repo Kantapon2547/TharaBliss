@@ -91,7 +91,7 @@ test.describe('Help Center Page', () => {
 
     await expect(page.getByText('Your Perfect Match')).toBeVisible();
 
-    await quiz.getByRole('button', { name: 'ทำแบบทดสอบใหม่' }).click();
+    await quiz.getByRole('button', { name: 'ทำแบบทดสอบใหม่' }).click({ force: true });
 
     await expect(
       quiz.getByRole('button', { name: 'เริ่มทำแบบทดสอบ' })

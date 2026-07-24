@@ -172,6 +172,7 @@ export default async function DashboardPage({
               src="images/products/aroma.jpg"
               alt="Thara Bliss product lifestyle"
               style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              loading="eager"
             />
           </div>
         </section>

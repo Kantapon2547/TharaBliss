@@ -76,17 +76,27 @@ export async function getProduct(
   id: number | string
 ): Promise<Product | null> {
   try {
-    const res = await fetch(`${API_URL}/api/products/${id}/`, {
+    const url = `${API_URL}/api/products/${id}/`;
+
+    console.log("GET PRODUCT:", url);
+
+    const res = await fetch(url, {
       next: { revalidate: 60 }
     });
 
+    console.log("PRODUCT STATUS:", res.status);
+
     if (!res.ok) {
-      throw new Error("Failed to fetch product");
+      const body = await res.text();
+      console.log("PRODUCT ERROR BODY:", body);
+
+      throw new Error(`Failed: ${res.status}`);
     }
 
-    return res.json();
+    return await res.json();
+
   } catch (error) {
-    console.error(error);
+    console.error("GET PRODUCT ERROR:", error);
     return null;
   }
 }

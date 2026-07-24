@@ -27,6 +27,7 @@ def send_announcement(modeladmin, request, queryset):
 
 @admin.register(Product)
 class ProductAdmin(SortableAdminMixin, admin.ModelAdmin):
+    
     list_display = (
         'name',
         'scent',

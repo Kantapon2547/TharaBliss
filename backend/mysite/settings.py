@@ -38,6 +38,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -129,11 +130,120 @@ USE_TZ = True
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
+JAZZMIN_SETTINGS = {
+    # Title on the login screen
+    "site_title": "Admin",
 
+    # Title on the browser tab
+    "site_header": "THARA BLISS",
+
+    # Title on the brand/logo area (top left)
+    "site_brand": "THARA BLISS",
+
+    # Logo — path relative to your static files
+    "site_logo": "images/logo.png",
+    # "login_logo": "images/logo.png",
+    # "login_logo_dark": None,
+    # "site_logo_classes": "img-circle",
+
+    # Icon shown in browser tab
+    "site_icon": "images/favicon.ico",
+
+    # Welcome text on the login screen
+    "welcome_sign": "Welcome to THARA BLISS Admin Panel",
+
+    # Copyright on the footer
+    "copyright": "THARA BLISS",
+
+    # Field name on user model that contains avatar image
+    "user_avatar": None,
+
+    ############
+    # Top Menu #
+    ############
+    "topmenu_links": [
+        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
+        {"model": "auth.User"},
+        {"name": "Support", "url": "https://example.com/support", "new_window": True},
+    ],
+
+    #############
+    # User Menu #
+    #############
+    "usermenu_links": [
+        {"name": "Support", "url": "https://example.com/support", "new_window": True},
+        {"model": "auth.user"}
+    ],
+
+    #############
+    # Side Menu #
+    #############
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": [],
+    "hide_models": [],
+    "order_with_respect_to": ["auth", "books", "books.author", "books.book"],
+
+    # Custom icons for side menu apps/models (uses FontAwesome 5)
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+    },
+    "default_icon_parents": "fas fa-chevron-circle-right",
+    "default_icon_children": "fas fa-circle",
+
+    #################
+    # Related Modal #
+    #################
+    "related_modal_active": True,
+
+    #############
+    # UI Tweaks #
+    #############
+    "custom_css": "css/custom_admin.css",
+    "custom_js": "js/custom_admin.js",
+    "use_google_fonts_cdn": True,
+    "show_ui_builder": True,   # lets you live-preview themes in admin
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": False,
+    "accent": "accent-success",
+    "navbar": "navbar-light",
+    "no_navbar_border": True,
+    "navbar_fixed": True,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-dark-success",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": True,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": True,
+    "theme": "flatly",
+    "button_classes": {
+        "primary": "btn-success",
+        "secondary": "btn-outline-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success",
+    },
+}
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -163,3 +273,4 @@ STORAGES = {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
+

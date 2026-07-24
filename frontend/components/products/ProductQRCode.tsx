@@ -206,8 +206,16 @@ export default function CatalogQRCode() {
                                         value={catalogUrl}
                                         size={180}
                                         fgColor="#2F3A33"
-                                        bgColor="#F5F2EB"
-                                        level="M"
+                                        bgColor="#ffffffff"
+                                        level="H"
+                                        imageSettings={{
+                                            src: "/images/services/logo_brand.jpg",
+                                            x: undefined,
+                                            y: undefined,
+                                            height: 60,
+                                            width: 60,
+                                            excavate: true,
+                                        }}
                                     />
                                 )}
                             </div>
@@ -245,7 +253,7 @@ export default function CatalogQRCode() {
                                 border: "none",
                                 borderRadius: 30,
                                 background: "#0F6E56",
-                                color: "#FBF5DD",
+                                color: "#ffffffff",
                                 cursor: "pointer",
                                 fontSize: "0.85rem",
                                 fontWeight: 500,

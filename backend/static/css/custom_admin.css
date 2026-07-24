@@ -1,0 +1,136 @@
+/* static/css/custom_admin.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap');
+
+:root {
+    --thara-cream: #fddba9;
+    --thara-green: #0F6E56;
+    --thara-green-dark: #0B5443;
+    --thara-rose: #0F6E56;
+    --thara-dark: #F7F1E8;
+    --thara-text: #4B3F3A;
+}
+
+body {
+    background-color: var(--thara-cream) !important;
+    font-family: 'Poppins', sans-serif;
+    color: var(--thara-text);
+}
+
+/* Navbar */
+.main-header.navbar,
+.main-header.navbar.navbar-light,
+.main-header.navbar.navbar-white,
+nav.main-header.navbar {
+    background-color: var(--thara-green) !important;
+    border-bottom: 1px solid var(--thara-green-dark) !important;
+}
+
+.main-header.navbar .nav-link,
+.main-header.navbar .nav-link i,
+.main-header.navbar .nav-link svg {
+    color: #ffffff !important;
+}
+
+.main-header.navbar .nav-link:hover {
+    color: #e0e0e0 !important;
+}
+
+/* Sidebar — Bootstrap 5 / AdminLTE 4 uses .app-sidebar */
+.main-sidebar,
+.app-sidebar,
+.sidebar-dark-success {
+    background-color: var(--thara-green) !important;
+}
+
+.brand-link {
+    display: flex !important;
+    align-items: center !important;
+    padding: 0.75rem 1rem !important;
+    overflow: hidden;
+    white-space: nowrap;
+    height: auto !important;
+    background-color: var(--thara-green) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.15) !important;
+}
+
+.brand-image {
+    max-height: 34px !important;
+    width: auto !important;
+    max-width: 40px;
+    margin-right: 10px !important;
+    float: none !important;
+    line-height: 1;
+}
+
+.brand-text {
+    font-family: 'Playfair Display', serif !important;
+    font-size: 1.15rem !important;
+    color: #fff !important;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.nav-sidebar > .nav-item > .nav-link {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.nav-sidebar > .nav-item > .nav-link:hover {
+    background-color: var(--thara-green-dark) !important;
+    color: #fff !important;
+}
+
+.nav-sidebar > .nav-item > .nav-link.active {
+    background-color: var(--thara-green-dark) !important;
+    color: #fff !important;
+    border-radius: 6px;
+}
+
+/* Cards */
+.card {
+    border: 1px solid #eee;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.card-header {
+    background-color: var(--thara-rose) !important;
+    color: var(--thara-dark) !important;
+    border-radius: 10px 10px 0 0 !important;
+    font-family: 'Playfair Display', serif;
+}
+
+/* Buttons */
+.btn-success, .btn-warning, .btn-primary {
+    background-color: var(--thara-green) !important;
+    border-color: var(--thara-green) !important;
+    color: #fff !important;
+}
+
+.btn-success:hover, .btn-warning:hover, .btn-primary:hover {
+    background-color: var(--thara-green-dark) !important;
+    border-color: var(--thara-green-dark) !important;
+}
+
+/* Tables */
+.table thead th {
+    background-color: var(--thara-rose) !important;
+    color: var(--thara-dark) !important;
+}
+
+/* Login page */
+.login-page, .register-page {
+    background: linear-gradient(135deg, var(--thara-cream), var(--thara-rose)) !important;
+}
+
+.login-box .card, .register-box .card {
+    border-radius: 14px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+}
+
+.login-box .btn-primary {
+    background-color: var(--thara-green) !important;
+    border-color: var(--thara-green) !important;
+}

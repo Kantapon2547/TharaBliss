@@ -276,8 +276,6 @@ export default async function ProductDetail({
                                     </button>
                                 </Link>
                             )}
-                            {/* ADD THIS:
-                            <ProductQRCode productId={id} productName={product.name} /> */}
                             
                         </div>
 
