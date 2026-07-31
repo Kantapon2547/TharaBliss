@@ -35,6 +35,7 @@ export interface SiteSettings {
   shopee_regular_url: string | null;
   shopee_set_url: string | null;
   tiktok_url: string | null;
+  thaimart_url: string | null;
 }
 
 export interface Announcement {
@@ -104,16 +105,19 @@ export async function getProduct(
 export async function getSettings(): Promise<SiteSettings | null> {
   try {
     const res = await fetch(`${API_URL}/api/site-settings/`, {
-      next: { revalidate: 60 }
+      cache: "no-store", // force fresh data — avoids stale 60s cache hiding a newly-added field
     });
 
     if (!res.ok) {
+      console.error("SETTINGS FETCH FAILED:", res.status);
       return null;
     }
 
-    return res.json();
+    const data = await res.json();
+    console.log("SETTINGS RESPONSE:", data); // keep this for now — remove once confirmed working
+    return data;
   } catch (error) {
-    console.error(error);
+    console.error("SETTINGS FETCH ERROR:", error);
     return null;
   }
 }

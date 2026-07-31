@@ -5,6 +5,10 @@ class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True)
 
+    class Meta:
+        verbose_name = "Category"
+        verbose_name_plural = "Categories"
+
     def __str__(self):
         return self.name
 
@@ -55,6 +59,11 @@ class SiteSettings(models.Model):
     shopee_set_url = models.URLField(blank=True, null=True)
 
     tiktok_url = models.URLField(blank=True, null=True)
+    thaimart_url = models.URLField(blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Site Settings"
+        verbose_name_plural = "Site Settings"
 
     def __str__(self):
         return "Site Settings"
@@ -75,6 +84,8 @@ class ProductAnnouncement(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+        verbose_name = "Product Announcement"
+        verbose_name_plural = "Product Announcements"
 
     def __str__(self):
         return f"{self.product.name} — {self.created_at:%Y-%m-%d %H:%M}"

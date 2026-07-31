@@ -1,5 +1,6 @@
 import Navbar from "../../components/layout/Navbar";
 import ProductCarousel from "../../components/products/ProductCarousel";
+import ProductSearch from "../../components/products/ProductSearch";
 import SocialIcons from "../../components/layout/SocialLinks";
 import { getProducts } from "@/lib/api";
 import DecoratedBackground from "@/components/layout/DecoratedBackground";
@@ -141,9 +142,18 @@ export default async function DashboardPage({
             </p>
           </div>
 
-          <div style={{ height: 1, background: "#EFEAE1", marginBottom: "3rem" }} />
+          <div style={{ height: 1, background: "#EFEAE1", marginBottom: "2rem" }} />
 
-          <ProductCarousel products={products} initialTab={initialTab} />
+          {/* ── SEARCH + FILTER BAR ── */}
+          <ProductSearch products={products} />
+
+          {/* ── TABS (Room Spray / Special Gift coming soon) ── */}
+          <div style={{ marginTop: "3.5rem", paddingTop: "2.5rem", borderTop: "1px solid #EFEAE1" }}>
+            <p style={{ color: "#0F6E56", letterSpacing: "0.18em", textTransform: "uppercase", fontSize: "11px", marginBottom: "1.5rem" }}>
+              More Collections
+            </p>
+            <ProductCarousel products={[]} initialTab={initialTab} />
+          </div>
         </section>
 
         {/* ── BRAND STRIP ── */}

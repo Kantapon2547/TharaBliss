@@ -76,6 +76,7 @@ export default async function ProductDetail({
             ? settings.shopee_set_url
             : settings?.shopee_regular_url;
     const tiktokUrl = settings?.tiktok_url;
+    const thaimartUrl = settings?.thaimart_url;
 
     const allImages = [
         ...(product.image ? [product.image] : []),
@@ -276,7 +277,34 @@ export default async function ProductDetail({
                                     </button>
                                 </Link>
                             )}
-                            
+
+                            {thaimartUrl && (
+                                <Link href={thaimartUrl} target="_blank" style={{ textDecoration: "none" }}>
+                                    <button
+                                        style={{
+                                            width: "100%",
+                                            padding: "13px 1.5rem",
+                                            border: "none",
+                                            borderRadius: 10,
+                                            background: "#C8102E",
+                                            color: "#fff",
+                                            cursor: "pointer",
+                                            fontSize: "0.9rem",
+                                            fontWeight: 500,
+                                            letterSpacing: "0.06em",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            gap: "0.6rem",
+                                            fontFamily: "inherit",
+                                        }}
+                                    >
+                                        <FaShoppingCart size={14} />
+                                        Buy on Thaimart
+                                    </button>
+                                </Link>
+                            )}
+
                         </div>
 
                         {/* Divider */}
