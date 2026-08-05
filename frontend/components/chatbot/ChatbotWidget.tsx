@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import { getAnnouncements, Announcement } from "@/lib/api";
 import { matchFaq, QUICK_REPLIES } from "@/lib/faqData";
+import { usePathname } from "next/navigation";
 import "@chatscope/chat-ui-kit-styles/dist/default/styles.min.css";
 import {
   MainContainer,
@@ -38,12 +39,14 @@ function clamp(value: number, min: number, max: number) {
 }
 
 export default function ChatbotWidget() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
   const [showSuggestionPopup, setShowSuggestionPopup] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
 
   // Resizable panel size
   const [size, setSize] = useState<Size>(DEFAULT_SIZE);
@@ -187,7 +190,9 @@ export default function ChatbotWidget() {
     }
   };
 
-  const sendMessage = (text: string) => {
+  // ── sendMessage: quick-reply buttons use the instant local FAQ matcher,
+  //    free-typed messages go to the local Qwen3-8B model via /api/chat ──
+  const sendMessage = async (text: string, opts?: { skipLLM?: boolean }) => {
     const trimmed = text.trim();
     if (!trimmed) return;
 
@@ -196,25 +201,64 @@ export default function ChatbotWidget() {
       sender: "user",
       text: trimmed,
     };
+    setChatMessages((prev) => [...prev, userMsg]);
 
-    const faq = matchFaq(trimmed);
-    const botMessages: ChatMessage[] = [];
-
-    if (faq.image) {
+    if (opts?.skipLLM) {
+      const faq = matchFaq(trimmed);
+      const botMessages: ChatMessage[] = [];
       const now = Date.now();
-      botMessages.push({ id: `b-t-${now}`, sender: "bot", text: faq.answer });
-      botMessages.push({ id: `b-i-${now + 1}`, sender: "bot", text: "", image: faq.image });
-    } else {
-      botMessages.push({ id: `b-${Date.now()}`, sender: "bot", text: faq.answer });
+
+      if (faq.image) {
+        botMessages.push({ id: `b-t-${now}`, sender: "bot", text: faq.answer });
+        botMessages.push({ id: `b-i-${now + 1}`, sender: "bot", text: "", image: faq.image });
+      } else {
+        botMessages.push({ id: `b-${now}`, sender: "bot", text: faq.answer });
+      }
+
+      setChatMessages((prev) => [...prev, ...botMessages]);
+      return;
     }
 
-    setChatMessages((prev) => [...prev, userMsg, ...botMessages]);
+    setIsTyping(true);
+    try {
+      const history = chatMessages
+        .filter((m) => !m.image) // keep image/QR cards out of LLM context
+        .map((m) => ({
+          role: m.sender === "user" ? ("user" as const) : ("assistant" as const),
+          content: m.text,
+        }));
+
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: trimmed, history, pathname }),
+      });
+
+      const data = await res.json();
+
+      const botMsg: ChatMessage = {
+        id: `b-${Date.now()}`,
+        sender: "bot",
+        text: res.ok
+          ? data.reply
+          : (data.error || "ขออภัยค่ะ ระบบแชทขัดข้องชั่วคราว กรุณาลองใหม่อีกครั้งค่ะ 🙏"),
+      };
+      setChatMessages((prev) => [...prev, botMsg]);
+    } catch (err) {
+      console.error("Chat error:", err);
+      setChatMessages((prev) => [
+        ...prev,
+        { id: `b-${Date.now()}`, sender: "bot", text: "ขออภัยค่ะ เชื่อมต่อกับผู้ช่วยไม่ได้ในขณะนี้" },
+      ]);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   const handleSend = (text: string) => sendMessage(text);
 
   const handleQuickReply = (triggerText: string) => {
-    sendMessage(triggerText);
+    sendMessage(triggerText, { skipLLM: true });
     setShowSuggestionPopup(false);
   };
 
@@ -660,6 +704,22 @@ export default function ChatbotWidget() {
                         </MessageGroup.Messages>
                       </MessageGroup>
                     ))}
+
+                    {isTyping && (
+                      <MessageGroup direction="incoming" sender="Thara Bliss" avatarPosition="cl">
+                        <MessageGroup.Messages>
+                          <Message
+                            model={{
+                              message: "กำลังพิมพ์...",
+                              sentTime: "just now",
+                              sender: "Thara Bliss",
+                              direction: "incoming",
+                              position: "single",
+                            }}
+                          />
+                        </MessageGroup.Messages>
+                      </MessageGroup>
+                    )}
 
                   </MessageList>
 
