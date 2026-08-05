@@ -13,6 +13,8 @@ import {
   MessageGroup,
   MessageInput,
 } from "@chatscope/chat-ui-kit-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 const POLL_INTERVAL = 30_000;
 const STORAGE_KEY = "thara_last_seen_announcement_id";
@@ -265,6 +267,18 @@ export default function ChatbotWidget() {
   return (
     <>
       <style>{`
+        .thara-markdown p { margin: 0 0 0.5em; }
+        .thara-markdown p:last-child { margin-bottom: 0; }
+        .thara-markdown ul, .thara-markdown ol { margin: 0.3em 0; padding-left: 1.2em; }
+        .thara-markdown strong { font-weight: 600; }
+        .thara-markdown a {
+          color: #0F6E56;
+          text-decoration: underline;
+          word-break: break-word;
+        }
+        .thara-markdown a:hover {
+          color: #0a5240;
+        }
         .thara-chat-wrapper {
           position: fixed;
           bottom: 2rem;
@@ -691,16 +705,31 @@ export default function ChatbotWidget() {
                           </Message.CustomContent>
                         </Message>
                       ) : (
-                        <Message
-                          model={{
-                            message: m.text,
-                            sentTime: "just now",
-                            sender: m.sender === "user" ? "You" : "Thara Bliss",
-                            direction: m.sender === "user" ? "outgoing" : "incoming",
-                            position: "single",
-                          }}
-                        />
-                          )}
+                      <Message
+                        model={{
+                          type: "custom",
+                          sentTime: "just now",
+                          sender: m.sender === "user" ? "You" : "Thara Bliss",
+                          direction: m.sender === "user" ? "outgoing" : "incoming",
+                          position: "single",
+                        }}
+                      >
+                        <Message.CustomContent>
+                          <div className="thara-markdown">
+                            <ReactMarkdown
+                              remarkPlugins={[remarkGfm]}
+                              components={{
+                                a: ({ node, ...props }) => (
+                                <a {...props} target="_blank" rel="noopener noreferrer" />
+                                ),
+                              }}
+                            >
+                            {m.text}
+                            </ReactMarkdown>
+                          </div>
+                        </Message.CustomContent>
+                      </Message>
+                      )}
                         </MessageGroup.Messages>
                       </MessageGroup>
                     ))}
