@@ -24,11 +24,21 @@ const DEFAULT_SIZE = { width: 340, height: 540 };
 const MIN_SIZE = { width: 280, height: 360 };
 const MAX_SIZE = { width: 520, height: 760 };
 
+interface ChatProduct {
+  id: string | number;
+  name: string;
+  image: string | null;
+  caption?: string; // price for products, tagline for announcements/coming-soon
+  url?: string; // omitted for coming-soon items with nothing to link to yet
+  ctaLabel?: string;
+}
+
 interface ChatMessage {
   id: string;
   sender: "user" | "bot";
   text: string;
   image?: string;
+  products?: ChatProduct[];
 }
 
 interface Size {
@@ -244,6 +254,10 @@ export default function ChatbotWidget() {
         text: res.ok
           ? data.reply
           : (data.error || "ขออภัยค่ะ ระบบแชทขัดข้องชั่วคราว กรุณาลองใหม่อีกครั้งค่ะ 🙏"),
+        products:
+          res.ok && Array.isArray(data.products) && data.products.length > 0
+            ? data.products
+            : undefined,
       };
       setChatMessages((prev) => [...prev, botMsg]);
     } catch (err) {
@@ -472,6 +486,79 @@ export default function ChatbotWidget() {
         }
         .thara-announce-card-link:hover {
           color: #0a5240;
+        }
+
+        /* ── PRODUCT CARDS (shown under bot replies that mention specific products) ── */
+        .thara-product-row {
+          display: flex;
+          gap: 0.6rem;
+          overflow-x: auto;
+          margin-top: 0.6rem;
+          padding-bottom: 2px;
+        }
+        .thara-product-card {
+          background: #FFFFFF;
+          border: 1px solid #EFEAE1;
+          border-radius: 12px;
+          overflow: hidden;
+          width: 148px;
+          flex: 0 0 auto;
+          transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .thara-product-card:hover {
+          border-color: #0F6E56;
+          box-shadow: 0 2px 12px rgba(15,110,86,0.10);
+        }
+        .thara-product-card-img {
+          width: 100%;
+          height: 88px;
+          object-fit: cover;
+          display: block;
+          background: #F5F2EB;
+        }
+        .thara-product-card-img-placeholder {
+          width: 100%;
+          height: 88px;
+          background: #F5F2EB;
+        }
+        .thara-product-card-body {
+          padding: 0.5rem 0.65rem 0.6rem;
+        }
+        .thara-product-card-name {
+          font-size: 0.78rem;
+          font-weight: 600;
+          color: #2F3A33;
+          margin: 0 0 0.15rem;
+          line-height: 1.3;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        .thara-product-card-price {
+          font-size: 0.74rem;
+          color: #0F6E56;
+          font-weight: 600;
+          margin: 0 0 0.35rem;
+        }
+        .thara-product-card-link {
+          font-size: 0.72rem;
+          color: #0F6E56;
+          text-decoration: none;
+          font-weight: 500;
+        }
+        .thara-product-card-link:hover {
+          color: #0a5240;
+        }
+        .thara-product-card-badge {
+          display: inline-block;
+          font-size: 0.68rem;
+          color: #0F6E56;
+          background: #EAF3EC;
+          border-radius: 999px;
+          padding: 0.15rem 0.5rem;
+          font-weight: 600;
+          letter-spacing: 0.02em;
         }
 
         /* ── SUGGESTION ICON + POPUP (overlay, outside ChatContainer) ── */
@@ -727,6 +814,35 @@ export default function ChatbotWidget() {
                             {m.text}
                             </ReactMarkdown>
                           </div>
+
+                          {m.products && m.products.length > 0 && (
+                            <div className="thara-product-row">
+                              {m.products.map((p) => (
+                                <div key={p.id} className="thara-product-card">
+                                  {p.image ? (
+                                    <img className="thara-product-card-img" src={p.image} alt={p.name} />
+                                  ) : (
+                                    <div className="thara-product-card-img-placeholder" />
+                                  )}
+                                  <div className="thara-product-card-body">
+                                    <p className="thara-product-card-name">{p.name}</p>
+                                    {p.caption && (
+                                      <p className="thara-product-card-price">{p.caption}</p>
+                                    )}
+                                    {p.url ? (
+                                      <a href={p.url} className="thara-product-card-link">
+                                        {p.ctaLabel || "View Product →"}
+                                      </a>
+                                    ) : (
+                                      <span className="thara-product-card-badge">
+                                        {p.ctaLabel || "Coming Soon"}
+                                      </span>
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </Message.CustomContent>
                       </Message>
                       )}

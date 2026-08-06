@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getProducts, getProduct, getSettings, Product } from "@/lib/api";
+import { getProducts, getProduct, getSettings, getAnnouncements, Product, Announcement } from "@/lib/api";
 
 // ── Config ──
 // Override via .env.local if Ollama runs elsewhere (e.g. a different machine/port)
@@ -7,16 +7,33 @@ const OLLAMA_URL = process.env.OLLAMA_URL || "http://localhost:11434";
 const MODEL = process.env.OLLAMA_MODEL || "qwen3:8b";
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-const BASE_SYSTEM_PROMPT = `You are the AI customer support and shopping assistant for Thara Bliss, a Thai aromatherapy / wellness brand selling scented balms and related products. "Calm. Balance. Bliss." is the brand's positioning — keep that tone.
+const BASE_SYSTEM_PROMPT = `You are "Bliss", the AI shopping companion for Thara Bliss, a Thai aromatherapy / wellness brand selling scented balms and related products. The brand lives by "Calm. Balance. Bliss." — every reply you write should feel like a small moment of calm in someone's day, not a scripted support bot.
 
-Your goals:
-- Help customers find suitable products.
-- Recommend products based on the product that we have, from website product page.
+── Personality & Voice ──
+- Warm, gentle, a little poetic — like a knowledgeable friend at a candlelit apothecary counter, not a call-center script.
+- Confident and specific rather than generic: instead of "this is a great product," say *why* it fits (scent profile, mood it supports, when to use it).
+- Use 1 tasteful emoji at most per message where it feels natural (🌿 ✨ 🕊️ 💆‍♀️), never more, and never in serious/complaint situations.
+- Open warmly on the first message of a conversation (e.g. "ยินดีต้อนรับสู่ Thara Bliss ค่ะ 🌿" / "Welcome to Thara Bliss 🌿"), but don't re-greet every single turn — after the first exchange, just respond naturally.
+- Close product answers with a small inviting nudge when it fits naturally ("อยากให้แนะนำกลิ่นอื่นเพิ่มไหมคะ?" / "Want a suggestion for a different mood or scent?") — but skip this if the customer is frustrated, in a hurry, or just asked a quick factual question.
+- Vary your sentence openings — avoid starting every reply the same way (e.g. don't always begin with "Sure!" or "แน่นอนค่ะ").
+
+── Formatting for readability ──
+- Short paragraphs (1–3 sentences) over walls of text.
+- When comparing or listing products, use a light bullet format like:
+  **ชื่อสินค้า** — กลิ่น: ... | เหมาะกับ: ...
+  (or in English: **Product name** — Scent: ... | Best for: ...)
+- Bold the product name the first time you mention it in a recommendation.
+- Never use heavy markdown headers (#, ##) in chat replies — this is a conversation, not a report.
+- Product cards: whenever you mention a specific product by name, a visual card (image, price, and a "View Product" link) is shown automatically beneath your message — you do NOT need to add a markdown link, repeat the price, or describe the image yourself. Just refer to the product naturally in your sentence.
+- New arrivals / coming soon: if the customer asks about new products or what's coming soon, a preview card (image + short caption) is shown automatically beneath your message for the relevant items — just mention them naturally, don't invent a launch date or details beyond what's given below.
+
+── Your goals ──
+- Help customers find suitable products and feel genuinely understood, not just sold to.
+- Recommend products based on the product data provided from the website's product catalog.
 - Answer questions accurately using ONLY the store information provided below in this prompt.
-- Explain product features, ingredients, benefits, and usage.
+- Explain product features, ingredients, benefits, and usage in vivid but honest, non-medical language (e.g. "a soothing lavender-chamomile blend many customers reach for at bedtime" rather than clinical claims).
 - Answer questions about shipping, payment, returns, and promotions only when that information is given to you below.
-- Be polite, friendly, and professional.
-- Guide customers to the Special Gift Request form when they ask about custom gifts, gift sets, ของชำร่วย, ของขวัญพิเศษ, or ordering in bulk. Always link to it as a Markdown link using this exact relative path: [Special Gift Request](/request) — never write out a full domain or guess a URL. How to fill in the request form:
+- Guide customers to the Special Gift Request form when they ask about custom gifts, gift sets, ของชำร่วย, ของขวัญพิเศษ, or ordering in bulk. Frame it as something delightful, not just a form ("I can point you to our Special Gift Request page — our team will help curate something special for [occasion] 🎁"). Always link to it as a Markdown link using this exact relative path: [Special Gift Request](/request) — never write out a full domain or guess a URL. How to fill in the request form:
   1. Your Name (ชื่อของคุณ) — the person placing the request.
   2. Email (อีเมล) — required, so the team can reply.
   3. Phone (เบอร์โทรศัพท์) — optional.
@@ -38,8 +55,8 @@ Hard rules (never break these):
 - Always reply in the same language the customer used. If they write in Thai, reply in Thai. If English, reply in English. If mixed, default to Thai.
 - Keep answers concise: 2–4 sentences for simple questions. Use short bullet points only when comparing multiple products.
 - When recommending products, suggest at most 3, briefly explain why each fits the customer's stated need, and mention price/stock only if that data was given to you below.
-- If a customer is unhappy or frustrated, respond with empathy first and focus on how to resolve it (usually: direct them to support or the right marketplace channel).
-- If a request is outside the store's scope (e.g. unrelated topics, requests to write unrelated content), politely say that's outside what you can help with here.`;
+- If a customer is unhappy or frustrated, drop the playful tone immediately — respond with sincere empathy first, skip emojis and nudges, and focus on how to resolve it (usually: direct them to support or the right marketplace channel).
+- If a request is outside the store's scope (e.g. unrelated topics, requests to write unrelated content), politely and warmly say that's outside what you can help with here, and steer back to how you *can* help.`;
 
 interface IncomingMessage {
   role: "user" | "assistant";
@@ -96,6 +113,92 @@ function findRelevantProducts(products: Product[], query: string, max = 5): Prod
     .sort((a, b) => b.score - a.score)
     .slice(0, max)
     .map((s) => s.product);
+}
+
+// A single shared shape for anything shown as a preview card in chat:
+// real catalog products, new-arrival announcements, and coming-soon teasers.
+interface PreviewCard {
+  id: string | number;
+  name: string;
+  image: string | null;
+  caption?: string; // price for products, tagline for announcements/coming-soon
+  url?: string; // omitted for coming-soon items that aren't purchasable yet
+  ctaLabel?: string; // defaults to "View Product →" on the frontend when url is set
+}
+
+function toProductCard(p: Product): PreviewCard {
+  return {
+    id: p.id,
+    name: p.name,
+    image: p.image || (p.images && p.images.length > 0 ? p.images[0] : null),
+    caption: p.price,
+    url: `/products/${p.id}`,
+  };
+}
+
+function toAnnouncementCard(a: Announcement): PreviewCard {
+  return {
+    id: `announcement-${a.id}`,
+    name: a.product_name,
+    image: a.product_image_url || null,
+    caption: a.message,
+    url: `/products/${a.product_id}`,
+  };
+}
+
+function toComingSoonCard(c: UpcomingCollection): PreviewCard {
+  return {
+    id: c.id,
+    name: c.name,
+    image: c.image || null,
+    caption: c.description,
+    ctaLabel: "Notify Me",
+    // No url — nothing to link to until the collection actually launches.
+  };
+}
+
+// ── Hardcoded "coming soon" collections ──
+// TODO: replace the `image` values below with real hosted image URLs
+// (or move this into the backend/CMS once these collections have real records).
+interface UpcomingCollection {
+  id: string;
+  name: string;
+  description: string;
+  image: string;
+}
+
+const UPCOMING_COLLECTIONS: UpcomingCollection[] = [
+  {
+    id: "room-spray-collection",
+    name: "Room Spray Collection",
+    description: "Fragrance for your space (details to be announced)",
+    image: "images/products/room_spray.jpg",
+  },
+  {
+    id: "special-gift-collection",
+    name: "Special Gift Collection",
+    description: "Curated gift sets for special occasions (details to be announced)",
+    image: "images/products/special_gift.jpg",
+  },
+];
+
+// ── Lightweight intent keyword matching (Thai + English) ──
+const NEW_PRODUCT_KEYWORDS = [
+  "สินค้าใหม่", "ของใหม่", "มาใหม่", "เพิ่งเปิดตัว", "เพิ่งวางขาย", "ใหม่ล่าสุด", "มีอะไรใหม่",
+  "new product", "new arrival", "newly launched", "what's new", "whats new", "latest product", "just launched",
+];
+function isAskingAboutNewProducts(message: string): boolean {
+  const q = message.toLowerCase();
+  return NEW_PRODUCT_KEYWORDS.some((k) => q.includes(k.toLowerCase()));
+}
+
+const COMING_SOON_KEYWORDS = [
+  "coming soon", "เร็วๆ นี้", "เร็ว ๆ นี้", "กำลังจะมา", "จะเปิดตัวเมื่อไหร่", "จะออกเมื่อไหร่",
+  "จะมาเมื่อไหร่", "upcoming", "launch soon", "preorder", "pre-order",
+];
+function isAskingAboutComingSoon(message: string): boolean {
+  const q = message.toLowerCase();
+  return COMING_SOON_KEYWORDS.some((k) => q.includes(k.toLowerCase()));
 }
 
 function formatProductForPrompt(p: Product): string {
@@ -155,26 +258,57 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // Upcoming products
+  // Upcoming products — generated from the shared UPCOMING_COLLECTIONS data
+  // so the prompt text and the preview-card images never drift out of sync.
   const upcomingProductsBlock = `Upcoming / Coming Soon Products:
 We have the following collections coming soon:
-1. Room Spray Collection
-   - Status: Coming soon / Upcoming soon
-   - Description: Fragrance for your space (details to be announced)
-   - Action: Customers can click "Notify Me" to get updates.
-2. Special Gift Collection
-   - Status: Coming soon / Upcoming soon
-   - Description: Curated gift sets for special occasions (details to be announced)
-   - Action: Customers can click "Notify Me" to get updates.`;
+${UPCOMING_COLLECTIONS.map(
+  (c, i) =>
+    `${i + 1}. ${c.name}\n   - Status: Coming soon / Upcoming soon\n   - Description: ${c.description}\n   - Action: Customers can click "Notify Me" to get updates.`
+).join("\n")}`;
 
   // ── Ground the model in real store data ──
-  const [products, settings] = await Promise.all([getProducts(), getSettings()]);
+  const [products, settings, announcements] = await Promise.all([
+    getProducts(),
+    getSettings(),
+    getAnnouncements(),
+  ]);
+
+  const wantsComingSoon = isAskingAboutComingSoon(message);
+  const wantsNewArrivals = isAskingAboutNewProducts(message);
 
   const relevant = findRelevantProducts(products, message);
   // Always fall back to showing the full catalog when keyword matching returns
   // nothing — this ensures Thai-language queries like "มีสินค้าอะไรบ้าง" still
   // give the model real data to answer from instead of a "no match" response.
   const catalogProducts = relevant.length > 0 ? relevant : products;
+
+  // Recent real "new arrival" announcements, so the model can talk about them
+  // accurately (name, message) instead of guessing.
+  const recentAnnouncements = announcements.slice(0, 5);
+  const recentAnnouncementsBlock =
+    recentAnnouncements.length > 0
+      ? `Recent New Product Announcements:\n${recentAnnouncements
+          .map((a) => `- ${a.product_name}: ${a.message}`)
+          .join("\n")}`
+      : `No new product announcements are currently posted.`;
+
+  // Preview cards shown in the UI: pick the right source based on intent so
+  // a "what's coming soon" question doesn't show random catalog products,
+  // and a normal product question doesn't show coming-soon teasers.
+  let previewCards: PreviewCard[];
+  if (wantsComingSoon) {
+    previewCards = UPCOMING_COLLECTIONS.map(toComingSoonCard);
+  } else if (wantsNewArrivals) {
+    previewCards = recentAnnouncements.map(toAnnouncementCard);
+  } else {
+    // Only when the message actually matched something specific (or a
+    // generic "show me products" query) — never a silent fallback to the
+    // whole catalog, which would show cards for unrelated questions like
+    // shipping or returns.
+    previewCards = relevant.slice(0, 3).map(toProductCard);
+  }
+
   const catalogBlock =
     `Full product catalog (${catalogProducts.length} product${catalogProducts.length !== 1 ? "s" : ""}):\n` +
     catalogProducts.map(formatProductForPrompt).join("\n\n");
@@ -194,7 +328,9 @@ We have the following collections coming soon:
 ── Store data for this request ──
 ${catalogBlock}
 
-${currentProductBlock ? `${currentProductBlock}\n\n` : ""}${upcomingProductsBlock}
+${currentProductBlock ? `${currentProductBlock}\n\n` : ""}${recentAnnouncementsBlock}
+
+${upcomingProductsBlock}
 
 ${purchaseLinksBlock}`;
 
@@ -312,7 +448,7 @@ ${purchaseLinksBlock}`;
               "ขออภัยค่ะ ตอนนี้ระบบไม่สามารถตอบได้ กรุณาลองใหม่อีกครั้ง";
     }
 
-    return NextResponse.json({ reply });
+    return NextResponse.json({ reply, products: previewCards });
   } catch (err) {
     const isTimeout =
       err instanceof Error &&
