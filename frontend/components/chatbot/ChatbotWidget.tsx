@@ -15,6 +15,7 @@ import {
 } from "@chatscope/chat-ui-kit-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { QUIZ_QUESTIONS, scoredToScent, ScentResult, QuizOption } from "@/lib/quizData";
 
 const POLL_INTERVAL = 30_000;
 const STORAGE_KEY = "thara_last_seen_announcement_id";
@@ -33,12 +34,29 @@ interface ChatProduct {
   ctaLabel?: string;
 }
 
+interface QuizQuestionPayload {
+  type: "question";
+  questionIndex: number; // 0-based index into QUIZ_QUESTIONS
+  question: string;
+  options: QuizOption[];
+  step: number;
+  total: number;
+}
+
+interface QuizResultPayload {
+  type: "result";
+  result: ScentResult;
+}
+
+type QuizPayload = QuizQuestionPayload | QuizResultPayload;
+
 interface ChatMessage {
   id: string;
   sender: "user" | "bot";
   text: string;
   image?: string;
   products?: ChatProduct[];
+  quiz?: QuizPayload;
 }
 
 interface Size {
@@ -50,12 +68,23 @@ function clamp(value: number, min: number, max: number) {
   return Math.min(Math.max(value, min), max);
 }
 
+// ── Scent quiz intent detection (Thai + English) ──
+const QUIZ_KEYWORDS = [
+  "แบบทดสอบกลิ่น", "แบบทดสอบ", "ทำควิซ", "ควิซ", "หากลิ่นที่ใช่", "หากลิ่นให้หน่อย",
+  "ไม่รู้จะเลือกกลิ่นไหน", "scent quiz", "find my scent", "which scent", "scent finder",
+];
+function isQuizIntent(text: string): boolean {
+  const q = text.toLowerCase();
+  return QUIZ_KEYWORDS.some((k) => q.includes(k.toLowerCase()));
+}
+
 export default function ChatbotWidget() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+  const [quizAnswers, setQuizAnswers] = useState<Array<"calm" | "elegant" | "fresh">>([]);
   const [showSuggestionPopup, setShowSuggestionPopup] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
@@ -215,6 +244,11 @@ export default function ChatbotWidget() {
     };
     setChatMessages((prev) => [...prev, userMsg]);
 
+    if (!opts?.skipLLM && isQuizIntent(trimmed)) {
+      startQuiz();
+      return;
+    }
+
     if (opts?.skipLLM) {
       const faq = matchFaq(trimmed);
       const botMessages: ChatMessage[] = [];
@@ -268,6 +302,73 @@ export default function ChatbotWidget() {
       ]);
     } finally {
       setIsTyping(false);
+    }
+  };
+
+  // ── Scent quiz: runs entirely client-side, mirrors the Help Center's
+  //    ScentQuiz component using the same QUIZ_QUESTIONS / scoredToScent ──
+  const startQuiz = () => {
+    setShowSuggestionPopup(false);
+    setQuizAnswers([]);
+    const firstQuestion = QUIZ_QUESTIONS[0];
+    const introMsg: ChatMessage = {
+      id: `b-quiz-intro-${Date.now()}`,
+      sender: "bot",
+      text: "มาช่วยหากลิ่นที่ใช่สำหรับคุณกันเถอะค่ะ 🌿 ตอบคำถามสั้นๆ 3 ข้อนะคะ",
+    };
+    const questionMsg: ChatMessage = {
+      id: `b-quiz-q-${firstQuestion.id}-${Date.now()}`,
+      sender: "bot",
+      text: "",
+      quiz: {
+        type: "question",
+        questionIndex: 0,
+        question: firstQuestion.question,
+        options: firstQuestion.options,
+        step: 1,
+        total: QUIZ_QUESTIONS.length,
+      },
+    };
+    setChatMessages((prev) => [...prev, introMsg, questionMsg]);
+  };
+
+  const handleQuizAnswer = (questionIndex: number, option: QuizOption) => {
+    const nextAnswers = [...quizAnswers, option.value];
+    setQuizAnswers(nextAnswers);
+
+    const userMsg: ChatMessage = {
+      id: `u-quiz-${Date.now()}`,
+      sender: "user",
+      text: option.text,
+    };
+
+    const nextIndex = questionIndex + 1;
+    if (nextIndex < QUIZ_QUESTIONS.length) {
+      const nextQuestion = QUIZ_QUESTIONS[nextIndex];
+      const nextQuestionMsg: ChatMessage = {
+        id: `b-quiz-q-${nextQuestion.id}-${Date.now()}`,
+        sender: "bot",
+        text: "",
+        quiz: {
+          type: "question",
+          questionIndex: nextIndex,
+          question: nextQuestion.question,
+          options: nextQuestion.options,
+          step: nextIndex + 1,
+          total: QUIZ_QUESTIONS.length,
+        },
+      };
+      setChatMessages((prev) => [...prev, userMsg, nextQuestionMsg]);
+    } else {
+      const result = scoredToScent(nextAnswers);
+      const resultMsg: ChatMessage = {
+        id: `b-quiz-result-${Date.now()}`,
+        sender: "bot",
+        text: "",
+        quiz: { type: "result", result },
+      };
+      setChatMessages((prev) => [...prev, userMsg, resultMsg]);
+      setQuizAnswers([]);
     }
   };
 
@@ -383,7 +484,7 @@ export default function ChatbotWidget() {
         .thara-chat-panel .cs-message-input {
           background: #FFFFFF !important;
           border-top: 1px solid #EFEAE1 !important;
-          padding-left: 48px !important;
+          padding-left: 84px !important;
         }
         .thara-chat-panel .cs-message-input__content-editor-wrapper,
         .thara-chat-panel .cs-message-input__content-editor {
@@ -559,6 +660,117 @@ export default function ChatbotWidget() {
           padding: 0.15rem 0.5rem;
           font-weight: 600;
           letter-spacing: 0.02em;
+        }
+
+        /* ── SCENT QUIZ (question buttons + result card) ── */
+        .thara-quiz-question {
+          max-width: 240px;
+        }
+        .thara-quiz-progress {
+          font-size: 0.7rem;
+          color: #0F6E56;
+          font-weight: 600;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+          margin: 0 0 0.4rem;
+        }
+        .thara-quiz-question-text {
+          font-size: 0.85rem;
+          color: #2F3A33;
+          line-height: 1.5;
+          margin: 0 0 0.65rem;
+        }
+        .thara-quiz-options {
+          display: flex;
+          flex-direction: column;
+          gap: 0.4rem;
+        }
+        .thara-quiz-option-btn {
+          background: #F5F2EB;
+          border: 1px solid #EFEAE1;
+          color: #2F3A33;
+          font-size: 0.8rem;
+          line-height: 1.4;
+          padding: 0.55rem 0.75rem;
+          border-radius: 10px;
+          cursor: pointer;
+          text-align: left;
+          transition: background 0.15s, border-color 0.15s;
+        }
+        .thara-quiz-option-btn:hover:not(:disabled) {
+          background: #EAF3EC;
+          border-color: #0F6E56;
+          color: #0F6E56;
+        }
+        .thara-quiz-option-btn:disabled {
+          opacity: 0.45;
+          cursor: default;
+        }
+        .thara-quiz-result {
+          width: 220px;
+          border-radius: 14px;
+          border: 1px solid #EFEAE1;
+          padding: 1rem 1.1rem;
+          text-align: center;
+        }
+        .thara-quiz-result-mood {
+          display: inline-block;
+          background: rgba(255,255,255,0.7);
+          font-size: 9px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          padding: 2px 10px;
+          border-radius: 20px;
+          margin-bottom: 0.5rem;
+          font-weight: 600;
+        }
+        .thara-quiz-result-name {
+          font-size: 1rem;
+          font-weight: 500;
+          color: #2F3A33;
+          margin: 0 0 0.5rem;
+        }
+        .thara-quiz-result-desc {
+          font-size: 0.78rem;
+          color: #2F3A33;
+          line-height: 1.6;
+          margin: 0 0 0.65rem;
+        }
+        .thara-quiz-result-best {
+          font-size: 0.72rem;
+          color: #666;
+          margin: 0 0 0.85rem;
+        }
+        .thara-quiz-result-actions {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+        .thara-quiz-retake-btn {
+          background: transparent;
+          border: 1px solid #0F6E56;
+          color: #0F6E56;
+          border-radius: 20px;
+          padding: 0.45rem 0.9rem;
+          font-size: 0.75rem;
+          cursor: pointer;
+          transition: background 0.15s;
+        }
+        .thara-quiz-retake-btn:hover {
+          background: rgba(15,110,86,0.08);
+        }
+        .thara-quiz-cta-btn {
+          background: #0F6E56;
+          color: #FBF5DD;
+          border-radius: 20px;
+          padding: 0.45rem 0.9rem;
+          font-size: 0.75rem;
+          text-decoration: none;
+          font-weight: 500;
+          transition: background 0.15s;
+        }
+        .thara-quiz-cta-btn:hover {
+          background: #0a5240;
         }
 
         /* ── SUGGESTION ICON + POPUP (overlay, outside ChatContainer) ── */
@@ -791,6 +1003,66 @@ export default function ChatbotWidget() {
                             </div>
                           </Message.CustomContent>
                         </Message>
+                      ) : m.quiz ? (
+                        <Message
+                          model={{
+                            type: "custom",
+                            sentTime: "just now",
+                            sender: "Thara Bliss",
+                            direction: "incoming",
+                            position: "single",
+                          }}
+                        >
+                          <Message.CustomContent>
+                            {m.quiz.type === "question" ? (
+                              <div className="thara-quiz-question">
+                                <p className="thara-quiz-progress">
+                                  คำถามที่ {m.quiz.step} จาก {m.quiz.total}
+                                </p>
+                                <p className="thara-quiz-question-text">{m.quiz.question}</p>
+                                <div className="thara-quiz-options">
+                                  {m.quiz.options.map((opt, idx) => {
+                                    const isLatest =
+                                      chatMessages.length > 0 &&
+                                      chatMessages[chatMessages.length - 1].id === m.id;
+                                    return (
+                                      <button
+                                        key={idx}
+                                        className="thara-quiz-option-btn"
+                                        disabled={!isLatest}
+                                        onClick={() =>
+                                          handleQuizAnswer(m.quiz!.type === "question" ? m.quiz!.questionIndex : 0, opt)
+                                        }
+                                      >
+                                        {opt.text}
+                                      </button>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="thara-quiz-result" style={{ background: m.quiz.result.color }}>
+                                <span className="thara-quiz-result-mood" style={{ color: m.quiz.result.accent }}>
+                                  {m.quiz.result.mood}
+                                </span>
+                                <h4 className="thara-quiz-result-name">{m.quiz.result.name}</h4>
+                                <p className="thara-quiz-result-desc">{m.quiz.result.description}</p>
+                                <p className="thara-quiz-result-best">
+                                  <span>เหมาะสำหรับ: </span>
+                                  <span style={{ color: m.quiz.result.accent }}>{m.quiz.result.best}</span>
+                                </p>
+                                <div className="thara-quiz-result-actions">
+                                  <button className="thara-quiz-retake-btn" onClick={startQuiz}>
+                                    ทำแบบทดสอบใหม่
+                                  </button>
+                                  <a href="/products" className="thara-quiz-cta-btn">
+                                    ดูสินค้าทั้งหมด
+                                  </a>
+                                </div>
+                              </div>
+                            )}
+                          </Message.CustomContent>
+                        </Message>
                       ) : (
                       <Message
                         model={{
@@ -892,16 +1164,31 @@ export default function ChatbotWidget() {
                   </div>
                 )}
 
-                <button
-                  className="thara-suggestion-icon-btn"
-                  onClick={() => setShowSuggestionPopup((prev) => !prev)}
-                  aria-label="Show suggested questions"
-                  type="button"
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBF5DD" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/>
-                  </svg>
-                </button>
+                <div style={{ display: "flex", gap: "8px" }}>
+                  <button
+                    className="thara-suggestion-icon-btn"
+                    onClick={startQuiz}
+                    title="หากลิ่นที่ใช่สำหรับคุณ / Find your scent"
+                    aria-label="Start scent quiz"
+                    type="button"
+                  >
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FBF5DD" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" />
+                      <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 11 13.5 11 13.5" />
+                    </svg>
+                  </button>
+
+                  <button
+                    className="thara-suggestion-icon-btn"
+                    onClick={() => setShowSuggestionPopup((prev) => !prev)}
+                    aria-label="Show suggested questions"
+                    type="button"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FBF5DD" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18"/>
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
 

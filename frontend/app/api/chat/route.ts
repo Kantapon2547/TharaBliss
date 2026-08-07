@@ -172,13 +172,13 @@ const UPCOMING_COLLECTIONS: UpcomingCollection[] = [
     id: "room-spray-collection",
     name: "Room Spray Collection",
     description: "Fragrance for your space (details to be announced)",
-    image: "images/products/room_spray.jpg",
+    image: "https://example.com/images/coming-soon/room-spray-collection.jpg", // TODO: replace with real image URL
   },
   {
     id: "special-gift-collection",
     name: "Special Gift Collection",
     description: "Curated gift sets for special occasions (details to be announced)",
-    image: "images/products/special_gift.jpg",
+    image: "https://example.com/images/coming-soon/special-gift-collection.jpg", // TODO: replace with real image URL
   },
 ];
 
@@ -200,6 +200,16 @@ function isAskingAboutComingSoon(message: string): boolean {
   const q = message.toLowerCase();
   return COMING_SOON_KEYWORDS.some((k) => q.includes(k.toLowerCase()));
 }
+
+// ── Verified certification info ──
+// Confirmed by the store owner as real/current. Kept as plain constants (not
+// scraped) so this never silently drifts — update this block directly if the
+// registration number or claims change.
+const CERTIFICATION_BLOCK = `Product Certification & Standards (verified, always available to share):
+- Thara Bliss products are registered/notified with the Thai FDA (อย. — Thai Food and Drug Administration) for cosmetic products.
+- Notification number: 1316800042881. Customers can verify this directly at: https://cosmetica.fda.moph.go.th/CMT_SEARCH_FRONT_NEW/DetailNotify?regnos=1316800042881&checkpage=2
+- Formulas are Alcohol-Free and Paraben-Free.
+- If asked about certification, safety standards, "อย.", or ingredients safety, share this information confidently and offer the verification link — do NOT say this information is unavailable.`;
 
 function formatProductForPrompt(p: Product): string {
   const lines = [
@@ -331,6 +341,8 @@ ${catalogBlock}
 ${currentProductBlock ? `${currentProductBlock}\n\n` : ""}${recentAnnouncementsBlock}
 
 ${upcomingProductsBlock}
+
+${CERTIFICATION_BLOCK}
 
 ${purchaseLinksBlock}`;
 
